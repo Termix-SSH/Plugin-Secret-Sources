@@ -9,8 +9,8 @@
   "tokenLabel": "Connect access token",
   "tokenKeep": "Leave empty to keep the current token",
   "sharedLabel": "Share with all users (admins only, resolves while you are signed in)",
-  "shared": "shared",
-  "test": "Test",
+  "shared": "साझा",
+  "test": "परीक्षण",
   "testOk": "Connected, {{count}} vault(s) visible",
   "testFailed": "Connection test failed",
   "required": "Name, server URL and token are required",
@@ -23,8 +23,5 @@
         "description": "Private or loopback hosts a secret source may reach, one per line. A self-hosted 1Password Connect server usually needs its own address listed here."
       }
     }
-  },
-  "plugin": {
-    "name": "Secret Sources"
   }
 }
