@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createMockCtx } from "@termix/plugin-sdk/testing";
+import { createMockCtx } from "@termix-ssh/plugin-sdk/testing";
 import { createTokenStore } from "../../src/backend/token-store.js";
 import manifestJson from "../../manifest.json";
-import type { PluginManifest } from "@termix/plugin-sdk/manifest";
+import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
 
 const manifest = manifestJson as unknown as PluginManifest;
 

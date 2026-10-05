@@ -1,4 +1,4 @@
-import { useTranslation } from "@termix/plugin-sdk/frontend";
+import { useTranslation } from "@termix-ssh/plugin-sdk/frontend";
 
 /** One line under a secret field: references are allowed, here is where to set them up. */
 export function SecretReferenceHint({ onManage }: { onManage: () => void }) {

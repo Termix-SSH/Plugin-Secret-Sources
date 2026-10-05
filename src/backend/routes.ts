@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Request, Response, Router } from "express";
-import type { PluginContext } from "@termix/plugin-sdk/backend";
+import type { PluginContext } from "@termix-ssh/plugin-sdk/backend";
 import type { SecretSourceRepository } from "./repository.js";
 import type { TokenStore } from "./token-store.js";
 import { testConnectSource } from "./onepassword-connect.js";

@@ -1,12 +1,12 @@
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { createMockCtx, createTestDb } from "@termix/plugin-sdk/testing";
+import { createMockCtx, createTestDb } from "@termix-ssh/plugin-sdk/testing";
 import { createSecretSourceRepository } from "../../src/backend/repository.js";
 import { createTokenStore } from "../../src/backend/token-store.js";
 import { registerOnePasswordResolver } from "../../src/backend/resolver.js";
 import { sources } from "../../src/backend/tables.js";
 import manifestJson from "../../manifest.json";
-import type { PluginManifest } from "@termix/plugin-sdk/manifest";
+import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
 
 const manifest = manifestJson as unknown as PluginManifest;
 const pluginDir = fileURLToPath(new URL("../..", import.meta.url));

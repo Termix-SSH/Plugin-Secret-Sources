@@ -4,7 +4,7 @@ import {
   resolveConnectReference,
   testConnectSource,
 } from "../../src/backend/onepassword-connect.js";
-import type { PluginFetch } from "@termix/plugin-sdk/backend";
+import type { PluginFetch } from "@termix-ssh/plugin-sdk/backend";
 
 function jsonResponse(body: unknown, ok = true, status = 200): Response {
   return {

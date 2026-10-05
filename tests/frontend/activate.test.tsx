@@ -3,9 +3,9 @@ import { render, screen } from "@testing-library/react";
 import {
   renderWithApp,
   type RenderedPluginApp,
-} from "@termix/plugin-sdk/testing";
-import { PluginComponent } from "@termix/plugin-sdk/ui";
-import type { PluginManifest } from "@termix/plugin-sdk/manifest";
+} from "@termix-ssh/plugin-sdk/testing";
+import { PluginComponent } from "@termix-ssh/plugin-sdk/ui";
+import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
 import * as plugin from "../../src/frontend/index";
 import manifestJson from "../../manifest.json";
 import locales from "../../locales/en.json";

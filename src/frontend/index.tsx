@@ -1,4 +1,4 @@
-import type { TermixApp } from "@termix/plugin-sdk/frontend";
+import type { TermixApp } from "@termix-ssh/plugin-sdk/frontend";
 import { SecretSourceManager } from "./SecretSourceManager";
 import { SecretReferenceHint } from "./SecretReferenceHint";
 

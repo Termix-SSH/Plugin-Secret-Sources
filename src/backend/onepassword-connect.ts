@@ -1,4 +1,4 @@
-import type { PluginFetch } from "@termix/plugin-sdk/backend";
+import type { PluginFetch } from "@termix-ssh/plugin-sdk/backend";
 
 /**
  * The slice of the 1Password Connect REST API needed to resolve a secret

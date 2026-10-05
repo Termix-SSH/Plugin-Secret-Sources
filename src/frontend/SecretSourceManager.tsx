@@ -6,8 +6,8 @@ import {
   Input,
   PasswordInput,
   useConfirm,
-} from "@termix/plugin-sdk/ui";
-import { usePluginApi, useTranslation } from "@termix/plugin-sdk/frontend";
+} from "@termix-ssh/plugin-sdk/ui";
+import { usePluginApi, useTranslation } from "@termix-ssh/plugin-sdk/frontend";
 import {
   createSecretSourcesApi,
   type SecretSource,
