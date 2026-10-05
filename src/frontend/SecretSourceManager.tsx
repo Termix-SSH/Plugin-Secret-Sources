@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { KeyRound, Pencil, Plus, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
-import { Button, Input, PasswordInput } from "@termix/plugin-sdk/ui";
+import {
+  Button,
+  Input,
+  PasswordInput,
+  useConfirm,
+} from "@termix/plugin-sdk/ui";
 import { usePluginApi, useTranslation } from "@termix/plugin-sdk/frontend";
 import {
   createSecretSourcesApi,
@@ -32,6 +37,7 @@ const emptyForm: FormState = {
 
 export function SecretSourceManager({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
+  const confirm = useConfirm();
   const pluginApi = usePluginApi();
   const api = useMemo(() => createSecretSourcesApi(pluginApi), [pluginApi]);
   const [sources, setSources] = useState<SecretSource[]>([]);
@@ -92,6 +98,11 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
   };
 
   const handleDelete = async (source: SecretSource) => {
+    const ok = await confirm({
+      title: t("deleteConfirm", { name: source.name }),
+      confirmLabel: t("common.delete"),
+    });
+    if (!ok) return;
     try {
       await api.remove(source.id);
       toast.success(t("deleted"));

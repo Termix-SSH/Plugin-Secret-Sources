@@ -26,5 +26,6 @@
   },
   "plugin": {
     "name": "Secret Sources"
-  }
+  },
+  "deleteConfirm": "Delete the secret source {{name}}?"
 }
