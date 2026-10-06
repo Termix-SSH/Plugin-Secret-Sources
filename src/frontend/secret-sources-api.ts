@@ -1,6 +1,6 @@
 import type { PluginApiClient } from "@termix-ssh/plugin-sdk/frontend";
 
-export type SecretSourceKind = "onepassword-connect";
+type SecretSourceKind = "onepassword-connect";
 
 export interface SecretSource {
   id: string;
@@ -48,4 +48,4 @@ export function createSecretSourcesApi(api: PluginApiClient) {
   };
 }
 
-export type SecretSourcesApi = ReturnType<typeof createSecretSourcesApi>;
+type SecretSourcesApi = ReturnType<typeof createSecretSourcesApi>;

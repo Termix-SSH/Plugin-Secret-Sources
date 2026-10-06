@@ -5,7 +5,7 @@
  * install-wide.
  */
 
-export const DEFAULT_PRIVATE_ALLOWLIST = [
+const DEFAULT_PRIVATE_ALLOWLIST = [
   "localhost",
   "127.0.0.1",
   "::1",

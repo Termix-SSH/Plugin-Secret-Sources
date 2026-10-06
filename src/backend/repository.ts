@@ -1,7 +1,7 @@
 import { eq, or } from "drizzle-orm";
 import type { PluginDatabase } from "@termix-ssh/plugin-sdk/backend";
 
-export type SecretSourceKind = "onepassword-connect";
+type SecretSourceKind = "onepassword-connect";
 
 export interface SecretSourceRecord {
   id: string;
