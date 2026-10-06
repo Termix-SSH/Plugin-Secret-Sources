@@ -6,6 +6,7 @@ import {
   Input,
   PasswordInput,
   useConfirm,
+  Checkbox,
 } from "@termix-ssh/plugin-sdk/ui";
 import { usePluginApi, useTranslation } from "@termix-ssh/plugin-sdk/frontend";
 import {
@@ -253,10 +254,11 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
             />
           </div>
           <label className="flex items-center gap-2 text-xs text-foreground">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={form.shared}
-              onChange={(e) => setField("shared", e.target.checked)}
+              onCheckedChange={(checked) =>
+                setField("shared", checked === true)
+              }
             />
             {t("sharedLabel")}
           </label>
