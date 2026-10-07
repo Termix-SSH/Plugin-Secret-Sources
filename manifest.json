@@ -10,6 +10,11 @@
   "repository": "https://github.com/Termix-SSH/Plugin-Secret-Sources",
   "category": "Access & Security",
   "icon": "KeyRound",
+  "features": [
+    "Works with a self-hosted 1Password Connect server",
+    "Use op://vault/item/field references in a host's password or key fields",
+    "Secrets are fetched each time you connect and never stored in Termix"
+  ],
   "engine": {
     "termix": ">=26.10.0",
     "api": "1"
