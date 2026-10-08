@@ -14,6 +14,8 @@
 
 Secret Sources reads host passwords and keys from 1Password when you connect, instead of storing them in Termix.
 
+Read the [docs](https://docs.termix.site/plugins/secret-sources) to set it up and use it.
+
 <br />
 
 ## Features
