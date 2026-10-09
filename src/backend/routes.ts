@@ -39,15 +39,21 @@ export function registerSecretSourceRoutes(
   const requireCredentials =
     (action: "view" | "create" | "edit" | "delete") =>
     (req: Request, res: Response, next: () => void) => {
-      void ctx.rbac.has(`credentials.${action}`).then((allowed) => {
-        if (allowed) next();
-        else {
-          res.status(403).json({
-            error: "Insufficient permissions",
-            required: `credentials.${action}`,
-          });
-        }
-      });
+      ctx.rbac
+        .has(`credentials.${action}`)
+        .then((allowed) => {
+          if (allowed) next();
+          else {
+            res.status(403).json({
+              error: "Insufficient permissions",
+              required: `credentials.${action}`,
+            });
+          }
+        })
+        .catch((error) => {
+          ctx.log.error("Failed to check credential permissions", error);
+          res.status(500).json({ error: "Failed to check permissions" });
+        });
     };
   const allowedPrivateHosts = async () =>
     parseAllowlist(await ctx.settings.get<string>("privateEndpoints"));
@@ -85,7 +91,7 @@ export function registerSecretSourceRoutes(
    * /plugin-api/secret-sources:
    *   post:
    *     summary: Create a secret source (1Password Connect)
-   *     description: Sharing a source with every user requires admin. The token is encrypted with the owner's data key.
+   *     description: Sharing a source with every user requires admin. The token is stored encrypted on the server and never returned.
    *     tags:
    *       - Secret Sources
    */

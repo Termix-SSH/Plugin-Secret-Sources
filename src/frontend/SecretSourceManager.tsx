@@ -138,6 +138,7 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={onClose}
+          aria-label={t("common.close")}
           className="text-muted-foreground hover:text-foreground"
         >
           <X className="size-3.5" />
@@ -180,6 +181,7 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
                 <>
                   <button
                     type="button"
+                    aria-label={t("common.edit")}
                     className="text-muted-foreground hover:text-foreground"
                     onClick={() =>
                       setForm({
@@ -195,6 +197,7 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
                   </button>
                   <button
                     type="button"
+                    aria-label={t("common.delete")}
                     className="text-muted-foreground hover:text-destructive"
                     onClick={() => void handleDelete(source)}
                   >
@@ -225,7 +228,7 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
               </label>
               <Input
                 className="h-8 text-xs"
-                placeholder="Team 1Password"
+                placeholder={t("namePlaceholder")}
                 value={form.name}
                 onChange={(e) => setField("name", e.target.value)}
               />

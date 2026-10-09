@@ -42,7 +42,7 @@ export function registerOnePasswordResolver(
     const token = await tokenStore.getForOwner(source.id, source.userId);
     if (!token) {
       throw new Error(
-        "The secret source owner's data is locked; they need to sign in first",
+        "No token is stored for this secret source. Its owner needs to save the token again",
       );
     }
 

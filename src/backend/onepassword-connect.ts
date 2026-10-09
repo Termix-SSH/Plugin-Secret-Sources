@@ -18,8 +18,14 @@ const FETCH_TIMEOUT_MS = 10_000;
 export function parseSecretReference(raw: string): SecretReference | null {
   const match = /^op:\/\/([^/]+)\/([^/]+)\/([^/?]+)(?:\?.*)?$/.exec(raw.trim());
   if (!match) return null;
-  const [, vault, item, field] = match.map((part) => decodeURIComponent(part));
-  return { vault, item, field };
+  try {
+    const [, vault, item, field] = match.map((part) =>
+      decodeURIComponent(part),
+    );
+    return { vault, item, field };
+  } catch {
+    return null;
+  }
 }
 
 export interface ConnectSource {
@@ -104,7 +110,7 @@ export async function resolveConnectReference(
   const items = await connectGet<ConnectItemSummary[]>(
     fetch,
     source,
-    `/v1/vaults/${vault.id}/items?filter=${eqFilter(ref.item)}`,
+    `/v1/vaults/${encodeURIComponent(vault.id)}/items?filter=${eqFilter(ref.item)}`,
   );
   const summary =
     items.find(byIdOrName(ref.item)) ??
@@ -116,7 +122,7 @@ export async function resolveConnectReference(
   const item = await connectGet<{ fields?: ConnectField[] }>(
     fetch,
     source,
-    `/v1/vaults/${vault.id}/items/${summary.id}`,
+    `/v1/vaults/${encodeURIComponent(vault.id)}/items/${encodeURIComponent(summary.id)}`,
   );
   const wanted = ref.field.toLowerCase();
   const field = (item.fields ?? []).find(

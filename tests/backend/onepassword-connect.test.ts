@@ -28,6 +28,7 @@ describe("1Password secret references", () => {
     ).toEqual({ vault: "Infra", item: "deploy key", field: "private key" });
     expect(parseSecretReference("op://Infra/only-two")).toBeNull();
     expect(parseSecretReference("https://x")).toBeNull();
+    expect(parseSecretReference("op://Infra/%E0%A4%A/password")).toBeNull();
   });
 });
 
