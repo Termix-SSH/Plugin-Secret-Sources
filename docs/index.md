@@ -6,17 +6,17 @@ It works with a self-hosted [1Password Connect](https://developer.1password.com/
 
 Run a 1Password Connect server and make an access token for it with read access to the vaults you need. See the [1Password Connect guide](https://developer.1password.com/docs/connect/get-started/).
 
-If Connect runs on your own network, an admin adds its address to **Private endpoint allowlist** in **Settings**, **Secret Sources**, one host per line. `localhost` and `host.docker.internal` are allowed already.
+If Connect runs on your own network, an admin adds its address to Private endpoint allowlist in Settings, Secret Sources, one host per line. `localhost` and `host.docker.internal` are allowed already.
 
 ## Add a source
 
-1. Install the plugin from the **Plugins** tab.
-2. Open a host or credential in **Manage**. Next to the password and key fields is a **Secret sources** section.
-3. Press **New source** and fill in a name, the **Connect server URL** and the **Connect access token**.
-4. Press **Test**. It shows how many vaults it can see.
+1. Install the plugin from the Plugins tab.
+2. Open a host or credential in Manage. Next to the password and key fields is a Secret sources section.
+3. Press New source and fill in a name, the Connect server URL and the Connect access token.
+4. Press Test. It shows how many vaults it can see.
 5. Save.
 
-The token is stored encrypted on the server and is never shown again. Admins can turn on **Share with all users** to let everyone use a source.
+The token is stored encrypted on the server and is never shown again. Admins can turn on Share with all users to let everyone use a source.
 
 ## Use it
 
