@@ -1,7 +1,7 @@
 {
   "id": "secret-sources",
   "name": "Secret Sources",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pull host passwords and keys from 1Password when you connect instead of storing them in Termix.",
   "author": {
     "name": "Termix"
@@ -31,7 +31,9 @@
   ],
   "contributes": {
     "auth": {
-      "secretSchemes": ["op"]
+      "secretSchemes": [
+        "op"
+      ]
     },
     "settings": {
       "admin": [
@@ -46,5 +48,9 @@
     }
   },
   "locales": "locales",
-  "platforms": ["linux", "win32", "darwin"]
+  "platforms": [
+    "linux",
+    "win32",
+    "darwin"
+  ]
 }
