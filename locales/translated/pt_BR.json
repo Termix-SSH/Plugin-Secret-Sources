@@ -1,30 +1,34 @@
 {
-  "hint": "Você pode colar uma referência do 1Password (op://vault/item/field) em vez do segredo. Ela é obtida da sua fonte de segredos ao conectar.",
-  "manage": "Gerenciar fontes secretas",
-  "title": "Fontes secretas",
-  "description": "O Termix lê os segredos de gerenciadores de senhas externos no momento da conexão. Atualmente, utiliza o 1Password Connect (hospedado localmente). O token de acesso é armazenado criptografado com sua chave de dados.",
+  "hint": "Você pode colar uma referência do 1Password (op://vault/item/field) em vez do segredo. Ele será buscado na sua fonte de segredos ao conectar.",
+  "manage": "Gerenciar fontes de segredos",
+  "title": "Fontes de segredos",
+  "description": "Gerenciadores de senhas externos dos quais o Termix lê segredos ao conectar. Funciona com um servidor 1Password Connect auto-hospedado. O token de acesso é armazenado criptografado no servidor e nunca é enviado de volta para o navegador.",
   "new": "Nova fonte",
   "nameLabel": "Nome amigável",
-  "urlLabel": "URL de conexão do servidor",
-  "tokenLabel": "Token de acesso Connect",
-  "tokenKeep": "Deixe em branco para manter o token atual.",
-  "sharedLabel": "Compartilhar com todos os usuários (somente administradores, funciona enquanto você estiver conectado)",
+  "namePlaceholder": "1Password da equipe",
+  "urlLabel": "URL do servidor Connect",
+  "tokenLabel": "Token de acesso do Connect",
+  "tokenKeep": "Deixe vazio para manter o token atual",
+  "sharedLabel": "Compartilhar com todos os usuários (somente administradores)",
   "shared": "compartilhado",
-  "test": "Teste",
-  "testOk": "Conectado, {{count}} cofre(s) visível(is)",
-  "testFailed": "Teste de conexão falhou",
-  "required": "Nome, URL do servidor e token são obrigatórios.",
-  "saved": "Fonte secreta salva",
-  "deleted": "Fonte secreta excluída",
+  "test": "Testar",
+  "testOk_one": "Conectado, {{count}} cofre visível",
+  "testOk_many": "Conectado, {{count}} cofres visíveis",
+  "testOk_other": "Conectado, {{count}} cofres visíveis",
+  "testFailed": "O teste de conexão falhou",
+  "required": "Nome, URL do servidor e token são obrigatórios",
+  "saved": "Fonte de segredos salva",
+  "deleted": "Fonte de segredos excluída",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "lista de permissões de endpoints privados",
-        "description": "Hosts privados ou de loopback que uma fonte secreta pode acessar, um por linha. Um servidor 1Password Connect autohospedado geralmente precisa ter seu próprio endereço listado aqui."
+        "label": "Lista de permissão de endpoints privados",
+        "description": "Hosts privados ou de loopback que uma fonte de segredos pode acessar, um por linha. Um servidor 1Password Connect auto-hospedado geralmente precisa ter seu próprio endereço listado aqui."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Fontes de Segredos"
+  },
+  "deleteConfirm": "Excluir a fonte de segredos {{name}}?"
 }

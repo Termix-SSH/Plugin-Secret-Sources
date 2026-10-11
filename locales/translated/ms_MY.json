@@ -1,0 +1,32 @@
+{
+  "hint": "Anda boleh menampal rujukan 1Password (op://vault/item/field) sebagai ganti rahsia. Ia akan diambil dari sumber rahsia anda semasa menyambung.",
+  "manage": "Urus sumber rahsia",
+  "title": "Sumber rahsia",
+  "description": "Pengurus kata laluan luaran yang dibaca oleh Termix untuk mendapatkan rahsia semasa anda menyambung. Berfungsi dengan pelayan 1Password Connect yang dihoskan sendiri. Token akses disimpan dalam keadaan terenkripsi pada pelayan dan tidak pernah dihantar kembali ke pelayar.",
+  "new": "Sumber baru",
+  "nameLabel": "Nama mesra",
+  "namePlaceholder": "1Password Pasukan",
+  "urlLabel": "URL pelayan Connect",
+  "tokenLabel": "Token akses Connect",
+  "tokenKeep": "Biarkan kosong untuk mengekalkan token semasa",
+  "sharedLabel": "Kongsi dengan semua pengguna (pentadbir sahaja)",
+  "shared": "dikongsi",
+  "test": "Uji",
+  "testOk_other": "Bersambung, {{count}} peti besi kelihatan",
+  "testFailed": "Ujian sambungan gagal",
+  "required": "Nama, URL pelayan dan token diperlukan",
+  "saved": "Sumber rahsia disimpan",
+  "deleted": "Sumber rahsia dipadam",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Senarai kebenaran titik akhir peribadi",
+        "description": "Hos peribadi atau loopback yang boleh dicapai oleh sumber rahsia, satu setiap baris. Pelayan 1Password Connect yang dihoskan sendiri biasanya memerlukan alamatnya sendiri disenaraikan di sini."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Sumber Rahsia"
+  },
+  "deleteConfirm": "Padam sumber rahsia {{name}}?"
+}

@@ -1,0 +1,35 @@
+{
+  "hint": "Vietoj slaptažodžio galite įklijuoti 1Password nuorodą (op://vault/item/field). Ji bus gauta iš jūsų slaptažodžių šaltinio prisijungiant.",
+  "manage": "Tvarkyti slaptažodžių šaltinius",
+  "title": "Slaptažodžių šaltiniai",
+  "description": "Išoriniai slaptažodžių tvarkytuvai, iš kurių Termix skaito slaptažodžius prisijungiant. Veikia su savarankiškai talpinamu 1Password Connect serveriu. Prieigos raktas saugomas šifruotas serveryje ir niekada neatsiunčiamas atgal į naršyklę.",
+  "new": "Naujas šaltinis",
+  "nameLabel": "Pavadinimas",
+  "namePlaceholder": "Komandos 1Password",
+  "urlLabel": "Connect serverio URL",
+  "tokenLabel": "Connect prieigos raktas",
+  "tokenKeep": "Palikite tuščią, jei norite išlaikyti dabartinį raktą",
+  "sharedLabel": "Bendrinti su visais vartotojais (tik administratoriams)",
+  "shared": "bendrinama",
+  "test": "Testuoti",
+  "testOk_one": "Prisijungta, matomas {{count}} saugykla",
+  "testOk_few": "Prisijungta, matomos {{count}} saugyklos",
+  "testOk_many": "Prisijungta, matoma {{count}} saugykla",
+  "testOk_other": "Prisijungta, matomos {{count}} saugyklos",
+  "testFailed": "Prisijungimo testas nepavyko",
+  "required": "Pavadinimas, serverio URL ir raktas yra privalomi",
+  "saved": "Slaptažodžių šaltinis išsaugotas",
+  "deleted": "Slaptažodžių šaltinis ištrintas",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Privatų galinių taškų leidžiamasis sąrašas",
+        "description": "Privatūs arba kilpos (loopback) hostai, kuriuos gali pasiekti slaptažodžių šaltinis, po vieną eilutėje. Savarankiškai talpinamas 1Password Connect serveris dažniausiai turi būti įtrauktas į šį sąrašą."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Slaptažodžių šaltiniai"
+  },
+  "deleteConfirm": "Ištrinti slaptažodžių šaltinį {{name}}?"
+}

@@ -1,0 +1,35 @@
+{
+  "hint": "Namesto skrivnosti lahko prilepite referenco 1Password (op://vault/item/field). Ta se pridobi iz vašega vira skrivnosti ob vzpostavitvi povezave.",
+  "manage": "Upravljanje virov skrivnosti",
+  "title": "Viri skrivnosti",
+  "description": "Zunanji upravitelji gesel, iz katerih Termix bere skrivnosti ob vzpostavitvi povezave. Deluje s samostojno gostovanim strežnikom 1Password Connect. Dostopni žeton je shranjen šifrirano na strežniku in se nikoli ne pošlje nazaj brskalniku.",
+  "new": "Nov vir",
+  "nameLabel": "Prijazno ime",
+  "namePlaceholder": "Ekipni 1Password",
+  "urlLabel": "URL strežnika Connect",
+  "tokenLabel": "Dostopni žeton Connect",
+  "tokenKeep": "Pustite prazno, če želite ohraniti trenutni žeton",
+  "sharedLabel": "Deli z vsemi uporabniki (samo za skrbnike)",
+  "shared": "skupno",
+  "test": "Preveri",
+  "testOk_one": "Povezano, vidna {{count}} varnostna kopija",
+  "testOk_two": "Povezano, vidni {{count}} varnostni kopiji",
+  "testOk_few": "Povezano, vidne {{count}} varnostne kopije",
+  "testOk_other": "Povezano, vidnih {{count}} varnostnih kopij",
+  "testFailed": "Preizkus povezave ni uspel",
+  "required": "Ime, URL strežnika in žeton so obvezni",
+  "saved": "Vir skrivnosti je shranjen",
+  "deleted": "Vir skrivnosti je izbrisan",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Dovoljeni seznam zasebnih končnih točk",
+        "description": "Zasebni ali zanka gostiteljev, ki jih lahko doseže vir skrivnosti, en na vrstico. Samostojno gostovani strežnik 1Password Connect običajno potrebuje, da je tukaj naveden njegov lastni naslov."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Viri skrivnosti"
+  },
+  "deleteConfirm": "Izbrišete vir skrivnosti {{name}}?"
+}

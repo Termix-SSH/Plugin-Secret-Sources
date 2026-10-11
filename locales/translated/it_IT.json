@@ -1,30 +1,34 @@
 {
-  "hint": "Al posto del segreto, puoi incollare un riferimento a 1Password (op://vault/item/field). Questo verrà recuperato dalla tua fonte di segreti al momento della connessione.",
-  "manage": "Gestire le fonti segrete",
-  "title": "Fonti segrete",
-  "description": "I gestori di password esterni Termix leggono le credenziali al momento della connessione. Attualmente, 1Password Connect (self-hosted) è il gestore di password esterno. Il token di accesso viene memorizzato crittografato insieme alla chiave dati.",
-  "new": "Nuova fonte",
-  "nameLabel": "Nome amichevole",
-  "urlLabel": "URL del server di connessione",
-  "tokenLabel": "Connetti il token di accesso",
+  "hint": "Puoi incollare un riferimento 1Password (op://vault/item/field) al posto del segreto. Viene recuperato dalla tua origine dei segreti durante la connessione.",
+  "manage": "Gestisci origini dei segreti",
+  "title": "Origini dei segreti",
+  "description": "Gestori di password esterni da cui Termix legge i segreti durante la connessione. Funziona con un server 1Password Connect auto-ospitato. Il token di accesso è memorizzato in modo crittografato sul server e non viene mai inviato al browser.",
+  "new": "Nuova origine",
+  "nameLabel": "Nome visualizzato",
+  "namePlaceholder": "1Password del team",
+  "urlLabel": "URL del server Connect",
+  "tokenLabel": "Token di accesso Connect",
   "tokenKeep": "Lascia vuoto per mantenere il token corrente",
-  "sharedLabel": "Condividi con tutti gli utenti (solo amministratori, la modifica si applica solo se si è connessi)",
+  "sharedLabel": "Condividi con tutti gli utenti (solo amministratori)",
   "shared": "condiviso",
   "test": "Test",
-  "testOk": "Connesso, {{count}} caveau visibile(i)",
-  "testFailed": "Test di connessione fallito",
-  "required": "Sono richiesti nome, URL del server e token.",
-  "saved": "fonte segreta salvata",
-  "deleted": "Fonte segreta eliminata",
+  "testOk_one": "Connesso, {{count}} vault visibile",
+  "testOk_many": "Connesso, {{count}} vault visibili",
+  "testOk_other": "Connesso, {{count}} vault visibili",
+  "testFailed": "Test di connessione non riuscito",
+  "required": "Nome, URL del server e token sono obbligatori",
+  "saved": "Origine dei segreti salvata",
+  "deleted": "Origine dei segreti eliminata",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Lista di endpoint privati consentiti",
-        "description": "Host privati o di loopback raggiungibili da una fonte segreta, uno per riga. Un server 1Password Connect self-hosted di solito necessita di un proprio indirizzo elencato qui."
+        "label": "Lista consentita degli endpoint privati",
+        "description": "Host privati o di loopback a cui un'origine dei segreti può accedere, uno per riga. Un server 1Password Connect auto-ospitato di solito ha bisogno del proprio indirizzo elencato qui."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Origini dei segreti"
+  },
+  "deleteConfirm": "Eliminare l'origine dei segreti {{name}}?"
 }

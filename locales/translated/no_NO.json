@@ -1,30 +1,33 @@
 {
   "hint": "Du kan lime inn en 1Password-referanse (op://vault/item/field) i stedet for hemmeligheten. Den hentes fra hemmelighetskilden din når du kobler til.",
-  "manage": "Administrer hemmelige kilder",
-  "title": "Hemmelige kilder",
-  "description": "Eksterne passordbehandlere Termix leser hemmeligheter fra ved tilkobling. For tiden 1Password Connect (selvhostet). Tilgangstokenet lagres kryptert med datanøkkelen din.",
+  "manage": "Administrer hemmelighetskilder",
+  "title": "Hemmelighetskilder",
+  "description": "Eksterne passordhåndterere som Termix leser hemmeligheter fra når du kobler til. Fungerer med en selvhostet 1Password Connect-server. Tilgangstokenen lagres kryptert på serveren og sendes aldri tilbake til nettleseren.",
   "new": "Ny kilde",
-  "nameLabel": "Vennlig navn",
-  "urlLabel": "URL-adresse for tilkobling av server",
-  "tokenLabel": "Koble til tilgangstoken",
+  "nameLabel": "Navn",
+  "namePlaceholder": "Team 1Password",
+  "urlLabel": "URL for Connect-server",
+  "tokenLabel": "Tilgangstoken for Connect",
   "tokenKeep": "La stå tomt for å beholde gjeldende token",
-  "sharedLabel": "Del med alle brukere (kun administratorer, løses mens du er logget på)",
+  "sharedLabel": "Del med alle brukere (kun administratorer)",
   "shared": "delt",
   "test": "Test",
-  "testOk": "Tilkoblet, {{count}} hvelv synlig(e)",
+  "testOk_one": "Tilkoblet, {{count}} boks synlig",
+  "testOk_other": "Tilkoblet, {{count}} bokser synlige",
   "testFailed": "Tilkoblingstesten mislyktes",
-  "required": "Navn, server-URL og token er obligatorisk",
-  "saved": "Hemmelig kilde lagret",
-  "deleted": "Hemmelig kilde slettet",
+  "required": "Navn, server-URL og token er påkrevd",
+  "saved": "Hemmelighetskilden er lagret",
+  "deleted": "Hemmelighetskilden er slettet",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Tillatelsesliste for privat endepunkt",
-        "description": "Private verter eller loopback-verter en hemmelig kilde kan nå, én per linje. En selvhostet 1Password Connect-server trenger vanligvis sin egen adresse oppført her."
+        "label": "Tillateliste for private endepunkter",
+        "description": "Private eller loopback-vertene en hemmelighetskilde kan nå, én per linje. En selvhostet 1Password Connect-server må vanligvis ha sin egen adresse oppført her."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Hemmelighetskilder"
+  },
+  "deleteConfirm": "Slett hemmelighetskilden {{name}}?"
 }

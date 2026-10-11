@@ -1,30 +1,35 @@
 {
-  "hint": "Zamiast klucza tajnego możesz wkleić odnośnik do 1Password (op://vault/item/field). Zostanie on pobrany ze źródła klucza tajnego podczas łączenia.",
-  "manage": "Zarządzaj tajnymi źródłami",
-  "title": "Tajne źródła",
-  "description": "Zewnętrzny menedżer haseł Termix odczytuje sekrety w momencie połączenia. Obecnie 1Password Connect (hostowany samodzielnie). Token dostępu jest przechowywany w postaci zaszyfrowanej z Twoim kluczem danych.",
+  "hint": "Zamiast hasła możesz wkleić odwołanie do 1Password (op://vault/item/field). Będzie ono pobierane z Twojego źródła haseł podczas łączenia.",
+  "manage": "Zarządzaj źródłami haseł",
+  "title": "Źródła haseł",
+  "description": "Zewnętrzne menedżery haseł, z których Termix odczytuje hasła podczas łączenia. Działa z własnym serwerem 1Password Connect. Token dostępu jest przechowywany w zaszyfrowanej formie na serwerze i nigdy nie jest wysyłany z powrotem do przeglądarki.",
   "new": "Nowe źródło",
-  "nameLabel": "Przyjazna nazwa",
-  "urlLabel": "Połącz adres URL serwera",
-  "tokenLabel": "Połącz token dostępu",
-  "tokenKeep": "Pozostaw puste, aby zachować bieżący token",
-  "sharedLabel": "Udostępnij wszystkim użytkownikom (tylko administratorzy, rozwiązuje się, gdy jesteś zalogowany)",
-  "shared": "współdzielony",
-  "test": "Test",
-  "testOk": "Połączono, {{count}} widocznych skarbców",
+  "nameLabel": "Nazwa wyświetlana",
+  "namePlaceholder": "Zespół 1Password",
+  "urlLabel": "Adres URL serwera Connect",
+  "tokenLabel": "Token dostępu Connect",
+  "tokenKeep": "Pozostaw puste, aby zachować obecny token",
+  "sharedLabel": "Udostępnij wszystkim użytkownikom (tylko administratorzy)",
+  "shared": "udostępnione",
+  "test": "Testuj",
+  "testOk_one": "Połączono, widoczny {{count}} sejf",
+  "testOk_few": "Połączono, widoczne {{count}} sejfy",
+  "testOk_many": "Połączono, widocznych {{count}} sejfów",
+  "testOk_other": "Połączono, widocznych {{count}} sejfów",
   "testFailed": "Test połączenia nie powiódł się",
-  "required": "Wymagane są nazwa, adres URL serwera i token",
-  "saved": "Tajne źródło uratowane",
-  "deleted": "Usunięto tajne źródło",
+  "required": "Nazwa, adres URL serwera i token są wymagane",
+  "saved": "Źródło haseł zostało zapisane",
+  "deleted": "Źródło haseł zostało usunięte",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Prywatna lista dozwolonych punktów końcowych",
-        "description": "Prywatne lub zwrotne hosty, do których może dotrzeć tajne źródło, po jednym na linię. Samodzielnie hostowany serwer 1Password Connect zazwyczaj wymaga podania tutaj własnego adresu."
+        "label": "Lista dozwolonych prywatnych punktów końcowych",
+        "description": "Prywatne lub pętlowe hosty, do których może się łączyć źródło haseł, jeden w wierszu. Własny serwer 1Password Connect zwykle wymaga podania tutaj własnego adresu."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Źródła haseł"
+  },
+  "deleteConfirm": "Usunąć źródło haseł {{name}}?"
 }

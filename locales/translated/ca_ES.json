@@ -1,30 +1,34 @@
 {
-  "hint": "Podeu enganxar una referència 1Password (op://vault/item/field) en comptes del secret. S'obté de la font del secret quan us connecteu.",
-  "manage": "Gestiona fonts secretes",
-  "title": "Fonts secretes",
-  "description": "Els gestors de contrasenyes externes Termix llegeixen els secrets en el moment de la connexió. Actualment 1Password Connect (autoallotjat). El testimoni d'accés s'emmagatzema xifrat amb la vostra clau de dades.",
+  "hint": "Podeu enganxar una referència de 1Password (op://vault/item/field) en lloc del secret. S'obté de la font de secrets en connectar.",
+  "manage": "Gestionar fonts de secrets",
+  "title": "Fonts de secrets",
+  "description": "Gestors de contrasenyes externs d'on Termix llegeix els secrets en connectar. Funciona amb un servidor 1Password Connect allotjat pròpiament. El token d'accés s'emmagatzema xifrat al servidor i mai s'envia de nou al navegador.",
   "new": "Nova font",
   "nameLabel": "Nom amigable",
-  "urlLabel": "URL de connexió del servidor",
-  "tokenLabel": "Connecta el testimoni d'accés",
-  "tokenKeep": "Deixeu-ho en blanc per mantenir el testimoni actual",
-  "sharedLabel": "Comparteix amb tots els usuaris (només administradors, resol mentre tens la sessió iniciada)",
+  "namePlaceholder": "1Password de l'equip",
+  "urlLabel": "URL del servidor Connect",
+  "tokenLabel": "Token d'accés Connect",
+  "tokenKeep": "Deixeu-ho buit per mantenir el token actual",
+  "sharedLabel": "Compartir amb tots els usuaris (només administradors)",
   "shared": "compartit",
   "test": "Prova",
-  "testOk": "Connectat, {{count}} volta(es) visible(s)",
-  "testFailed": "La prova de connexió ha fallat",
-  "required": "El nom, l'URL del servidor i el testimoni són obligatoris",
-  "saved": "Font secreta desada",
-  "deleted": "Font secreta suprimida",
+  "testOk_one": "Connectat, {{count}} magatzem visible",
+  "testOk_many": "Connectat, {{count}} magatzems visibles",
+  "testOk_other": "Connectat, {{count}} magatzems visibles",
+  "testFailed": "Ha fallat la prova de connexió",
+  "required": "El nom, l'URL del servidor i el token són obligatoris",
+  "saved": "Font de secrets desada",
+  "deleted": "Font de secrets eliminada",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Llista permesa de punts finals privats",
-        "description": "Amfitrions privats o de bucle que una font secreta pot assolir, un per línia. Un servidor 1Password Connect autoallotjat normalment necessita la seva pròpia adreça llistada aquí."
+        "description": "Amfitrions privats o de bucle que una font de secrets pot arribar, un per línia. Un servidor 1Password Connect allotjat pròpiament sol necessitar que la seva pròpia adreça estigui llistada aquí."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Fonts de secrets"
+  },
+  "deleteConfirm": "Voleu eliminar la font de secrets {{name}}?"
 }

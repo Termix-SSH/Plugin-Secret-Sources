@@ -1,30 +1,34 @@
 {
-  "hint": "Vous pouvez coller une référence 1Password (op://vault/item/field) à la place du mot de passe. Elle sera récupérée depuis votre source de mots de passe lors de la connexion.",
-  "manage": "Gérer les sources secrètes",
-  "title": "Sources secrètes",
-  "description": "Termix utilise des gestionnaires de mots de passe externes pour lire les secrets lors de la connexion. Actuellement, il s'agit de 1Password Connect (hébergé sur place). Le jeton d'accès est stocké chiffré avec votre clé de données.",
+  "hint": "Vous pouvez coller une référence 1Password (op://vault/item/field) à la place du secret. Il sera récupéré depuis votre source de secrets lors de la connexion.",
+  "manage": "Gérer les sources de secrets",
+  "title": "Sources de secrets",
+  "description": "Gestionnaires de mots de passe externes dont Termix lit les secrets lors de la connexion. Fonctionne avec un serveur 1Password Connect auto-hébergé. Le jeton d'accès est stocké de manière chiffrée sur le serveur et n'est jamais renvoyé au navigateur.",
   "new": "Nouvelle source",
-  "nameLabel": "Nom amical",
-  "urlLabel": "URL du serveur de connexion",
+  "nameLabel": "Nom affiché",
+  "namePlaceholder": "1Password de l'équipe",
+  "urlLabel": "URL du serveur Connect",
   "tokenLabel": "Jeton d'accès Connect",
-  "tokenKeep": "Laissez vide pour conserver le jeton actuel",
-  "sharedLabel": "Partager avec tous les utilisateurs (administrateurs uniquement, résolution effectuée lorsque vous êtes connecté)",
+  "tokenKeep": "Laisser vide pour conserver le jeton actuel",
+  "sharedLabel": "Partager avec tous les utilisateurs (administrateurs uniquement)",
   "shared": "partagé",
   "test": "Tester",
-  "testOk": "Connecté, {{count}} coffre(s) visible(s)",
-  "testFailed": "Le test de connexion a échoué.",
-  "required": "Le nom, l'URL du serveur et le jeton sont requis.",
-  "saved": "Source secrète sauvegardée",
-  "deleted": "Source secrète supprimée",
+  "testOk_one": "Connecté, {{count}} coffre visible",
+  "testOk_many": "Connecté, {{count}} coffres visibles",
+  "testOk_other": "Connecté, {{count}} coffres visibles",
+  "testFailed": "Échec du test de connexion",
+  "required": "Le nom, l'URL du serveur et le jeton sont requis",
+  "saved": "Source de secrets enregistrée",
+  "deleted": "Source de secrets supprimée",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "liste blanche des points de terminaison privés",
-        "description": "Hôtes privés ou de bouclage auxquels une source secrète peut accéder, un par ligne. Un serveur 1Password Connect auto-hébergé nécessite généralement sa propre adresse indiquée ici."
+        "label": "Liste d'autorisation des points de terminaison privés",
+        "description": "Hôtes privés ou de bouclage local qu'une source de secrets peut atteindre, un par ligne. Un serveur 1Password Connect auto-hébergé a généralement besoin que son propre adresse soit indiquée ici."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Sources de secrets"
+  },
+  "deleteConfirm": "Supprimer la source de secrets {{name}} ?"
 }

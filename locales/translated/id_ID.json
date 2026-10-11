@@ -1,30 +1,32 @@
 {
-  "hint": "Anda dapat menempelkan referensi 1Password (op://vault/item/field) sebagai pengganti rahasia. Referensi tersebut akan diambil dari sumber rahasia Anda saat terhubung.",
-  "manage": "Mengelola sumber rahasia",
+  "hint": "Anda dapat menempelkan referensi 1Password (op://vault/item/field) sebagai pengganti rahasia. Referensi ini akan diambil dari sumber rahasia Anda saat terhubung.",
+  "manage": "Kelola sumber rahasia",
   "title": "Sumber rahasia",
-  "description": "Termix membaca rahasia dari pengelola kata sandi eksternal pada saat koneksi. Saat ini menggunakan 1Password Connect (yang dihosting sendiri). Token akses disimpan dalam bentuk terenkripsi dengan kunci data Anda.",
+  "description": "Manajer kata sandi eksternal yang dibaca Termix untuk mengambil rahasia saat Anda terhubung. Berfungsi dengan server 1Password Connect yang di-hosting sendiri. Token akses disimpan dalam keadaan terenkripsi di server dan tidak pernah dikirim kembali ke browser.",
   "new": "Sumber baru",
-  "nameLabel": "Nama yang ramah",
-  "urlLabel": "Hubungkan URL server",
-  "tokenLabel": "Hubungkan token akses",
-  "tokenKeep": "Biarkan kosong untuk mempertahankan token saat ini.",
-  "sharedLabel": "Bagikan dengan semua pengguna (hanya admin, akan aktif saat Anda masuk)",
+  "nameLabel": "Nama tampilan",
+  "namePlaceholder": "1Password Tim",
+  "urlLabel": "URL server Connect",
+  "tokenLabel": "Token akses Connect",
+  "tokenKeep": "Biarkan kosong untuk mempertahankan token saat ini",
+  "sharedLabel": "Bagikan dengan semua pengguna (hanya admin)",
   "shared": "dibagikan",
-  "test": "Tes",
-  "testOk": "Terhubung, {{count}} brankas terlihat",
-  "testFailed": "Pengujian koneksi gagal",
-  "required": "Nama, URL server, dan token wajib diisi.",
-  "saved": "Sumber rahasia tersimpan",
-  "deleted": "Sumber rahasia telah dihapus.",
+  "test": "Uji",
+  "testOk_other": "Terhubung, {{count}} brankas terlihat",
+  "testFailed": "Uji koneksi gagal",
+  "required": "Nama, URL server, dan token wajib diisi",
+  "saved": "Sumber rahasia disimpan",
+  "deleted": "Sumber rahasia dihapus",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Daftar izin titik akhir privat",
-        "description": "Host privat atau loopback yang dapat dijangkau oleh sumber rahasia, satu per baris. Server 1Password Connect yang dihosting sendiri biasanya memerlukan alamatnya sendiri yang tercantum di sini."
+        "label": "Daftar izin titik akhir pribadi",
+        "description": "Host pribadi atau loopback yang boleh diakses oleh sumber rahasia, satu per baris. Server 1Password Connect yang di-hosting sendiri biasanya perlu mencantumkan alamatnya sendiri di sini."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Sumber Rahasia"
+  },
+  "deleteConfirm": "Hapus sumber rahasia {{name}}?"
 }

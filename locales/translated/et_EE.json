@@ -1,0 +1,33 @@
+{
+  "hint": "Salaseadme asemel saate kleepida 1Passwordi viite (op://vault/item/field). See hõivatakse salajase allikast ühenduse loomisel.",
+  "manage": "Halda salajasi allikaid",
+  "title": "Salajased allikad",
+  "description": "Välised paroolihaldurid, millest Termix hõivab salaseid ühenduse loomisel. Töötab isehostitatud 1Password Connect serveriga. Ligipääsetoken salvestatakse serverile krüpteeritult ja seda ei saleta kunagi brauserisse tagasi.",
+  "new": "Uus allikas",
+  "nameLabel": "Sõbralik nimi",
+  "namePlaceholder": "Meeskonna 1Password",
+  "urlLabel": "Connect serveri URL",
+  "tokenLabel": "Connect ligipääsetoken",
+  "tokenKeep": "Jäta tühjaks, et säilitada praegune token",
+  "sharedLabel": "Jaga kõigi kasutajatega (ainult administraatorid)",
+  "shared": "jagatud",
+  "test": "Testi",
+  "testOk_one": "Ühendatud, {{count}} vault nähtav",
+  "testOk_other": "Ühendatud, {{count}} vaulti nähtav",
+  "testFailed": "Ühenduse test ebaõnnestus",
+  "required": "Nimi, serveri URL ja token on kohustuslikud",
+  "saved": "Salaja allikas salvestatud",
+  "deleted": "Salaja allikas kustutatud",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Privaatsete lõpp-punktide lubade nimekiri",
+        "description": "Privaatsed või loopback hostid, mida salaja allikas võib saavutada, üks rida. Isehhostitatud 1Password Connect server vajab tavaliselt oma aadressi siin loetletud."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Salajased allikad"
+  },
+  "deleteConfirm": "Kustutada salaja allikas {{name}}?"
+}

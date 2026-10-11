@@ -1,30 +1,33 @@
 {
-  "hint": "Du kan indsætte en 1Password-reference (op://vault/item/field) i stedet for hemmeligheden. Den hentes fra din hemmelige kilde, når du opretter forbindelse.",
-  "manage": "Administrer hemmelige kilder",
-  "title": "Hemmelige kilder",
-  "description": "Eksterne adgangskodeadministratorer. Termix læser hemmeligheder fra ved tilslutning. I øjeblikket 1Password Connect (selvhostet). Adgangstokenet gemmes krypteret med din datanøgle.",
+  "hint": "Du kan indsætte en 1Password-reference (op://vault/item/field) i stedet for hemmeligheden. Den hentes fra din hemmelighedskilde, når der oprettes forbindelse.",
+  "manage": "Administrer hemmelighedskilder",
+  "title": "Hemmelighedskilder",
+  "description": "Eksterne adgangskodehåndterere, som Termix læser hemmeligheder fra, når du opretter forbindelse. Fungerer med en selvhostet 1Password Connect-server. Adgangstokenet gemmes krypteret på serveren og sendes aldrig tilbage til browseren.",
   "new": "Ny kilde",
   "nameLabel": "Venligt navn",
-  "urlLabel": "URL til forbindelsesserver",
-  "tokenLabel": "Forbind adgangstoken",
-  "tokenKeep": "Lad feltet stå tomt for at beholde det aktuelle token",
-  "sharedLabel": "Del med alle brugere (kun administratorer, løses mens du er logget ind)",
+  "namePlaceholder": "Team 1Password",
+  "urlLabel": "URL for Connect-server",
+  "tokenLabel": "Adgangstoken til Connect",
+  "tokenKeep": "Lad være tomt for at beholde det nuværende token",
+  "sharedLabel": "Del med alle brugere (kun administratorer)",
   "shared": "delt",
-  "test": "Prøve",
-  "testOk": "Forbundet, {{count}} boks(e) synlig(e)",
-  "testFailed": "Forbindelsestest mislykkedes",
+  "test": "Test",
+  "testOk_one": "Forbundet, {{count}} vault synligt",
+  "testOk_other": "Forbundet, {{count}} vaults synlige",
+  "testFailed": "Forbindelsestesten mislykkedes",
   "required": "Navn, server-URL og token er påkrævet",
-  "saved": "Hemmelig kilde gemt",
-  "deleted": "Hemmelig kilde slettet",
+  "saved": "Hemmelighedskilde gemt",
+  "deleted": "Hemmelighedskilde slettet",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Tilladelsesliste for privat slutpunkt",
-        "description": "Private eller loopback-værter, som en hemmelig kilde kan nå, én pr. linje. En selvhostet 1Password Connect-server skal normalt have sin egen adresse angivet her."
+        "label": "Tilladelsesliste for private endpoints",
+        "description": "Private eller loopback-værter, som en hemmelighedskilde må nå, én pr. linje. En selvhostet 1Password Connect-server skal normalt have sin egen adresse opført her."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Hemmelighedskilder"
+  },
+  "deleteConfirm": "Slet hemmelighedskilden {{name}}?"
 }

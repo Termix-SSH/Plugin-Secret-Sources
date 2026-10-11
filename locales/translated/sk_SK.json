@@ -1,0 +1,35 @@
+{
+  "hint": "Namiesto tajomstva môžete vložiť odkaz 1Password (op://vault/item/field). Pri pripájaní sa načíta zo zdroja tajomstiev.",
+  "manage": "Spravovať zdroje tajomstiev",
+  "title": "Zdroje tajomstiev",
+  "description": "Externé manažéry hesiel, z ktorých Termix pri pripájaní číta tajomstvá. Funguje so samostatne hosteným serverom 1Password Connect. Prístupový token je uložený šifrovaný na serveri a nikdy sa neodosiela späť do prehliadača.",
+  "new": "Nový zdroj",
+  "nameLabel": "Pohodlný názov",
+  "namePlaceholder": "Tím 1Password",
+  "urlLabel": "URL servera Connect",
+  "tokenLabel": "Prístupový token Connect",
+  "tokenKeep": "Nechať prázdne pre zachovanie aktuálneho tokenu",
+  "sharedLabel": "Zdieľať so všetkými používateľmi (iba pre administrátorov)",
+  "shared": "zdieľané",
+  "test": "Test",
+  "testOk_one": "Pripojené, viditeľná {{count}} trezor",
+  "testOk_few": "Pripojené, viditeľné {{count}} trezory",
+  "testOk_many": "Pripojené, viditeľných {{count}} trezorov",
+  "testOk_other": "Pripojené, viditeľných {{count}} trezorov",
+  "testFailed": "Test pripojenia zlyhal",
+  "required": "Názov, URL servera a token sú povinné",
+  "saved": "Zdroj tajomstiev uložený",
+  "deleted": "Zdroj tajomstiev odstránený",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Povolený zoznam súkromných koncových bodov",
+        "description": "Súkromné alebo slučkové hostiteľy, ktorých môže zdroj tajomstiev dosiahnuť, každý na samostatnom riadku. Samostatne hostený server 1Password Connect zvyčajne potrebuje mať tu uvedenú vlastnú adresu."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Zdroje tajomstiev"
+  },
+  "deleteConfirm": "Odstrániť zdroj tajomstiev {{name}}?"
+}

@@ -1,30 +1,33 @@
 {
-  "hint": "Voit liittää 1Password-viitteen (op://vault/item/field) salaisuuden sijaan. Se noudetaan salaisuuden lähteestäsi yhteyden muodostamisen yhteydessä.",
-  "manage": "Hallitse salaisia lähteitä",
-  "title": "Salaiset lähteet",
-  "description": "Ulkoiset salasananhallintaohjelmat Termix lukevat salaisuudet yhteyden muodostamisen yhteydessä. Tällä hetkellä käytössä on 1Password Connect (itse isännöity). Käyttöoikeustunnus tallennetaan salattuna dataavaimellasi.",
+  "hint": "Voit liittää 1Password-viitteen (op://vault/item/field) salasanaksi. Se haetaan salasanahallinnasta yhdistettäessä.",
+  "manage": "Hallitse salasanahallintoja",
+  "title": "Salasanahallinnat",
+  "description": "Ulkoiset salasanahallinnat, joista Termix hakee salaisuuksia yhdistettäessä. Toimii itse isännöidyn 1Password Connect -palvelimen kanssa. Pääsättely avain tallennetaan salattuna palvelimelle eikä sitä lähetetä koskaan takaisin selaimelle.",
   "new": "Uusi lähde",
-  "nameLabel": "Ystävällinen nimi",
-  "urlLabel": "Yhdistä palvelimen URL-osoite",
-  "tokenLabel": "Yhdistä käyttöoikeustunnus",
-  "tokenKeep": "Jätä tyhjäksi säilyttääksesi nykyisen tunnuksen",
-  "sharedLabel": "Jaa kaikkien käyttäjien kanssa (vain järjestelmänvalvojille, ratkeaa, kun olet kirjautuneena sisään)",
+  "nameLabel": "Näyttönimi",
+  "namePlaceholder": "Tiimi 1Password",
+  "urlLabel": "Connect-palvelimen URL",
+  "tokenLabel": "Connect-pääsättely avain",
+  "tokenKeep": "Jätä tyhjäksi, jos haluat säilyttää nykyisen avaimen",
+  "sharedLabel": "Jaa kaikille käyttäjille (vain ylläpitäjät)",
   "shared": "jaettu",
-  "test": "Testata",
-  "testOk": "Yhdistetty, {{count}} holvia näkyvissä",
+  "test": "Testaa",
+  "testOk_one": "Yhdistetty, {{count}} varasto näkyvissä",
+  "testOk_other": "Yhdistetty, {{count}} varastoa näkyvissä",
   "testFailed": "Yhteystesti epäonnistui",
-  "required": "Nimi, palvelimen URL-osoite ja tunnus vaaditaan",
-  "saved": "Salainen lähde tallennettu",
-  "deleted": "Salainen lähde poistettu",
+  "required": "Nimi, palvelimen URL ja avain ovat pakollisia",
+  "saved": "Salasanahallinta tallennettu",
+  "deleted": "Salasanahallinta poistettu",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Yksityisten päätepisteiden sallittujen luettelo",
-        "description": "Yksityiset tai loopback-isännät, joihin salainen lähde voi tavoittaa, yksi riviä kohden. Itse isännöity 1Password Connect -palvelin tarvitsee yleensä oman osoitteensa, joka luetellaan tässä."
+        "label": "Yksityisten päätepisteiden sallittu lista",
+        "description": "Yksityiset tai silmukointiosoitteet, joihin salasanahallinta voi yhdistää, yksi per rivi. Itse isännöity 1Password Connect -palvelin tarvitsee yleensä oman osoitteensa tähän listaan."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Salasanahallinnat"
+  },
+  "deleteConfirm": "Haluatko poistaa salasanahallinnan {{name}}?"
 }

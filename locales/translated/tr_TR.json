@@ -1,30 +1,33 @@
 {
-  "hint": "Gizli anahtar yerine 1Password referansını (op://vault/item/field) yapıştırabilirsiniz. Bağlantı kurulurken gizli anahtar kaynağınızdan alınır.",
-  "manage": "Gizli kaynakları yönetin",
-  "title": "Gizli kaynaklar",
-  "description": "Termix, bağlantı kurulduğunda harici parola yöneticilerinden gizli bilgileri okur. Şu anda 1Password Connect (kendi sunucunuzda barındırılan) kullanılmaktadır. Erişim belirteci, veri anahtarınızla şifrelenmiş olarak saklanır.",
+  "hint": "Sırrın yerine bir 1Password referansı (op://vault/item/field) yapıştırabilirsiniz. Bağlanırken sırrınız bu kaynaktan alınır.",
+  "manage": "Sır kaynaklarını yönet",
+  "title": "Sır kaynakları",
+  "description": "Termix'in bağlanırken sırları okuduğu harici parola yöneticileri. Kendi barındırılan bir 1Password Connect sunucusuyla çalışır. Erişim belirteci sunucuda şifrelenmiş olarak saklanır ve tarayıcıya asla geri gönderilmez.",
   "new": "Yeni kaynak",
-  "nameLabel": "Dostça isim",
-  "urlLabel": "Sunucu URL'sine bağlanın",
-  "tokenLabel": "Bağlantı erişim belirteci",
-  "tokenKeep": "Geçerli belirteci korumak için boş bırakın.",
-  "sharedLabel": "Tüm kullanıcılarla paylaş (yalnızca yöneticiler, oturumunuz açıkken çözümlenir)",
+  "nameLabel": "Gösterilecek ad",
+  "namePlaceholder": "Ekip 1Password",
+  "urlLabel": "Connect sunucu URL'si",
+  "tokenLabel": "Connect erişim belirteci",
+  "tokenKeep": "Mevcut belirteci korumak için boş bırakın",
+  "sharedLabel": "Tüm kullanıcılarla paylaş (sadece yöneticiler)",
   "shared": "paylaşılan",
-  "test": "Test Et",
-  "testOk": "Bağlı, {{count}} kasa görünür durumda",
-  "testFailed": "Bağlantı testi başarısız oldu.",
-  "required": "İsim, sunucu URL'si ve belirteç (token) gereklidir.",
-  "saved": "Gizli kaynak kaydedildi.",
-  "deleted": "Gizli kaynak silindi",
+  "test": "Test et",
+  "testOk_one": "Bağlandı, {{count}} kasa görünüyor",
+  "testOk_other": "Bağlandı, {{count}} kasa görünüyor",
+  "testFailed": "Bağlantı testi başarısız oldu",
+  "required": "Ad, sunucu URL'si ve belirteç gereklidir",
+  "saved": "Sır kaynağı kaydedildi",
+  "deleted": "Sır kaynağı silindi",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Özel uç nokta izin listesi",
-        "description": "Gizli bir kaynağın erişebileceği özel veya geri döngü sunucuları, her satıra bir tane. Kendi kendine barındırılan bir 1Password Connect sunucusunun genellikle burada listelenen kendi adresine ihtiyacı vardır."
+        "description": "Bir sır kaynağının erişebileceği özel veya döngü içi ana bilgisayarlar, her satırda biri. Kendi barındırılan bir 1Password Connect sunucusu genellikle kendi adresinin burada listelenmesine ihtiyaç duyar."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Sır Kaynakları"
+  },
+  "deleteConfirm": "{{name}} sır kaynağı silinsin mi?"
 }

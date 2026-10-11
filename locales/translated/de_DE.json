@@ -1,30 +1,33 @@
 {
-  "hint": "Sie können anstelle des Geheimnisses eine 1Password-Referenz (op://vault/item/field) einfügen. Diese wird beim Verbindungsaufbau aus Ihrer Geheimnisquelle abgerufen.",
-  "manage": "Geheime Quellen verwalten",
-  "title": "Geheime Quellen",
-  "description": "Externe Passwortmanager wie Termix lesen die Geheimnisse beim Verbindungsaufbau. Aktuell wird 1Password Connect (selbst gehostet) verwendet. Das Zugriffstoken wird mit Ihrem Datenschlüssel verschlüsselt gespeichert.",
+  "hint": "Sie können einen 1Password-Verweis (op://vault/item/field) anstelle des Geheimnisses einfügen. Es wird beim Verbinden aus Ihrer Geheimnisquelle abgerufen.",
+  "manage": "Geheimnisquellen verwalten",
+  "title": "Geheimnisquellen",
+  "description": "Externe Passwortmanager, aus denen Termix Geheimnisse beim Verbinden liest. Funktioniert mit einem selbst gehosteten 1Password Connect-Server. Das Zugriffstoken wird verschlüsselt auf dem Server gespeichert und niemals an den Browser zurückgesendet.",
   "new": "Neue Quelle",
-  "nameLabel": "Freundlicher Name",
-  "urlLabel": "Verbindungsserver-URL",
-  "tokenLabel": "Zugriffstoken verbinden",
-  "tokenKeep": "Lassen Sie dieses Feld leer, um das aktuelle Token beizubehalten.",
-  "sharedLabel": "Mit allen Benutzern teilen (nur für Administratoren, wird ausgeführt, solange Sie angemeldet sind)",
+  "nameLabel": "Anzeigename",
+  "namePlaceholder": "Team 1Password",
+  "urlLabel": "Connect-Server-URL",
+  "tokenLabel": "Connect-Zugriffstoken",
+  "tokenKeep": "Leer lassen, um das aktuelle Token beizubehalten",
+  "sharedLabel": "Mit allen Nutzern teilen (nur für Administratoren)",
   "shared": "geteilt",
-  "test": "Test",
-  "testOk": "Verbunden, {{count}} Tresor(e) sichtbar",
+  "test": "Testen",
+  "testOk_one": "Verbunden, {{count}} Tresor sichtbar",
+  "testOk_other": "Verbunden, {{count}} Tresore sichtbar",
   "testFailed": "Verbindungstest fehlgeschlagen",
-  "required": "Name, Server-URL und Token werden benötigt.",
-  "saved": "Geheime Quelle gerettet",
-  "deleted": "Geheime Quelle gelöscht",
+  "required": "Name, Server-URL und Token sind erforderlich",
+  "saved": "Geheimnisquelle gespeichert",
+  "deleted": "Geheimnisquelle gelöscht",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Zulassungsliste für private Endpunkte",
-        "description": "Private oder Loopback-Hosts, die eine geheime Quelle erreichen kann, jeweils einer pro Zeile. Ein selbst gehosteter 1Password Connect-Server benötigt in der Regel eine eigene Adresse, die hier aufgeführt wird."
+        "label": "Erlaubnisliste für private Endpunkte",
+        "description": "Private oder Loopback-Hosts, die eine Geheimnisquelle erreichen darf, einer pro Zeile. Ein selbst gehosteter 1Password Connect-Server benötigt in der Regel seine eigene Adresse hier."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Geheimnisquellen"
+  },
+  "deleteConfirm": "Geheimnisquelle {{name}} löschen?"
 }

@@ -1,30 +1,34 @@
 {
-  "hint": "Puteți lipi o referință 1Password (op://vault/item/field) în loc de secret. Aceasta este preluată din sursa secretului dvs. la conectare.",
-  "manage": "Gestionați sursele secrete",
-  "title": "Surse secrete",
-  "description": "Managerii de parole externi Termix citesc secretele la momentul conectării. În prezent, 1Password Connect (găzduit automat). Tokenul de acces este stocat criptat cu cheia dvs. de date.",
+  "hint": "Puteți lipi o referință 1Password (op://vault/item/field) în loc de secret. Acesta este preluat din sursa de secrete la conectare.",
+  "manage": "Gestionează sursele de secrete",
+  "title": "Surse de secrete",
+  "description": "Manageri externi de parole din care Termix citește secretele la conectare. Funcționează cu un server 1Password Connect găzduit local. Token-ul de acces este stocat criptat pe server și nu este niciodată trimis înapoi către browser.",
   "new": "Sursă nouă",
-  "nameLabel": "Nume prietenos",
-  "urlLabel": "Conectați adresa URL a serverului",
-  "tokenLabel": "Conectare jeton de acces",
+  "nameLabel": "Nume afișat",
+  "namePlaceholder": "1Password Echipă",
+  "urlLabel": "URL server Connect",
+  "tokenLabel": "Token de acces Connect",
   "tokenKeep": "Lăsați gol pentru a păstra token-ul curent",
-  "sharedLabel": "Partajează cu toți utilizatorii (doar pentru administratori, se rezolvă în timp ce ești conectat)",
+  "sharedLabel": "Partajează cu toți utilizatorii (doar pentru admini)",
   "shared": "partajat",
-  "test": "Test",
-  "testOk": "Conectat, {{count}} seif(uri) vizibil(e)",
-  "testFailed": "Testul de conexiune a eșuat",
-  "required": "Numele, adresa URL a serverului și tokenul sunt obligatorii",
-  "saved": "Sursă secretă salvată",
-  "deleted": "Sursa secretă a fost ștearsă",
+  "test": "Testează",
+  "testOk_one": "Conectat, {{count}} vault vizibil",
+  "testOk_few": "Conectat, {{count}} vault-uri vizibile",
+  "testOk_other": "Conectat, {{count}} vault-uri vizibile",
+  "testFailed": "Testul de conectare a eșuat",
+  "required": "Numele, URL-ul serverului și token-ul sunt obligatorii",
+  "saved": "Sursa de secrete a fost salvată",
+  "deleted": "Sursa de secrete a fost ștearsă",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Listă permisă pentru puncte de terminare private",
-        "description": "Gazde private sau loopback la care poate ajunge o sursă secretă, câte una pe linie. Un server 1Password Connect auto-găzduit are nevoie de obicei de propria adresă listată aici."
+        "label": "Listă de permisiuni pentru endpoint-uri private",
+        "description": "Gazde private sau de loopback pe care o sursă de secrete le poate atinge, câte una pe linie. Un server 1Password Connect găzduit local are de obicei nevoie ca propria sa adresă să fie listată aici."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Surse de secrete"
+  },
+  "deleteConfirm": "Ștergeți sursa de secrete {{name}}?"
 }

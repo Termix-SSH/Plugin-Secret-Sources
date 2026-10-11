@@ -1,30 +1,33 @@
 {
-  "hint": "Je kunt in plaats van het geheim een 1Password-referentie (op://vault/item/field) plakken. Deze wordt opgehaald uit je geheime bron wanneer je verbinding maakt.",
-  "manage": "Beheer geheime bronnen",
-  "title": "Geheime bronnen",
-  "description": "Externe wachtwoordmanagers die Termix gebruikt, lezen de geheimen uit tijdens het verbinden. Momenteel is dat 1Password Connect (zelf gehost). Het toegangstoken wordt versleuteld opgeslagen met uw gegevenssleutel.",
+  "hint": "Je kunt een 1Password-referentie (op://vault/item/field) plakken in plaats van het geheim. Deze wordt opgehaald uit je geheimebron bij het verbinden.",
+  "manage": "Geheimebronnen beheren",
+  "title": "Geheimebronnen",
+  "description": "Externe wachtwoordbeheerders waar Termix geheimen van ophaalt bij het verbinden. Werkt met een zelfgehoste 1Password Connect-server. Het toegangstoken is versleuteld opgeslagen op de server en wordt nooit naar de browser gestuurd.",
   "new": "Nieuwe bron",
   "nameLabel": "Vriendelijke naam",
-  "urlLabel": "Verbindingsserver-URL",
-  "tokenLabel": "Verbindingstoegangstoken",
-  "tokenKeep": "Laat dit veld leeg om het huidige token te behouden.",
-  "sharedLabel": "Delen met alle gebruikers (alleen beheerders, wordt opgelost terwijl u bent ingelogd)",
+  "namePlaceholder": "Team 1Password",
+  "urlLabel": "URL van Connect-server",
+  "tokenLabel": "Toegangstoken voor Connect",
+  "tokenKeep": "Laat leeg om het huidige token te behouden",
+  "sharedLabel": "Delen met alle gebruikers (alleen beheerders)",
   "shared": "gedeeld",
-  "test": "Test",
-  "testOk": "Verbonden, {{count}} kluis(en) zichtbaar",
+  "test": "Testen",
+  "testOk_one": "Verbonden, {{count}} kluis zichtbaar",
+  "testOk_other": "Verbonden, {{count}} kluizen zichtbaar",
   "testFailed": "Verbindingstest mislukt",
-  "required": "Naam, server-URL en token zijn vereist.",
-  "saved": "Geheime bron opgeslagen",
-  "deleted": "Geheime bron verwijderd",
+  "required": "Naam, server-URL en token zijn verplicht",
+  "saved": "Geheimebron opgeslagen",
+  "deleted": "Geheimebron verwijderd",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Toegestane lijst voor privé-eindpunten",
-        "description": "Privé- of loopback-hosts die een geheime bron kunnen bereiken, één per regel. Een zelfgehoste 1Password Connect-server heeft meestal een eigen adres nodig dat hier vermeld moet worden."
+        "description": "Privé- of loopback-hosts die een geheimebron mag bereiken, één per regel. Een zelfgehoste 1Password Connect-server heeft meestal zijn eigen adres hier nodig."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Geheimebronnen"
+  },
+  "deleteConfirm": "Geheimebron {{name}} verwijderen?"
 }

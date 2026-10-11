@@ -1,30 +1,34 @@
 {
-  "hint": "Puedes pegar una referencia de 1Password (op://vault/item/field) en lugar de la clave secreta. Esta se obtiene de tu fuente de claves secretas al conectarte.",
-  "manage": "Gestionar fuentes secretas",
-  "title": "Fuentes secretas",
-  "description": "Termix lee los secretos de los gestores de contraseñas externos al conectarse. Actualmente, utiliza 1Password Connect (autoalojado). El token de acceso se almacena cifrado con su clave de datos.",
+  "hint": "Puedes pegar una referencia de 1Password (op://vault/item/field) en lugar del secreto. Se obtendrá de tu fuente de secretos al conectarte.",
+  "manage": "Gestionar fuentes de secretos",
+  "title": "Fuentes de secretos",
+  "description": "Gestores de contraseñas externos de los que Termix lee secretos al conectarte. Funciona con un servidor 1Password Connect autoalojado. El token de acceso se almacena cifrado en el servidor y nunca se envía de vuelta al navegador.",
   "new": "Nueva fuente",
-  "nameLabel": "Nombre amistoso",
-  "urlLabel": "URL del servidor de conexión",
+  "nameLabel": "Nombre descriptivo",
+  "namePlaceholder": "1Password del equipo",
+  "urlLabel": "URL del servidor Connect",
   "tokenLabel": "Token de acceso de Connect",
-  "tokenKeep": "Déjelo vacío para conservar el token actual.",
-  "sharedLabel": "Compartir con todos los usuarios (solo administradores, se resuelve mientras estés conectado).",
+  "tokenKeep": "Déjalo vacío para mantener el token actual",
+  "sharedLabel": "Compartir con todos los usuarios (solo administradores)",
   "shared": "compartido",
   "test": "Probar",
-  "testOk": "Conectado(s), {{count}} bóveda(s) visible(s)",
-  "testFailed": "La prueba de conexión falló.",
-  "required": "Se requieren nombre, URL del servidor y token.",
-  "saved": "Fuente secreta guardada",
-  "deleted": "Fuente secreta eliminada",
+  "testOk_one": "Conectado, {{count}} bóveda visible",
+  "testOk_many": "Conectado, {{count}} bóvedas visibles",
+  "testOk_other": "Conectado, {{count}} bóvedas visibles",
+  "testFailed": "La prueba de conexión ha fallado",
+  "required": "El nombre, la URL del servidor y el token son obligatorios",
+  "saved": "Fuente de secretos guardada",
+  "deleted": "Fuente de secretos eliminada",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Lista de permitidos de puntos finales privados",
-        "description": "Hosts privados o de bucle invertido a los que puede acceder una fuente secreta, uno por línea. Un servidor 1Password Connect autohospedado generalmente necesita su propia dirección IP que aparezca aquí."
+        "description": "Hosts privados o de bucle local a los que una fuente de secretos puede acceder, uno por línea. Un servidor 1Password Connect autoalojado suele necesitar que su propia dirección esté listada aquí."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Fuentes de secretos"
+  },
+  "deleteConfirm": "¿Eliminar la fuente de secretos {{name}}?"
 }

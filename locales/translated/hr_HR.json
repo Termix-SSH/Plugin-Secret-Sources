@@ -1,0 +1,34 @@
+{
+  "hint": "Umjesto tajnosti možete zalijepiti 1Password referencu (op://vault/item/field). Ona se dohvaća iz vašeg izvora tajnosti pri povezivanju.",
+  "manage": "Upravljaj izvorima tajnosti",
+  "title": "Izvori tajnosti",
+  "description": "Vanjski upravitelji lozinki iz kojih Termix čita tajnosti pri povezivanju. Radi s vlastitim 1Password Connect poslužiteljem. Token za pristup pohranjen je šifrirano na poslužitelju i nikada se ne šalje natrag u preglednik.",
+  "new": "Novi izvor",
+  "nameLabel": "Prikazno ime",
+  "namePlaceholder": "Timski 1Password",
+  "urlLabel": "URL poslužitelja za povezivanje",
+  "tokenLabel": "Token za pristup poslužitelju",
+  "tokenKeep": "Ostavite prazno za zadržavanje trenutnog tokena",
+  "sharedLabel": "Dijeli sa svim korisnicima (samo za administratora)",
+  "shared": "dijeljeno",
+  "test": "Testiraj",
+  "testOk_one": "Povezano, {{count}} sigurnosni spremnik vidljiv",
+  "testOk_few": "Povezano, {{count}} sigurnosna spremnika vidljiva",
+  "testOk_other": "Povezano, {{count}} sigurnosnih spremnika vidljivo",
+  "testFailed": "Test povezivanja nije uspio",
+  "required": "Ime, URL poslužitelja i token su obavezni",
+  "saved": "Izvor tajnosti spremljen",
+  "deleted": "Izvor tajnosti obrisan",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Popus dopuštenih privatnih krajnjih točaka",
+        "description": "Privatni ili petljajući domaćeni koje izvor tajnosti može dosegnuti, jedan po retku. Vlastiti 1Password Connect poslužitelj obično treba navesti svoju vlastitu adresu ovdje."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Izvori tajnosti"
+  },
+  "deleteConfirm": "Izbrisati izvor tajnosti {{name}}?"
+}

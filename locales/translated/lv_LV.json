@@ -1,0 +1,34 @@
+{
+  "hint": "Jūs varat ielīmēt 1Password atsauci (op://vault/item/field) noslēpuma vietā. Tas tiek iegūts no jūsu noslēpumu avota, kad tiek izveidots savienojums.",
+  "manage": "Pārvaldīt noslēpumu avotus",
+  "title": "Noslēpumu avoti",
+  "description": "Ārēji paroles pārvaldnieki, no kuriem Termix lasa noslēpumus, kad jūs savienojaties. Strādā ar pašizvietotu 1Password Connect serveri. Piekļuves tokens tiek glabāts šifrētā formātā serverī un nekad netiek nosūtīts atpakaļ pārlūkprogrammā.",
+  "new": "Jauns avots",
+  "nameLabel": "Saprotams nosaukums",
+  "namePlaceholder": "Komandas 1Password",
+  "urlLabel": "Connect servera URL",
+  "tokenLabel": "Connect piekļuves tokens",
+  "tokenKeep": "Atstājiet tukšu, lai saglabātu pašreizējo tokeni",
+  "sharedLabel": "Kopīgot ar visiem lietotājiem (tikai administratoriem)",
+  "shared": "kopīgs",
+  "test": "Testēt",
+  "testOk_zero": "Savienojums izveidots, redzami 0 kastes",
+  "testOk_one": "Savienojums izveidots, redzama {{count}} kaste",
+  "testOk_other": "Savienojums izveidots, redzamas {{count}} kastes",
+  "testFailed": "Savienojuma tests neizdevās",
+  "required": "Nosaukums, servera URL un tokens ir obligāti",
+  "saved": "Noslēpumu avots saglabāts",
+  "deleted": "Noslēpumu avots dzēsts",
+  "settings": {
+    "admin": {
+      "privateEndpoints": {
+        "label": "Privāto galapunktu atļauju saraksts",
+        "description": "Privāti vai cilpas (loopback) mezgli, kurus noslēpumu avots var sasniegt, pa vienam rindā. Pašizvietotam 1Password Connect serverim parasti šeit ir jābūt norādītai tā pašas adreses."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Noslēpumu avoti"
+  },
+  "deleteConfirm": "Dzēst noslēpumu avotu {{name}}?"
+}

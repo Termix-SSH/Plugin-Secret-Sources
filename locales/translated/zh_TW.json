@@ -1,30 +1,32 @@
 {
-  "hint": "您可以貼上 1Password 引用（op://vault/item/field）而不是金鑰。連線時，系統會從您的金鑰來源取得該引用。",
-  "manage": "管理秘密來源",
-  "title": "秘密消息來源",
-  "description": "外部密碼管理器 Termix 會在連線時讀取金鑰。目前支援 1Password Connect（自架）。存取令牌會使用您的資料密鑰進行加密儲存。",
-  "new": "新來源",
-  "nameLabel": "友善名稱",
-  "urlLabel": "連接伺服器 URL",
-  "tokenLabel": "連接訪問令牌",
-  "tokenKeep": "留空以保留當前令牌",
-  "sharedLabel": "分享給所有使用者（僅限管理員，登入後生效）",
-  "shared": "已共用",
+  "hint": "您可以貼上 1Password 參考連結 (op://vault/item/field) 來取代機密內容。在連線時，系統會從您的機密來源擷取該內容。",
+  "manage": "管理機密來源",
+  "title": "機密來源",
+  "description": "Termix 在連線時會從這些外部密碼管理器讀取機密內容。此功能支援自行架設的 1Password Connect 伺服器。存取權杖會以加密方式儲存於伺服器上，且絕不會傳回瀏覽器。",
+  "new": "新增來源",
+  "nameLabel": "顯示名稱",
+  "namePlaceholder": "團隊 1Password",
+  "urlLabel": "Connect 伺服器 URL",
+  "tokenLabel": "Connect 存取權杖",
+  "tokenKeep": "留空以保留目前的權杖",
+  "sharedLabel": "與所有使用者共用（僅限管理員）",
+  "shared": "共用",
   "test": "測試",
-  "testOk": "已連接， {{count}} 保險庫可見",
+  "testOk_other": "已連線，可見 {{count}} 個保險箱",
   "testFailed": "連線測試失敗",
-  "required": "需要提供名稱、伺服器 URL 和令牌。",
-  "saved": "秘密來源已儲存",
-  "deleted": "秘密來源已刪除",
+  "required": "名稱、伺服器 URL 和權杖為必填欄位",
+  "saved": "機密來源已儲存",
+  "deleted": "機密來源已刪除",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "私有端點允許列表",
-        "description": "私有或回環位址，秘密來源可以訪問，每行一個。自託管的 1Password Connect 伺服器通常需要在此列出自己的位址。"
+        "label": "私人端點允許清單",
+        "description": "機密來源可存取的私人或回環位址，每行一個。自行架設的 1Password Connect 伺服器通常需在此列出其自身位址。"
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "機密來源"
+  },
+  "deleteConfirm": "確定要刪除機密來源 {{name}} 嗎？"
 }

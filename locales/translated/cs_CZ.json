@@ -1,30 +1,35 @@
 {
-  "hint": "Místo tajného hesla můžete vložit odkaz na heslo 1Password (op://vault/item/field). Ten se načte ze zdroje vašeho tajného hesla při připojování.",
-  "manage": "Správa tajných zdrojů",
-  "title": "Tajné zdroje",
-  "description": "Externí správci hesel Termix čte tajné hesla v době připojení. Aktuálně 1Password Connect (samostatně hostovaný). Přístupový token je uložen zašifrovaný s vaším datovým klíčem.",
+  "hint": "Místo tajného klíče můžete vložit odkaz na 1Password (op://vault/item/field). Ten bude při připojení načten ze zdroje tajných klíčů.",
+  "manage": "Spravovat zdroje tajných klíčů",
+  "title": "Zdroje tajných klíčů",
+  "description": "Externí správci hesel, ze kterých Termix při připojení čte tajné klíče. Funguje se self-hostovaným serverem 1Password Connect. Přístupový token je uložen zašifrovaný na serveru a nikdy není odeslán zpět do prohlížeče.",
   "new": "Nový zdroj",
-  "nameLabel": "Přátelský název",
-  "urlLabel": "URL adresa serveru pro připojení",
-  "tokenLabel": "Připojit přístupový token",
-  "tokenKeep": "Pro zachování aktuálního tokenu ponechte prázdné.",
-  "sharedLabel": "Sdílet se všemi uživateli (pouze pro administrátory, řeší se, když jste přihlášeni)",
+  "nameLabel": "Přívětivé jméno",
+  "namePlaceholder": "Týmový 1Password",
+  "urlLabel": "URL serveru Connect",
+  "tokenLabel": "Přístupový token Connect",
+  "tokenKeep": "Nechte prázdné pro zachování aktuálního tokenu",
+  "sharedLabel": "Sdílet se všemi uživateli (pouze pro administrátory)",
   "shared": "sdílené",
   "test": "Test",
-  "testOk": "Připojeno, viditelné {{count}} úložiště",
+  "testOk_one": "Připojeno, viditelná {{count}} trezor",
+  "testOk_few": "Připojeno, viditelné {{count}} trezory",
+  "testOk_many": "Připojeno, viditelných {{count}} trezorů",
+  "testOk_other": "Připojeno, viditelných {{count}} trezorů",
   "testFailed": "Test připojení selhal",
-  "required": "Jméno, URL adresa serveru a token jsou povinné",
-  "saved": "Tajný zdroj uložen",
-  "deleted": "Tajný zdroj smazán",
+  "required": "Jméno, URL serveru a token jsou povinné",
+  "saved": "Zdroj tajných klíčů uložen",
+  "deleted": "Zdroj tajných klíčů smazán",
   "settings": {
     "admin": {
       "privateEndpoints": {
-        "label": "Seznam povolených soukromých koncových bodů",
-        "description": "Soukromé nebo zpětně loopbackové hostitele, na které může tajný zdroj dosáhnout, jeden na řádek. Samostatně hostovaný server 1Password Connect zde obvykle potřebuje uvedenou vlastní adresu."
+        "label": "Povolený seznam soukromých koncových bodů",
+        "description": "Soukromé nebo loopback hostitele, které může zdroj tajných klíčů oslovit, jeden na řádek. Self-hostovaný server 1Password Connect obvykle potřebuje mít zde uvedenou svou vlastní adresu."
       }
     }
   },
   "plugin": {
-    "name": "Secret Sources"
-  }
+    "name": "Zdroje tajných klíčů"
+  },
+  "deleteConfirm": "Smazat zdroj tajných klíčů {{name}}?"
 }
