@@ -31,9 +31,7 @@
   ],
   "contributes": {
     "auth": {
-      "secretSchemes": [
-        "op"
-      ]
+      "secretSchemes": ["op"]
     },
     "settings": {
       "admin": [
@@ -48,9 +46,5 @@
     }
   },
   "locales": "locales",
-  "platforms": [
-    "linux",
-    "win32",
-    "darwin"
-  ]
+  "platforms": ["linux", "win32", "darwin"]
 }
