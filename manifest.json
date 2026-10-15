@@ -9,6 +9,7 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/Termix-SSH/Plugin-Secret-Sources",
   "docs": "https://docs.termix.site/plugins/secret-sources",
+  "video": "https://www.youtube.com/watch?v=5b_fTbM-sz4",
   "category": "Access & Security",
   "icon": "KeyRound",
   "features": [
