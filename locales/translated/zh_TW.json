@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "機密來源"
+    "name": "機密來源",
+    "description": "連線時從 1Password 取得主機密碼和金鑰，無需儲存在 Termix 中。"
   },
   "deleteConfirm": "確定要刪除機密來源 {{name}} 嗎？"
 }
