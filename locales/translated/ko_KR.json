@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "비밀 저장소"
+    "name": "비밀 저장소",
+    "description": "Termix에 저장하는 대신 연결할 때 1Password에서 호스트 비밀번호와 키를 가져옵니다."
   },
   "deleteConfirm": "비밀 저장소 {{name}}을(를) 삭제하시겠습니까?"
 }

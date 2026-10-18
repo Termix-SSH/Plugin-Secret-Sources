@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Geheimebronne"
+    "name": "Geheimebronne",
+    "description": "Trek gasheerwagwoorde en sleutels uit 1Password wanneer jy verbind, in plaas daarvan om dit in Termix te stoor."
   },
   "deleteConfirm": "Verwyder die geheimebron {{name}}?"
 }

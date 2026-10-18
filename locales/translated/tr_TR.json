@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Sır Kaynakları"
+    "name": "Sır Kaynakları",
+    "description": "Bağlanırken parola ve anahtarları Termix'te saklamak yerine 1Password'dan çekin."
   },
   "deleteConfirm": "{{name}} sır kaynağı silinsin mi?"
 }

@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "密钥源"
+    "name": "密钥源",
+    "description": "连接时从 1Password 获取主机密码和密钥，无需存储在 Termix 中。"
   },
   "deleteConfirm": "确定删除密钥源 {{name}} 吗？"
 }

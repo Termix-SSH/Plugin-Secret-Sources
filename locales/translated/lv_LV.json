@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Noslēpumu avoti"
+    "name": "Noslēpumu avoti",
+    "description": "Izvelciet hosta paroles un atslēgas no 1Password, kad pieslēdzaties, nevis glabājiet tās Termix."
   },
   "deleteConfirm": "Dzēst noslēpumu avotu {{name}}?"
 }

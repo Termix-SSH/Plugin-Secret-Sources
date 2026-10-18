@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Geheimebronnen"
+    "name": "Geheimebronnen",
+    "description": "Haal hostwachtwoorden en -sleutels op uit 1Password bij het verbinden, in plaats van ze op te slaan in Termix."
   },
   "deleteConfirm": "Geheimebron {{name}} verwijderen?"
 }

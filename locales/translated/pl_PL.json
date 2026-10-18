@@ -29,7 +29,8 @@
     }
   },
   "plugin": {
-    "name": "Źródła haseł"
+    "name": "Źródła haseł",
+    "description": "Pobieraj hasła i klucze hostów z 1Password podczas łączenia się, zamiast przechowywać je w Termix."
   },
   "deleteConfirm": "Usunąć źródło haseł {{name}}?"
 }

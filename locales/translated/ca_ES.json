@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Fonts de secrets"
+    "name": "Fonts de secrets",
+    "description": "Obté les contrasenyes i claus dels amfitrions des de 1Password quan et connectis, en lloc d'emmagatzemar-les a Termix."
   },
   "deleteConfirm": "Voleu eliminar la font de secrets {{name}}?"
 }

@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Secret Sources"
+    "name": "Secret Sources",
+    "description": "কানেক্ট করার সময় Termix-এ সেভ না করে 1Password থেকে হোস্টের পাসওয়ার্ড এবং কীগুলো টেনে আনুন।"
   },
   "deleteConfirm": "Delete the secret source {{name}}?"
 }

@@ -29,7 +29,8 @@
     }
   },
   "plugin": {
-    "name": "Viri skrivnosti"
+    "name": "Viri skrivnosti",
+    "description": "Pridobite gesla in ključe gostiteljev iz 1Password ob povezovanju, namesto da bi jih shranjevali v Termix."
   },
   "deleteConfirm": "Izbrišete vir skrivnosti {{name}}?"
 }

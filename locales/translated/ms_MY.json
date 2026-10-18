@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "Sumber Rahsia"
+    "name": "Sumber Rahsia",
+    "description": "Ambil kata laluan dan kunci hos dari 1Password semasa menyambung, bukannya menyimpannya dalam Termix."
   },
   "deleteConfirm": "Padam sumber rahsia {{name}}?"
 }

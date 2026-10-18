@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Salajased allikad"
+    "name": "Salajased allikad",
+    "description": "Kasuta 1Passwordi paroolide ja võtmete hankimist ühenduse loomisel, mitte salvesta neid Termixi."
   },
   "deleteConfirm": "Kustutada salaja allikas {{name}}?"
 }

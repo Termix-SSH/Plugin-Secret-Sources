@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Surse de secrete"
+    "name": "Surse de secrete",
+    "description": "Preia parolele și cheile serverelor din 1Password la conectare, în loc să le salvezi în Termix."
   },
   "deleteConfirm": "Ștergeți sursa de secrete {{name}}?"
 }

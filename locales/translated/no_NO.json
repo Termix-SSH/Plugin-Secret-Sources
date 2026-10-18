@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Hemmelighetskilder"
+    "name": "Hemmelighetskilder",
+    "description": "Hent vertsord og nøkler fra 1Password når du kobler til, i stedet for å lagre dem i Termix."
   },
   "deleteConfirm": "Slett hemmelighetskilden {{name}}?"
 }

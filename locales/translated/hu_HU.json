@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Titokforrások"
+    "name": "Titokforrások",
+    "description": "A 1Passwordból húzza be a hoszt jelszavait és kulcsait a csatlakozáskor, ahelyett, hogy a Termixben tárolná őket."
   },
   "deleteConfirm": "Törli a(z) {{name}} titokforrást?"
 }

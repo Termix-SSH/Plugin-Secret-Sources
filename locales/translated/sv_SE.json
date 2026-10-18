@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Hemlighetskällor"
+    "name": "Hemlighetskällor",
+    "description": "Hämta värdens lösenord och nycklar från 1Password när du ansluter istället för att lagra dem i Termix."
   },
   "deleteConfirm": "Radera hemlighetskällan {{name}}?"
 }

@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "Sumber Rahasia"
+    "name": "Sumber Rahasia",
+    "description": "Ambil kata sandi dan kunci host dari 1Password saat Anda terhubung, alih-alih menyimpannya di Termix."
   },
   "deleteConfirm": "Hapus sumber rahasia {{name}}?"
 }

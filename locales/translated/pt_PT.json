@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Fontes de Segredos"
+    "name": "Fontes de Segredos",
+    "description": "Obter passwords e chaves do 1Password ao conectar-se, em vez de as armazenar no Termix."
   },
   "deleteConfirm": "Eliminar a fonte de segredos {{name}}?"
 }

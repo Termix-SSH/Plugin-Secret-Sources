@@ -29,7 +29,8 @@
     }
   },
   "plugin": {
-    "name": "Slaptažodžių šaltiniai"
+    "name": "Slaptažodžių šaltiniai",
+    "description": "Jungiantis prie serverio, slaptažodžius ir raktus atsiimkite iš 1Password, o ne saugokite jų Termix."
   },
   "deleteConfirm": "Ištrinti slaptažodžių šaltinį {{name}}?"
 }

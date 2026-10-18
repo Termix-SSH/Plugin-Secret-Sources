@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Sources de secrets"
+    "name": "Sources de secrets",
+    "description": "Récupérez les mots de passe et clés des hôtes depuis 1Password lors de la connexion au lieu de les stocker dans Termix."
   },
   "deleteConfirm": "Supprimer la source de secrets {{name}} ?"
 }

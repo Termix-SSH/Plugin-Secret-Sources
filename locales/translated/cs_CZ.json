@@ -29,7 +29,8 @@
     }
   },
   "plugin": {
-    "name": "Zdroje tajných klíčů"
+    "name": "Zdroje tajných klíčů",
+    "description": "Při připojení načítá hesla a klíče hostitelů z 1Password místo jejich ukládání do Termix."
   },
   "deleteConfirm": "Smazat zdroj tajných klíčů {{name}}?"
 }

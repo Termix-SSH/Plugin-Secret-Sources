@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Fuentes de secretos"
+    "name": "Fuentes de secretos",
+    "description": "Obtén las contraseñas y claves de los hosts desde 1Password al conectarte, en lugar de almacenarlas en Termix."
   },
   "deleteConfirm": "¿Eliminar la fuente de secretos {{name}}?"
 }

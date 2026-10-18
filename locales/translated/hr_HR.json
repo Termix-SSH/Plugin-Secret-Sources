@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Izvori tajnosti"
+    "name": "Izvori tajnosti",
+    "description": "Dohvaćanje lozinki i ključeva hostova iz 1Passworda prilikom povezivanja umjesto njihova spremanja u Termix."
   },
   "deleteConfirm": "Izbrisati izvor tajnosti {{name}}?"
 }

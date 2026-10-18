@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Secret Sources"
+    "name": "Secret Sources",
+    "description": "Pull host passwords and keys from 1Password when you connect instead of storing them in Termix."
   },
   "deleteConfirm": "Delete the secret source {{name}}?"
 }

@@ -29,7 +29,8 @@
     }
   },
   "plugin": {
-    "name": "Zdroje tajomstiev"
+    "name": "Zdroje tajomstiev",
+    "description": "Pri pripájaní načítajte heslá a kľúče hostiteľa z 1Password namiesto ich ukladania v Termix."
   },
   "deleteConfirm": "Odstrániť zdroj tajomstiev {{name}}?"
 }

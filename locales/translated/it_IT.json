@@ -28,7 +28,8 @@
     }
   },
   "plugin": {
-    "name": "Origini dei segreti"
+    "name": "Origini dei segreti",
+    "description": "Recupera le password e le chiavi degli host da 1Password durante la connessione, invece di memorizzarle in Termix."
   },
   "deleteConfirm": "Eliminare l'origine dei segreti {{name}}?"
 }

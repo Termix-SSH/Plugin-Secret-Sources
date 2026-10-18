@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "シークレットソース"
+    "name": "シークレットソース",
+    "description": "Termix に保存する代わりに、接続時に 1Password からホストのパスワードとキーを取得します。"
   },
   "deleteConfirm": "シークレットソース「{{name}}」を削除しますか？"
 }

@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Salasanahallinnat"
+    "name": "Salasanahallinnat",
+    "description": "Hae isäntien salasanat ja avaimet 1Passwordista yhteyden muodostamisen yhteydessä sen sijaan, että tallentaisit ne Termixiin."
   },
   "deleteConfirm": "Haluatko poistaa salasanahallinnan {{name}}?"
 }

@@ -27,7 +27,8 @@
     }
   },
   "plugin": {
-    "name": "Geheimnisquellen"
+    "name": "Geheimnisquellen",
+    "description": "Rufen Sie Host-Passwörter und Schlüssel aus 1Password ab, wenn Sie eine Verbindung herstellen, anstatt sie in Termix zu speichern."
   },
   "deleteConfirm": "Geheimnisquelle {{name}} löschen?"
 }

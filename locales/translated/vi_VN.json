@@ -26,7 +26,8 @@
     }
   },
   "plugin": {
-    "name": "Nguồn mật khẩu"
+    "name": "Nguồn mật khẩu",
+    "description": "Tự động lấy mật khẩu và khóa của host từ 1Password khi kết nối thay vì lưu trữ chúng trong Termix."
   },
   "deleteConfirm": "Xóa nguồn mật khẩu {{name}}?"
 }
