@@ -1,8 +1,8 @@
 {
-  "hint": "Zamiast hasła możesz wkleić odwołanie do 1Password (op://vault/item/field). Będzie ono pobierane z Twojego źródła haseł podczas łączenia.",
+  "hint": "Zamiast samego hasła możesz wkleić odwołanie do sekretu, np. op://vault/item/field lub vault://secret/app#password. Wartość zostanie pobrana z Twojego źródła sekretów w momencie łączenia się.",
   "manage": "Zarządzaj źródłami haseł",
   "title": "Źródła haseł",
-  "description": "Zewnętrzne menedżery haseł, z których Termix odczytuje hasła podczas łączenia. Działa z własnym serwerem 1Password Connect. Token dostępu jest przechowywany w zaszyfrowanej formie na serwerze i nigdy nie jest wysyłany z powrotem do przeglądarki.",
+  "description": "Zewnętrzne menedżery haseł, z których Termix odczytuje sekrety podczas łączenia się: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault lub Bitwarden i Vaultwarden przez bw serve. Tokeny są przechowywane zaszyfrowane na serwerze i nigdy nie są wysyłane z powrotem do przeglądarki.",
   "new": "Nowe źródło",
   "nameLabel": "Nazwa wyświetlana",
   "namePlaceholder": "Zespół 1Password",
@@ -12,25 +12,48 @@
   "sharedLabel": "Udostępnij wszystkim użytkownikom (tylko administratorzy)",
   "shared": "udostępnione",
   "test": "Testuj",
-  "testOk_one": "Połączono, widoczny {{count}} sejf",
-  "testOk_few": "Połączono, widoczne {{count}} sejfy",
-  "testOk_many": "Połączono, widocznych {{count}} sejfów",
-  "testOk_other": "Połączono, widocznych {{count}} sejfów",
   "testFailed": "Test połączenia nie powiódł się",
-  "required": "Nazwa, adres URL serwera i token są wymagane",
+  "required": "Nazwa, adres URL serwera oraz dane logowania są wymagane",
   "saved": "Źródło haseł zostało zapisane",
   "deleted": "Źródło haseł zostało usunięte",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Lista dozwolonych prywatnych punktów końcowych",
-        "description": "Prywatne lub pętlowe hosty, do których może się łączyć źródło haseł, jeden w wierszu. Własny serwer 1Password Connect zwykle wymaga podania tutaj własnego adresu."
+        "description": "Prywatne adresy lub pętli zwrotnej (loopback), do których może łączyć się źródło sekretów, jeden w wierszu. Samodzielnie hostowany serwer, taki jak 1Password Connect, Vault czy bw serve, zazwyczaj wymaga podania tutaj własnego adresu."
       }
     }
   },
   "plugin": {
     "name": "Źródła haseł",
-    "description": "Pobieraj hasła i klucze hostów z 1Password podczas łączenia się, zamiast przechowywać je w Termix."
+    "description": "Pobieraj hasła i klucze hostów z 1Password, Bitwarden, Infisical lub HashiCorp Vault podczas łączenia się, zamiast przechowywać je w Termix."
   },
-  "deleteConfirm": "Usunąć źródło haseł {{name}}?"
+  "deleteConfirm": "Usunąć źródło haseł {{name}}?",
+  "kindLabel": "Typ",
+  "serverUrlLabel": "Adres URL serwera",
+  "bwServeUrlLabel": "Adres URL bw serve",
+  "testPassed": "Połączono",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden lub Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID klienta",
+    "clientSecret": "Tajny klucz klienta",
+    "accessToken": "Token dostępu konta maszynowego",
+    "vaultToken": "Token (lub użyj AppRole poniżej)",
+    "roleId": "ID roli AppRole",
+    "secretId": "Tajny ID AppRole",
+    "namespace": "Przestrzeń nazw (opcjonalnie)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Odwołanie:",
+    "infisical": "Używa tożsamości maszynowej z Universal Auth. Odwołanie:",
+    "bitwarden-sm": "Pozostaw URL bez zmian dla bitwarden.com lub użyj adresu własnego serwera. Odwołanie:",
+    "hashicorp-vault": "Odczytuje dane z KV wersji 1 lub 2. Odwołanie:",
+    "bitwarden-cli": "Uruchom bw serve w miejscu dostępnym dla Termix i utrzymuj vault odblokowany. Pole to może być nazwa użytkownika, hasło, totp, notatki, uri lub nazwa niestandardowego pola. Odwołanie:"
+  }
 }

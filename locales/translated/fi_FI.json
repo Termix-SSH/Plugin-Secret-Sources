@@ -1,8 +1,8 @@
 {
-  "hint": "Voit liittää 1Password-viitteen (op://vault/item/field) salasanaksi. Se haetaan salasanahallinnasta yhdistettäessä.",
+  "hint": "Voit liittää salaisen viitteen salasan sijaan, kuten op://vault/item/field tai vault://secret/app#password. Se haetaan salasanlähteestäsi yhdistettäessä.",
   "manage": "Hallitse salasanahallintoja",
   "title": "Salasanahallinnat",
-  "description": "Ulkoiset salasanahallinnat, joista Termix hakee salaisuuksia yhdistettäessä. Toimii itse isännöidyn 1Password Connect -palvelimen kanssa. Pääsättely avain tallennetaan salattuna palvelimelle eikä sitä lähetetä koskaan takaisin selaimelle.",
+  "description": "Ulkoiset salasananhallintatyökalut, joista Termix lukee salaisuuksia yhdistettäessä: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault tai Bitwarden ja Vaultwarden bw serve -palvelun kautta. Tokenit tallennetaan salattuna palvelimelle eikä niitä lähetetä koskaan takaisin selaimelle.",
   "new": "Uusi lähde",
   "nameLabel": "Näyttönimi",
   "namePlaceholder": "Tiimi 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Jaa kaikille käyttäjille (vain ylläpitäjät)",
   "shared": "jaettu",
   "test": "Testaa",
-  "testOk_one": "Yhdistetty, {{count}} varasto näkyvissä",
-  "testOk_other": "Yhdistetty, {{count}} varastoa näkyvissä",
   "testFailed": "Yhteystesti epäonnistui",
-  "required": "Nimi, palvelimen URL ja avain ovat pakollisia",
+  "required": "Nimi, palvelimen URL-osoite ja kirjautumistiedot ovat pakollisia",
   "saved": "Salasanahallinta tallennettu",
   "deleted": "Salasanahallinta poistettu",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Yksityisten päätepisteiden sallittu lista",
-        "description": "Yksityiset tai silmukointiosoitteet, joihin salasanahallinta voi yhdistää, yksi per rivi. Itse isännöity 1Password Connect -palvelin tarvitsee yleensä oman osoitteensa tähän listaan."
+        "description": "Yksityiset tai silmukkaosoitteet, joita salasanlähde voi tavoittaa, yksi per rivi. Itselläsi oleva palvelin, kuten 1Password Connect, Vault tai bw serve, tarvitsee yleensä oman osoitteensa tähän listaan."
       }
     }
   },
   "plugin": {
     "name": "Salasanahallinnat",
-    "description": "Hae isäntien salasanat ja avaimet 1Passwordista yhteyden muodostamisen yhteydessä sen sijaan, että tallentaisit ne Termixiin."
+    "description": "Hae isäntien salasanat ja avaimet 1Passwordista, Bitwardenista, Infisicalista tai HashiCorp Vaultista yhdistettäessä sen sijaan, että tallentaisit ne Termixiin."
   },
-  "deleteConfirm": "Haluatko poistaa salasanahallinnan {{name}}?"
+  "deleteConfirm": "Haluatko poistaa salasanahallinnan {{name}}?",
+  "kindLabel": "Tyyppi",
+  "serverUrlLabel": "Palvelimen URL-osoite",
+  "bwServeUrlLabel": "bw serve -URL-osoite",
+  "testPassed": "Yhdistetty",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden tai Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Asiakastunnus",
+    "clientSecret": "Asiakassalaisuus",
+    "accessToken": "Koneen tilin pääsytunniste",
+    "vaultToken": "Token (tai käytä alla olevaa AppRolea)",
+    "roleId": "AppRole-roolin ID",
+    "secretId": "AppRole-salaisuuden ID",
+    "namespace": "Nimetila (valinnainen)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Viite:",
+    "infisical": "Käyttää koneidentiteettiä Universal Authin kanssa. Viite:",
+    "bitwarden-sm": "Jätä URL-osoite ennallaan bitwarden.comia varten tai käytä omaa palvelimesi osoitetta. Viite:",
+    "hashicorp-vault": "Lukee KV-version 1 tai 2. Viite:",
+    "bitwarden-cli": "Suorita bw serve -palvelu paikassa, johon Termix voi yhdistää, ja pidä vault avattuna. Kenttä on käyttäjätunnus, salasana, totp, muistiinpanot, uri tai mukautettu kentän nimi. Viite:"
+  }
 }

@@ -1,8 +1,8 @@
 {
-  "hint": "Salaseadme asemel saate kleepida 1Passwordi viite (op://vault/item/field). See hõivatakse salajase allikast ühenduse loomisel.",
+  "hint": "Salasõna asemel saate kleepida saladuse viite, näiteks op://vault/item/field või vault://secret/app#password. See tõmmatakse saladuste allikast ühenduse loomisel.",
   "manage": "Halda salajasi allikaid",
   "title": "Salajased allikad",
-  "description": "Välised paroolihaldurid, millest Termix hõivab salaseid ühenduse loomisel. Töötab isehostitatud 1Password Connect serveriga. Ligipääsetoken salvestatakse serverile krüpteeritult ja seda ei saleta kunagi brauserisse tagasi.",
+  "description": "Välised paroolihaldurid, millest Termix lugerub saladusi ühenduse loomisel: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault või Bitwarden ja Vaultwarden bw serve kaudu. Tokenid salvestatakse serverile krüpteeritult ja neid ei saleta kunagi brauserisse tagasi.",
   "new": "Uus allikas",
   "nameLabel": "Sõbralik nimi",
   "namePlaceholder": "Meeskonna 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Jaga kõigi kasutajatega (ainult administraatorid)",
   "shared": "jagatud",
   "test": "Testi",
-  "testOk_one": "Ühendatud, {{count}} vault nähtav",
-  "testOk_other": "Ühendatud, {{count}} vaulti nähtav",
   "testFailed": "Ühenduse test ebaõnnestus",
-  "required": "Nimi, serveri URL ja token on kohustuslikud",
+  "required": "Nimi, serveri URL ja sisselogimise andmed on kohustuslikud",
   "saved": "Salaja allikas salvestatud",
   "deleted": "Salaja allikas kustutatud",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Privaatsete lõpp-punktide lubade nimekiri",
-        "description": "Privaatsed või loopback hostid, mida salaja allikas võib saavutada, üks rida. Isehhostitatud 1Password Connect server vajab tavaliselt oma aadressi siin loetletud."
+        "description": "Privaatsed või loopback-hostid, mida saladuste allikas võib saavutada, üks rida. Enesemajutatud server, nagu 1Password Connect, Vault või bw serve, vajab tavaliselt oma aadressi siia lisamist."
       }
     }
   },
   "plugin": {
     "name": "Salajased allikad",
-    "description": "Kasuta 1Passwordi paroolide ja võtmete hankimist ühenduse loomisel, mitte salvesta neid Termixi."
+    "description": "Tõmmake hostide paroolid ja võtmed 1Passwordist, Bitwardenist, Infisicalist või HashiCorp Vaultist ühenduse loomisel, mitte salvestage neid Termixi."
   },
-  "deleteConfirm": "Kustutada salaja allikas {{name}}?"
+  "deleteConfirm": "Kustutada salaja allikas {{name}}?",
+  "kindLabel": "Tüüp",
+  "serverUrlLabel": "Serveri URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "Ühendatud",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden või Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Kliendi ID",
+    "clientSecret": "Kliendi saladus",
+    "accessToken": "Masina konto juurdepääsutoken",
+    "vaultToken": "Token (või kasutage allolevat AppRole)",
+    "roleId": "AppRole'i rolli ID",
+    "secretId": "AppRole'i saladuse ID",
+    "namespace": "Nimeruum (valikuline)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Viide:",
+    "infisical": "Kasutab masina identiteeti Universal Authiga. Viide:",
+    "bitwarden-sm": "Jätke URL muutumatuna bitwarden.com jaoks või kasutage oma serveri aadressi. Viide:",
+    "hashicorp-vault": "Loeb KV versiooni 1 või 2. Viide:",
+    "bitwarden-cli": "Käivitage bw serve kohas, kuhu Termix saab ligi, ja hoidke vault avatuna. Välja on kasutajanimi, parool, totp, märkmed, uri või kohandatud välja nimi. Viide:"
+  }
 }

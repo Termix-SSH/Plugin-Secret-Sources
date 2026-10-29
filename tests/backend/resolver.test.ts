@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createMockCtx, createTestDb } from "@termix-ssh/plugin-sdk/testing";
 import { createSecretSourceRepository } from "../../src/backend/repository.js";
 import { createTokenStore } from "../../src/backend/token-store.js";
-import { registerOnePasswordResolver } from "../../src/backend/resolver.js";
+import { registerSecretResolvers } from "../../src/backend/resolver.js";
 import { sources } from "../../src/backend/tables.js";
 import manifestJson from "../../manifest.json";
 import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
@@ -37,7 +37,7 @@ async function setUp(fetchMock: ReturnType<typeof vi.fn>) {
   const table = await mock.ctx.db.define(sources);
   const repository = createSecretSourceRepository(mock.ctx.db, table as never);
   const tokenStore = createTokenStore(mock.ctx);
-  registerOnePasswordResolver(mock.ctx, repository, tokenStore);
+  registerSecretResolvers(mock.ctx, repository, tokenStore);
 
   const resolve = mock.auth.secretResolvers.get("op");
   if (!resolve) throw new Error("resolver was not registered");

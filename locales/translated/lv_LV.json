@@ -1,8 +1,8 @@
 {
-  "hint": "Jūs varat ielīmēt 1Password atsauci (op://vault/item/field) noslēpuma vietā. Tas tiek iegūts no jūsu noslēpumu avota, kad tiek izveidots savienojums.",
+  "hint": "Varat ielīmēt noslēpuma atsauces vietā noslēpumu, piemēram, op://vault/item/field vai vault://secret/app#password. Tas tiek iegūts no jūsu noslēpumu avota, kad tiek izveidots savienojums.",
   "manage": "Pārvaldīt noslēpumu avotus",
   "title": "Noslēpumu avoti",
-  "description": "Ārēji paroles pārvaldnieki, no kuriem Termix lasa noslēpumus, kad jūs savienojaties. Strādā ar pašizvietotu 1Password Connect serveri. Piekļuves tokens tiek glabāts šifrētā formātā serverī un nekad netiek nosūtīts atpakaļ pārlūkprogrammā.",
+  "description": "Ārējie paroles pārvaldnieki, no kuriem Termix lasa noslēpumus, kad izveidojat savienojumu: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault vai Bitwarden un Vaultwarden, izmantojot bw serve. Tokeni tiek glabāti šifrētā veidā serverī un nekad netiek nosūtīti atpakaļ pārlūkprogrammā.",
   "new": "Jauns avots",
   "nameLabel": "Saprotams nosaukums",
   "namePlaceholder": "Komandas 1Password",
@@ -12,24 +12,48 @@
   "sharedLabel": "Kopīgot ar visiem lietotājiem (tikai administratoriem)",
   "shared": "kopīgs",
   "test": "Testēt",
-  "testOk_zero": "Savienojums izveidots, redzami 0 kastes",
-  "testOk_one": "Savienojums izveidots, redzama {{count}} kaste",
-  "testOk_other": "Savienojums izveidots, redzamas {{count}} kastes",
   "testFailed": "Savienojuma tests neizdevās",
-  "required": "Nosaukums, servera URL un tokens ir obligāti",
+  "required": "Ir nepieciešams nosaukums, servera URL un pieteikšanās dati",
   "saved": "Noslēpumu avots saglabāts",
   "deleted": "Noslēpumu avots dzēsts",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Privāto galapunktu atļauju saraksts",
-        "description": "Privāti vai cilpas (loopback) mezgli, kurus noslēpumu avots var sasniegt, pa vienam rindā. Pašizvietotam 1Password Connect serverim parasti šeit ir jābūt norādītai tā pašas adreses."
+        "description": "Privātie vai cilpas (loopback) mezgli, kurus noslēpumu avots var sasniegt, pa vienam katrā rindā. Pašhostētam serverim, piemēram, 1Password Connect, Vault vai bw serve, parasti šeit ir jānorāda tā adrese."
       }
     }
   },
   "plugin": {
     "name": "Noslēpumu avoti",
-    "description": "Izvelciet hosta paroles un atslēgas no 1Password, kad pieslēdzaties, nevis glabājiet tās Termix."
+    "description": "Iegūstiet mezglu paroles un atslēgas no 1Password, Bitwarden, Infisical vai HashiCorp Vault, kad izveidojat savienojumu, nevis glabājiet tās Termix."
   },
-  "deleteConfirm": "Dzēst noslēpumu avotu {{name}}?"
+  "deleteConfirm": "Dzēst noslēpumu avotu {{name}}?",
+  "kindLabel": "Tips",
+  "serverUrlLabel": "Servera URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "Savienojums izveidots",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden vai Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Klienta ID",
+    "clientSecret": "Klienta noslēpums",
+    "accessToken": "Mašīnas konta piekļuves tokens",
+    "vaultToken": "Tokens (vai izmantojiet AppRole zemāk)",
+    "roleId": "AppRole lomas ID",
+    "secretId": "AppRole noslēpuma ID",
+    "namespace": "Vārdtelpa (neobligāts)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Atsauce:",
+    "infisical": "Izmanto mašīnas identitāti ar Universal Auth. Atsauce:",
+    "bitwarden-sm": "Atstājiet URL nemainītu, ja izmantojat bitwarden.com, vai izmantojiet sava servera adresi. Atsauce:",
+    "hashicorp-vault": "Lasāms KV versija 1 vai 2. Atsauce:",
+    "bitwarden-cli": "Palaidiet bw serve vietā, kur Termix to var sasniegt, un turiet vault atbloķētu. Lauks ir lietotājvārds, parole, totp, piezīmes, uri vai pielāgots lauka nosaukums. Atsauce:"
+  }
 }

@@ -1,8 +1,8 @@
 {
-  "hint": "คุณสามารถวางการอ้างอิง 1Password (op://vault/item/field) แทนค่าความลับได้ ค่าความลับจะถูกดึงมาจากแหล่งความลับของคุณเมื่อทำการเชื่อมต่อ",
+  "hint": "คุณสามารถวางการอ้างอิงรหัสลับแทนรหัสลับได้ เช่น op://vault/item/field หรือ vault://secret/app#password รหัสลับจะถูกดึงมาจากแหล่งรหัสลับของคุณเมื่อทำการเชื่อมต่อ",
   "manage": "จัดการแหล่งความลับ",
   "title": "แหล่งความลับ",
-  "description": "โปรแกรมจัดการรหัสผ่านภายนอกที่ Termix อ่านค่าความลับจากเมื่อคุณเชื่อมต่อ ทำงานร่วมกับเซิร์ฟเวอร์ 1Password Connect ที่โฮสต์เอง โทเค็นการเข้าถึงจะถูกเก็บไว้แบบเข้ารหัสบนเซิร์ฟเวอร์และจะไม่ถูกส่งกลับไปยังเบราว์เซอร์",
+  "description": "ตัวจัดการรหัสผ่านภายนอกที่ Termix อ่านรหัสลับจากเมื่อคุณเชื่อมต่อ: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault หรือ Bitwarden และ Vaultwarden ผ่าน bw serve โทเค็นจะถูกเก็บไว้แบบเข้ารหัสบนเซิร์ฟเวอร์และจะไม่ถูกส่งกลับไปยังเบราว์เซอร์",
   "new": "แหล่งใหม่",
   "nameLabel": "ชื่อที่เรียกง่าย",
   "namePlaceholder": "1Password ของทีม",
@@ -12,22 +12,48 @@
   "sharedLabel": "แชร์กับผู้ใช้ทั้งหมด (เฉพาะผู้ดูแลระบบ)",
   "shared": "แชร์",
   "test": "ทดสอบ",
-  "testOk_other": "เชื่อมต่อสำเร็จ, มองเห็น vault {{count}} รายการ",
   "testFailed": "การทดสอบการเชื่อมต่อล้มเหลว",
-  "required": "จำเป็นต้องระบุชื่อ, URL เซิร์ฟเวอร์ และโทเค็น",
+  "required": "จำเป็นต้องระบุชื่อ URL ของเซิร์ฟเวอร์ และข้อมูลการเข้าสู่ระบบ",
   "saved": "บันทึกแหล่งความลับแล้ว",
   "deleted": "ลบแหล่งความลับแล้ว",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "รายการอนุญาตจุดสิ้นสุดส่วนตัว",
-        "description": "โฮสต์ส่วนตัวหรือ loopback ที่แหล่งความลับสามารถเข้าถึงได้ บรรทัดละรายการ เซิร์ฟเวอร์ 1Password Connect ที่โฮสต์เองมักจะต้องระบุที่อยู่ของตัวเองที่นี่"
+        "description": "โฮสต์ส่วนตัวหรือลูปแบ็กที่แหล่งรหัสลับสามารถเข้าถึงได้ บรรทัดละหนึ่งรายการ เซิร์ฟเวอร์ที่โฮสต์เอง เช่น 1Password Connect, Vault หรือ bw serve มักจะต้องระบุที่อยู่ของตัวเองที่นี่"
       }
     }
   },
   "plugin": {
     "name": "แหล่งความลับ",
-    "description": "ดึงรหัสผ่านและคีย์ของโฮสต์จาก 1Password เมื่อเชื่อมต่อ แทนที่จะเก็บไว้ใน Termix"
+    "description": "ดึงรหัสผ่านและคีย์ของโฮสต์จาก 1Password, Bitwarden, Infisical หรือ HashiCorp Vault เมื่อคุณเชื่อมต่อ แทนที่จะเก็บไว้ใน Termix"
   },
-  "deleteConfirm": "ลบแหล่งความลับ {{name}} หรือไม่?"
+  "deleteConfirm": "ลบแหล่งความลับ {{name}} หรือไม่?",
+  "kindLabel": "ประเภท",
+  "serverUrlLabel": "URL ของเซิร์ฟเวอร์",
+  "bwServeUrlLabel": "URL ของ bw serve",
+  "testPassed": "เชื่อมต่อสำเร็จ",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden หรือ Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Client ID",
+    "clientSecret": "Client secret",
+    "accessToken": "โทเค็นการเข้าถึงบัญชีเครื่อง",
+    "vaultToken": "โทเค็น (หรือใช้ AppRole ด้านล่าง)",
+    "roleId": "ID บทบาทของ AppRole",
+    "secretId": "ID รหัสลับของ AppRole",
+    "namespace": "Namespace (ไม่บังคับ)"
+  },
+  "kindHints": {
+    "onepassword-connect": "การอ้างอิง:",
+    "infisical": "ใช้ตัวตนของเครื่องกับ Universal Auth การอ้างอิง:",
+    "bitwarden-sm": "ปล่อย URL ไว้ตามเดิมสำหรับ bitwarden.com หรือใช้ที่อยู่ของเซิร์ฟเวอร์ของคุณเอง การอ้างอิง:",
+    "hashicorp-vault": "อ่าน KV เวอร์ชัน 1 หรือ 2 การอ้างอิง:",
+    "bitwarden-cli": "รัน bw serve ที่ Termix สามารถเข้าถึงได้และรักษาการปลดล็อก vault ไว้ ฟิลด์คือ username, password, totp, notes, uri หรือชื่อฟิลด์ที่กำหนดเอง การอ้างอิง:"
+  }
 }

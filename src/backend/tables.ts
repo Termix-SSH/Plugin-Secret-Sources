@@ -25,7 +25,7 @@ export const sources = adoptLegacyTable(
       id: varchar().primaryKey(),
       userId: refUser(),
       name: text().notNull(),
-      // "onepassword-connect" for now; the reference syntax is per kind.
+      // A provider kind from providers/; each has its own reference scheme.
       kind: text().notNull().default("onepassword-connect"),
       baseUrl: text().notNull(),
       // Visible to every user; the token still decrypts with the owner's key.

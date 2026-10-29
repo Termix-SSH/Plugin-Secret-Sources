@@ -1,8 +1,8 @@
 {
-  "hint": "Puedes pegar una referencia de 1Password (op://vault/item/field) en lugar del secreto. Se obtendrá de tu fuente de secretos al conectarte.",
+  "hint": "Puedes pegar una referencia secreta en lugar del secreto en sí, como op://vault/item/field o vault://secret/app#password. Se obtiene de tu fuente de secretos al conectar.",
   "manage": "Gestionar fuentes de secretos",
   "title": "Fuentes de secretos",
-  "description": "Gestores de contraseñas externos de los que Termix lee secretos al conectarte. Funciona con un servidor 1Password Connect autoalojado. El token de acceso se almacena cifrado en el servidor y nunca se envía de vuelta al navegador.",
+  "description": "Gestores de contraseñas externos de los que Termix lee secretos al conectar: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, o Bitwarden y Vaultwarden a través de bw serve. Los tokens se almacenan cifrados en el servidor y nunca se envían de vuelta al navegador.",
   "new": "Nueva fuente",
   "nameLabel": "Nombre descriptivo",
   "namePlaceholder": "1Password del equipo",
@@ -12,24 +12,48 @@
   "sharedLabel": "Compartir con todos los usuarios (solo administradores)",
   "shared": "compartido",
   "test": "Probar",
-  "testOk_one": "Conectado, {{count}} bóveda visible",
-  "testOk_many": "Conectado, {{count}} bóvedas visibles",
-  "testOk_other": "Conectado, {{count}} bóvedas visibles",
   "testFailed": "La prueba de conexión ha fallado",
-  "required": "El nombre, la URL del servidor y el token son obligatorios",
+  "required": "El nombre, la URL del servidor y los datos de inicio de sesión son obligatorios",
   "saved": "Fuente de secretos guardada",
   "deleted": "Fuente de secretos eliminada",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Lista de permitidos de puntos finales privados",
-        "description": "Hosts privados o de bucle local a los que una fuente de secretos puede acceder, uno por línea. Un servidor 1Password Connect autoalojado suele necesitar que su propia dirección esté listada aquí."
+        "description": "Hosts privados o de bucle local a los que una fuente de secretos puede acceder, uno por línea. Un servidor autoalojado, como 1Password Connect, Vault o bw serve, suele necesitar que su propia dirección esté listada aquí."
       }
     }
   },
   "plugin": {
     "name": "Fuentes de secretos",
-    "description": "Obtén las contraseñas y claves de los hosts desde 1Password al conectarte, en lugar de almacenarlas en Termix."
+    "description": "Obtén contraseñas y claves de hosts desde 1Password, Bitwarden, Infisical o HashiCorp Vault al conectar en lugar de almacenarlas en Termix."
   },
-  "deleteConfirm": "¿Eliminar la fuente de secretos {{name}}?"
+  "deleteConfirm": "¿Eliminar la fuente de secretos {{name}}?",
+  "kindLabel": "Tipo",
+  "serverUrlLabel": "URL del servidor",
+  "bwServeUrlLabel": "URL de bw serve",
+  "testPassed": "Conectado",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID de cliente",
+    "clientSecret": "Secreto de cliente",
+    "accessToken": "Token de acceso de cuenta de máquina",
+    "vaultToken": "Token (o usa AppRole a continuación)",
+    "roleId": "ID de rol de AppRole",
+    "secretId": "ID secreto de AppRole",
+    "namespace": "Espacio de nombres (opcional)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referencia:",
+    "infisical": "Usa una identidad de máquina con Universal Auth. Referencia:",
+    "bitwarden-sm": "Deja la URL tal cual para bitwarden.com, o usa la dirección de tu propio servidor. Referencia:",
+    "hashicorp-vault": "Lee KV versión 1 o 2. Referencia:",
+    "bitwarden-cli": "Ejecuta bw serve donde Termix pueda acceder a él y mantén el vault desbloqueado. El campo es username, password, totp, notes, uri o un nombre de campo personalizado. Referencia:"
+  }
 }

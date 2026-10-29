@@ -1,8 +1,8 @@
 {
-  "hint": "Вместо секрета можно вставить ссылку 1Password (op://vault/item/field). Секрет будет получен из хранилища при подключении.",
+  "hint": "Вместо самого секрета можно вставить ссылку на него, например op://vault/item/field или vault://secret/app#password. Секрет будет получен из вашего хранилища при подключении.",
   "manage": "Управление источниками секретов",
   "title": "Источники секретов",
-  "description": "Внешние менеджеры паролей, из которых Termix считывает секреты при подключении. Работает с самовыделенным сервером 1Password Connect. Токен доступа хранится на сервере в зашифрованном виде и никогда не отправляется обратно в браузер.",
+  "description": "Внешние менеджеры паролей, из которых Termix считывает секреты при подключении: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, а также Bitwarden и Vaultwarden через bw serve. Токены хранятся на сервере в зашифрованном виде и никогда не отправляются обратно в браузер.",
   "new": "Новый источник",
   "nameLabel": "Отображаемое имя",
   "namePlaceholder": "Командный 1Password",
@@ -12,25 +12,48 @@
   "sharedLabel": "Поделиться со всеми пользователями (только для администраторов)",
   "shared": "общий",
   "test": "Проверить",
-  "testOk_one": "Подключено, видно {{count}} хранилище",
-  "testOk_few": "Подключено, видно {{count}} хранилища",
-  "testOk_many": "Подключено, видно {{count}} хранилищ",
-  "testOk_other": "Подключено, видно {{count}} хранилищ",
   "testFailed": "Тест подключения не удался",
-  "required": "Имя, URL сервера и токен обязательны",
+  "required": "Необходимо указать имя, URL-адрес сервера и данные для входа",
   "saved": "Источник секретов сохранён",
   "deleted": "Источник секретов удалён",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Список разрешённых частных конечных точек",
-        "description": "Частные или локальные хосты, к которым может обращаться источник секретов, по одному на строку. Самовыделенному серверу 1Password Connect обычно нужно указать здесь его собственный адрес."
+        "description": "Частные или локальные хосты, к которым может обращаться источник секретов, по одному на строку. Самостоятельно развернутый сервер, например 1Password Connect, Vault или bw serve, обычно требует указания своего собственного адреса здесь."
       }
     }
   },
   "plugin": {
     "name": "Источники секретов",
-    "description": "При подключении получать пароли и ключи хостов из 1Password, а не хранить их в Termix."
+    "description": "Получайте пароли и ключи хостов из 1Password, Bitwarden, Infisical или HashiCorp Vault при подключении, вместо того чтобы хранить их в Termix."
   },
-  "deleteConfirm": "Удалить источник секретов {{name}}?"
+  "deleteConfirm": "Удалить источник секретов {{name}}?",
+  "kindLabel": "Тип",
+  "serverUrlLabel": "URL-адрес сервера",
+  "bwServeUrlLabel": "URL-адрес bw serve",
+  "testPassed": "Подключено",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID клиента",
+    "clientSecret": "Секрет клиента",
+    "accessToken": "Токен доступа для машинной учётной записи",
+    "vaultToken": "Токен (или используйте AppRole ниже)",
+    "roleId": "ID роли AppRole",
+    "secretId": "Секретный ID AppRole",
+    "namespace": "Пространство имён (необязательно)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Ссылка:",
+    "infisical": "Использует машинную идентичность с Universal Auth. Ссылка:",
+    "bitwarden-sm": "Оставьте URL-адрес как есть для bitwarden.com или используйте адрес своего сервера. Ссылка:",
+    "hashicorp-vault": "Читает данные из KV версии 1 или 2. Ссылка:",
+    "bitwarden-cli": "Запустите bw serve так, чтобы Termix мог к нему подключиться, и держите хранилище разблокированным. Поле может быть username, password, totp, notes, uri или именем пользовательского поля. Ссылка:"
+  }
 }

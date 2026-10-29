@@ -3,10 +3,8 @@ import type { Request, Response, Router } from "express";
 import type { PluginContext } from "@termix-ssh/plugin-sdk/backend";
 import type { SecretSourceRepository } from "./repository.js";
 import type { TokenStore } from "./token-store.js";
-import { testConnectSource } from "./onepassword-connect.js";
 import { parseAllowlist } from "./egress.js";
-
-const KINDS = ["onepassword-connect"] as const;
+import { KINDS, providerForKind } from "./providers/index.js";
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -90,8 +88,12 @@ export function registerSecretSourceRoutes(
    * @openapi
    * /plugin-api/secret-sources:
    *   post:
-   *     summary: Create a secret source (1Password Connect)
-   *     description: Sharing a source with every user requires admin. The token is stored encrypted on the server and never returned.
+   *     summary: Create a secret source
+   *     description: >
+   *       kind is onepassword-connect, infisical, bitwarden-sm,
+   *       hashicorp-vault or bitwarden-cli. Sharing a source with every user
+   *       requires admin. The token (JSON for kinds with several fields) is
+   *       stored encrypted on the server and never returned.
    *     tags:
    *       - Secret Sources
    */
@@ -108,15 +110,21 @@ export function registerSecretSourceRoutes(
         shared,
       } = req.body ?? {};
       const url = validBaseUrl(baseUrl);
-      if (!isNonEmptyString(name) || !url || !isNonEmptyString(token)) {
-        return res.status(400).json({
-          error: "name, a valid http(s) baseUrl and token are required",
-        });
-      }
-      if (!(KINDS as readonly string[]).includes(kind)) {
+      const provider =
+        typeof kind === "string" ? providerForKind(kind) : undefined;
+      if (!provider || !KINDS.includes(kind)) {
         return res
           .status(400)
           .json({ error: "Unsupported secret source kind" });
+      }
+      if (
+        !isNonEmptyString(name) ||
+        !url ||
+        (provider.needsCredential && !isNonEmptyString(token))
+      ) {
+        return res.status(400).json({
+          error: "name, a valid http(s) baseUrl and token are required",
+        });
       }
       if (shared === true && !(await isAdmin())) {
         return res
@@ -133,7 +141,7 @@ export function registerSecretSourceRoutes(
           baseUrl: url,
           shared: shared === true,
         });
-        await tokenStore.set(id, token.trim());
+        if (isNonEmptyString(token)) await tokenStore.set(id, token.trim());
         await ctx.audit.record({
           action: "secret_source_create",
           resourceType: "secret_source",
@@ -256,18 +264,24 @@ export function registerSecretSourceRoutes(
         if (!source || (source.userId !== userId && !source.shared)) {
           return res.status(404).json({ error: "Secret source not found" });
         }
+        const provider = providerForKind(source.kind);
+        if (!provider) {
+          return res
+            .status(200)
+            .json({ ok: false, error: "Unsupported secret source kind" });
+        }
         const token = await tokenStore.getForOwner(source.id, source.userId);
-        if (!token) {
+        if (!token && provider.needsCredential) {
           return res
             .status(200)
             .json({ ok: false, error: "No token stored for this source" });
         }
-        const vaults = await testConnectSource(ctx.fetch, {
+        const detail = await provider.test(ctx.fetch, {
           baseUrl: source.baseUrl,
-          token,
+          credential: token ?? "",
           allowedPrivateHosts: await allowedPrivateHosts(),
         });
-        res.json({ ok: true, vaults });
+        res.json({ ok: true, detail });
       } catch (error) {
         res.status(200).json({ ok: false, error: errorMessage(error) });
       }

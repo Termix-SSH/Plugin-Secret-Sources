@@ -1,8 +1,8 @@
 {
-  "hint": "Namesto skrivnosti lahko prilepite referenco 1Password (op://vault/item/field). Ta se pridobi iz vašega vira skrivnosti ob vzpostavitvi povezave.",
+  "hint": "Namesto skrivnosti lahko prilepite referenco na skrivnost, na primer op://vault/item/field ali vault://secret/app#password. Ta se pri povezovanju pridobi iz vašega vira skrivnosti.",
   "manage": "Upravljanje virov skrivnosti",
   "title": "Viri skrivnosti",
-  "description": "Zunanji upravitelji gesel, iz katerih Termix bere skrivnosti ob vzpostavitvi povezave. Deluje s samostojno gostovanim strežnikom 1Password Connect. Dostopni žeton je shranjen šifrirano na strežniku in se nikoli ne pošlje nazaj brskalniku.",
+  "description": "Zunanji upravitelji gesel, iz katerih Termix bere skrivnosti ob povezovanju: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault ali Bitwarden in Vaultwarden prek bw serve. Žetoni so shranjeni šifrirano na strežniku in se nikoli ne vrnejo v brskalnik.",
   "new": "Nov vir",
   "nameLabel": "Prijazno ime",
   "namePlaceholder": "Ekipni 1Password",
@@ -12,25 +12,48 @@
   "sharedLabel": "Deli z vsemi uporabniki (samo za skrbnike)",
   "shared": "skupno",
   "test": "Preveri",
-  "testOk_one": "Povezano, vidna {{count}} varnostna kopija",
-  "testOk_two": "Povezano, vidni {{count}} varnostni kopiji",
-  "testOk_few": "Povezano, vidne {{count}} varnostne kopije",
-  "testOk_other": "Povezano, vidnih {{count}} varnostnih kopij",
   "testFailed": "Preizkus povezave ni uspel",
-  "required": "Ime, URL strežnika in žeton so obvezni",
+  "required": "Ime, naslov URL strežnika in podatki za prijavo so obvezni",
   "saved": "Vir skrivnosti je shranjen",
   "deleted": "Vir skrivnosti je izbrisan",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Dovoljeni seznam zasebnih končnih točk",
-        "description": "Zasebni ali zanka gostiteljev, ki jih lahko doseže vir skrivnosti, en na vrstico. Samostojno gostovani strežnik 1Password Connect običajno potrebuje, da je tukaj naveden njegov lastni naslov."
+        "description": "Zasebni ali zanka (loopback) gostitelji, ki jih lahko doseže vir skrivnosti, en na vrstico. Samostojni strežnik, kot je 1Password Connect, Vault ali bw serve, običajno potrebuje, da je tukaj naveden njegov lastni naslov."
       }
     }
   },
   "plugin": {
     "name": "Viri skrivnosti",
-    "description": "Pridobite gesla in ključe gostiteljev iz 1Password ob povezovanju, namesto da bi jih shranjevali v Termix."
+    "description": "Pridobite gesla in ključe gostiteljev iz 1Password, Bitwarden, Infisical ali HashiCorp Vault ob povezovanju namesto, da bi jih shranjevali v Termix."
   },
-  "deleteConfirm": "Izbrišete vir skrivnosti {{name}}?"
+  "deleteConfirm": "Izbrišete vir skrivnosti {{name}}?",
+  "kindLabel": "Vrsta",
+  "serverUrlLabel": "Naslov URL strežnika",
+  "bwServeUrlLabel": "Naslov URL za bw serve",
+  "testPassed": "Povezano",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden ali Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID odjemalca",
+    "clientSecret": "Skrivnost odjemalca",
+    "accessToken": "Dostopni žeton strojnega računa",
+    "vaultToken": "Žeton (ali uporabite AppRole spodaj)",
+    "roleId": "ID vloge AppRole",
+    "secretId": "ID skrivnosti AppRole",
+    "namespace": "Imenski prostor (izbirno)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referenca:",
+    "infisical": "Uporablja strojno identiteto z univerzalno avtentikacijo. Referenca:",
+    "bitwarden-sm": "Pustite naslov URL tak, kot je, za bitwarden.com, ali uporabite naslov svojega strežnika. Referenca:",
+    "hashicorp-vault": "Bere KV različico 1 ali 2. Referenca:",
+    "bitwarden-cli": "Zaženite bw serve tam, kjer ga lahko doseže Termix, in pustite varnostno kopijo odklenjeno. Polje je uporabniško ime, geslo, totp, opombe, uri ali ime po meri. Referenca:"
+  }
 }

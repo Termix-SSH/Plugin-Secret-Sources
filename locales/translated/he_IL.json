@@ -1,8 +1,8 @@
 {
-  "hint": "ניתן להדביק הפניה ל-1Password (op://vault/item/field) במקום הסוד. הוא ייטען ממקור הסודות בעת ההתחברות.",
+  "hint": "ניתן להדביק הפניה לסיסמה במקום הסיסמה עצמה, כמו op://vault/item/field או vault://secret/app#password. היא תישאב ממקור הסיסמאות שלך בעת החיבור.",
   "manage": "ניהול מקורות סודות",
   "title": "מקורות סודות",
-  "description": "מנהלי סיסמאות חיצוניים ש-Termix קורא מהם סודות בעת ההתחברות. עובד עם שרת 1Password Connect מארח עצמי. אסימון הגישה מאוחסן בצורה מוצפנת בשרף ואינו נשלח חזרה לדפדפן.",
+  "description": "מנהלי סיסמאות חיצוניים ש-Termix קורא מהם סיסמאות בעת החיבור: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, או Bitwarden ו-Vaultwarden באמצעות bw serve. האסימונים מאוחסנים בצורה מוצפנת על השרף ואינם נשלחים חזרה לדפדפן.",
   "new": "מקור חדש",
   "nameLabel": "שם ידידותי",
   "namePlaceholder": "1Password של הצוות",
@@ -12,24 +12,48 @@
   "sharedLabel": "שתף עם כל המשתמשים (למנהלים בלבד)",
   "shared": "משותף",
   "test": "בדיקה",
-  "testOk_one": "מחובר, {{count}} מחסן גלוי",
-  "testOk_two": "מחובר, {{count}} מחסנים גלויים",
-  "testOk_other": "מחובר, {{count}} מחסנים גלויים",
   "testFailed": "בדיקת החיבור נכשלה",
-  "required": "שם, כתובת URL של השרת ואסימון הם שדות חובה",
+  "required": "שם, כתובת השרת ופרטי ההתחברות הם חובה",
   "saved": "מקור הסודות נשמר",
   "deleted": "מקור הסודות נמחק",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "רשימת אישור של נקודות קצה פרטיות",
-        "description": "מארחים פרטיים או לולאה עצמית שמקור סודות עשוי להגיע אליהם, אחד בשורה. שרת 1Password Connect מארח עצמי בדרך כלל צריך שכתובתו תופיע כאן."
+        "description": "מארחים פרטיים או לולאה (loopback) שמקור הסיסמאות עשוי להגיע אליהם, אחד בשורה. שרת מארח עצמי, כמו 1Password Connect, Vault או bw serve, בדרך כלל צריך את הכתובת שלו מופיעה כאן."
       }
     }
   },
   "plugin": {
     "name": "מקורות סודות",
-    "description": "משוך סיסמאות ומפתחות של מארחים מ-1Password בעת החיבור במקום לאחסן אותם ב-Termix."
+    "description": "משוך סיסמאות ומפתחות של מארחים מ-1Password, Bitwarden, Infisical או HashiCorp Vault בעת החיבור במקום לאחסן אותם ב-Termix."
   },
-  "deleteConfirm": "למחוק את מקור הסודות {{name}}?"
+  "deleteConfirm": "למחוק את מקור הסודות {{name}}?",
+  "kindLabel": "סוג",
+  "serverUrlLabel": "כתובת השרת",
+  "bwServeUrlLabel": "כתובת bw serve",
+  "testPassed": "מחובר",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden או Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "מזהה לקוח",
+    "clientSecret": "סוד לקוח",
+    "accessToken": "אסימון גישה לחשבון מכונה",
+    "vaultToken": "אסימון (או השתמש ב-AppRole למטה)",
+    "roleId": "מזהה תפקיד AppRole",
+    "secretId": "מזהה סוד AppRole",
+    "namespace": "מרחב שמות (אופציונלי)"
+  },
+  "kindHints": {
+    "onepassword-connect": "הפניה:",
+    "infisical": "משתמש בזהות מכונה עם Universal Auth. הפניה:",
+    "bitwarden-sm": "השאר את הכתובת כמו שהיא עבור bitwarden.com, או השתמש בכתובת השרת שלך. הפניה:",
+    "hashicorp-vault": "קורא KV גרסה 1 או 2. הפניה:",
+    "bitwarden-cli": "הפעל bw serve במקום ש-Termix יכול להגיע אליו ושמור על הארון פתוח. השדה הוא שם משתמש, סיסמה, totp, הערות, uri או שם שדה מותאם אישית. הפניה:"
+  }
 }

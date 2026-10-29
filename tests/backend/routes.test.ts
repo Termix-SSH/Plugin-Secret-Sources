@@ -166,7 +166,7 @@ describe("secret-sources routes", () => {
 
     const test = await server.request("POST", `/${id}/test`);
     expect(test.status).toBe(200);
-    expect(test.body).toEqual({ ok: true, vaults: 1 });
+    expect(test.body).toEqual({ ok: true, detail: "1 vault visible" });
     expect(fetchMock).toHaveBeenCalledWith(
       "https://connect.internal/v1/vaults",
       expect.objectContaining({

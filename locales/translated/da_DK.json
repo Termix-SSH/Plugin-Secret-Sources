@@ -1,8 +1,8 @@
 {
-  "hint": "Du kan indsætte en 1Password-reference (op://vault/item/field) i stedet for hemmeligheden. Den hentes fra din hemmelighedskilde, når der oprettes forbindelse.",
+  "hint": "Du kan indsætte en hemmelighedsreference i stedet for selve hemmeligheden, f.eks. op://vault/item/field eller vault://secret/app#password. Den hentes fra din hemmelighedskilde, når du opretter forbindelse.",
   "manage": "Administrer hemmelighedskilder",
   "title": "Hemmelighedskilder",
-  "description": "Eksterne adgangskodehåndterere, som Termix læser hemmeligheder fra, når du opretter forbindelse. Fungerer med en selvhostet 1Password Connect-server. Adgangstokenet gemmes krypteret på serveren og sendes aldrig tilbage til browseren.",
+  "description": "Eksterne adgangskodehåndterere, som Termix læser hemmeligheder fra, når du opretter forbindelse: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault eller Bitwarden og Vaultwarden via bw serve. Tokens gemmes krypteret på serveren og sendes aldrig tilbage til browseren.",
   "new": "Ny kilde",
   "nameLabel": "Venligt navn",
   "namePlaceholder": "Team 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Del med alle brugere (kun administratorer)",
   "shared": "delt",
   "test": "Test",
-  "testOk_one": "Forbundet, {{count}} vault synligt",
-  "testOk_other": "Forbundet, {{count}} vaults synlige",
   "testFailed": "Forbindelsestesten mislykkedes",
-  "required": "Navn, server-URL og token er påkrævet",
+  "required": "Navn, server-URL og loginoplysninger er påkrævet",
   "saved": "Hemmelighedskilde gemt",
   "deleted": "Hemmelighedskilde slettet",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Tilladelsesliste for private endpoints",
-        "description": "Private eller loopback-værter, som en hemmelighedskilde må nå, én pr. linje. En selvhostet 1Password Connect-server skal normalt have sin egen adresse opført her."
+        "description": "Private eller loopback-værter, som en hemmelighedskilde kan nå, én pr. linje. En selvhostet server som 1Password Connect, Vault eller bw serve skal normalt have sin egen adresse angivet her."
       }
     }
   },
   "plugin": {
     "name": "Hemmelighedskilder",
-    "description": "Hent værtsgangord og nøgler fra 1Password, når du opretter forbindelse, i stedet for at gemme dem i Termix."
+    "description": "Hent vært-adgangskoder og nøgler fra 1Password, Bitwarden, Infisical eller HashiCorp Vault, når du opretter forbindelse, i stedet for at gemme dem i Termix."
   },
-  "deleteConfirm": "Slet hemmelighedskilden {{name}}?"
+  "deleteConfirm": "Slet hemmelighedskilden {{name}}?",
+  "kindLabel": "Type",
+  "serverUrlLabel": "Server-URL",
+  "bwServeUrlLabel": "bw serve-URL",
+  "testPassed": "Forbundet",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden eller Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Klient-ID",
+    "clientSecret": "Klienthemmelighed",
+    "accessToken": "Adgangstoken til maskinekonto",
+    "vaultToken": "Token (eller brug AppRole nedenfor)",
+    "roleId": "AppRole-roll-ID",
+    "secretId": "AppRole-hemmeligheds-ID",
+    "namespace": "Namespace (valgfrit)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Reference:",
+    "infisical": "Bruger en maskineidentitet med Universal Auth. Reference:",
+    "bitwarden-sm": "Lad URL'en være som den er for bitwarden.com, eller brug din egen servers adresse. Reference:",
+    "hashicorp-vault": "Læser KV-version 1 eller 2. Reference:",
+    "bitwarden-cli": "Kør bw serve, hvor Termix kan nå det, og hold vaultet ulåst. Feltet er username, password, totp, notes, uri eller et brugerdefineret feltnavn. Reference:"
+  }
 }

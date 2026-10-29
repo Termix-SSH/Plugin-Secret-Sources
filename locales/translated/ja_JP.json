@@ -1,8 +1,8 @@
 {
-  "hint": "シークレットの代わりに 1Password の参照 (op://vault/item/field) を貼り付けることができます。接続時にシークレットソースから取得されます。",
+  "hint": "シークレットの代わりに、op://vault/item/field や vault://secret/app#password のようなシークレット参照を貼り付けることができます。接続時にシークレットソースから取得されます。",
   "manage": "シークレットソースの管理",
   "title": "シークレットソース",
-  "description": "接続時に Termix がシークレットを読み取る外部パスワードマネージャーです。セルフホスト型の 1Password Connect サーバーと連携します。アクセストークンはサーバー上で暗号化して保存され、ブラウザには送信されません。",
+  "description": "接続時に Termix がシークレットを読み取る外部パスワードマネージャー：1Password Connect、Infisical、Bitwarden Secrets Manager、HashiCorp Vault、または bw serve を通じた Bitwarden および Vaultwarden。トークンはサーバー上で暗号化して保存され、ブラウザには送信されません。",
   "new": "新しいソース",
   "nameLabel": "表示名",
   "namePlaceholder": "チーム用 1Password",
@@ -12,22 +12,48 @@
   "sharedLabel": "すべてのユーザーと共有する（管理者のみ）",
   "shared": "共有",
   "test": "テスト",
-  "testOk_other": "接続成功、{{count}} 個の Vault が表示可能",
   "testFailed": "接続テストに失敗しました",
-  "required": "名前、サーバー URL、トークンは必須です",
+  "required": "名前、サーバー URL、ログイン情報は必須です",
   "saved": "シークレットソースを保存しました",
   "deleted": "シークレットソースを削除しました",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "プライベートエンドポイントの許可リスト",
-        "description": "シークレットソースがアクセスできるプライベートまたはループバックホストを、1行に1つずつ記述します。セルフホスト型の 1Password Connect サーバーでは、通常、自身のアドレスをここに追加する必要があります。"
+        "description": "シークレットソースがアクセスできるプライベートまたはループバックホストを、1行に1つずつ記述します。1Password Connect、Vault、bw serve などのセルフホスト型サーバーは、通常、ここで独自のアドレスを指定する必要があります。"
       }
     }
   },
   "plugin": {
     "name": "シークレットソース",
-    "description": "Termix に保存する代わりに、接続時に 1Password からホストのパスワードとキーを取得します。"
+    "description": "Termix に保存する代わりに、接続時に 1Password、Bitwarden、Infisical、または HashiCorp Vault からホストのパスワードや鍵を取得します。"
   },
-  "deleteConfirm": "シークレットソース「{{name}}」を削除しますか？"
+  "deleteConfirm": "シークレットソース「{{name}}」を削除しますか？",
+  "kindLabel": "種類",
+  "serverUrlLabel": "サーバー URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "接続成功",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden または Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "クライアント ID",
+    "clientSecret": "クライアントシークレット",
+    "accessToken": "マシンアカウントアクセストークン",
+    "vaultToken": "トークン（または下の AppRole を使用）",
+    "roleId": "AppRole ロール ID",
+    "secretId": "AppRole シークレット ID",
+    "namespace": "ネームスペース（オプション）"
+  },
+  "kindHints": {
+    "onepassword-connect": "参照：",
+    "infisical": "ユニバーサル認証によるマシンアイデンティティを使用します。参照：",
+    "bitwarden-sm": "bitwarden.com の場合は URL をそのままにし、独自のサーバーのアドレスを使用することもできます。参照：",
+    "hashicorp-vault": "KV バージョン 1 または 2 を読み取ります。参照：",
+    "bitwarden-cli": "Termix からアクセスできる場所で bw serve を実行し、Vault をアンロックしたままにしてください。フィールドは username、password、totp、notes、uri、またはカスタムフィールド名です。参照："
+  }
 }

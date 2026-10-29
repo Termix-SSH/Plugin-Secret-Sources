@@ -1,8 +1,8 @@
 {
-  "hint": "Bạn có thể dán một tham chiếu 1Password (op://vault/item/field) thay vì mật khẩu. Nó sẽ được lấy từ nguồn mật khẩu của bạn khi kết nối.",
+  "hint": "Bạn có thể dán một tham chiếu bí mật thay vì chính bí mật, ví dụ: op://vault/item/field hoặc vault://secret/app#password. Nó sẽ được lấy từ nguồn bí mật của bạn khi kết nối.",
   "manage": "Quản lý nguồn mật khẩu",
   "title": "Nguồn mật khẩu",
-  "description": "Các trình quản lý mật khẩu bên ngoài mà Termix đọc mật khẩu từ đó khi bạn kết nối. Hoạt động với máy chủ 1Password Connect tự lưu trữ. Mã thông báo truy cập được lưu trữ dưới dạng mã hóa trên máy chủ và không bao giờ được gửi trở lại trình duyệt.",
+  "description": "Các trình quản lý mật khẩu bên ngoài mà Termix đọc bí mật từ đó khi bạn kết nối: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, hoặc Bitwarden và Vaultwarden thông qua bw serve. Token được lưu trữ dưới dạng mã hóa trên máy chủ và không bao giờ được gửi trở lại trình duyệt.",
   "new": "Nguồn mới",
   "nameLabel": "Tên hiển thị",
   "namePlaceholder": "1Password của nhóm",
@@ -12,22 +12,48 @@
   "sharedLabel": "Chia sẻ với tất cả người dùng (chỉ dành cho quản trị viên)",
   "shared": "đã chia sẻ",
   "test": "Kiểm tra",
-  "testOk_other": "Đã kết nối, {{count}} kho khóa hiển thị",
   "testFailed": "Kiểm tra kết nối thất bại",
-  "required": "Tên, URL máy chủ và mã thông báo là bắt buộc",
+  "required": "Tên, URL máy chủ và thông tin đăng nhập là bắt buộc",
   "saved": "Đã lưu nguồn mật khẩu",
   "deleted": "Đã xóa nguồn mật khẩu",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Danh sách cho phép điểm cuối riêng",
-        "description": "Các máy chủ riêng hoặc loopback mà nguồn mật khẩu có thể truy cập, mỗi dòng một mục. Máy chủ 1Password Connect tự lưu trữ thường cần địa chỉ của chính nó được liệt kê ở đây."
+        "description": "Các máy chủ riêng hoặc loopback mà nguồn bí mật có thể truy cập, mỗi dòng một cái. Một máy chủ tự lưu trữ, như 1Password Connect, Vault hoặc bw serve, thường cần địa chỉ riêng của nó được liệt kê ở đây."
       }
     }
   },
   "plugin": {
     "name": "Nguồn mật khẩu",
-    "description": "Tự động lấy mật khẩu và khóa của host từ 1Password khi kết nối thay vì lưu trữ chúng trong Termix."
+    "description": "Lấy mật khẩu và khóa của máy chủ từ 1Password, Bitwarden, Infisical hoặc HashiCorp Vault khi bạn kết nối thay vì lưu trữ chúng trong Termix."
   },
-  "deleteConfirm": "Xóa nguồn mật khẩu {{name}}?"
+  "deleteConfirm": "Xóa nguồn mật khẩu {{name}}?",
+  "kindLabel": "Loại",
+  "serverUrlLabel": "URL máy chủ",
+  "bwServeUrlLabel": "URL bw serve",
+  "testPassed": "Đã kết nối",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden hoặc Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID khách hàng",
+    "clientSecret": "Bí mật khách hàng",
+    "accessToken": "Token truy cập tài khoản máy",
+    "vaultToken": "Token (hoặc sử dụng AppRole bên dưới)",
+    "roleId": "ID vai trò AppRole",
+    "secretId": "ID bí mật AppRole",
+    "namespace": "Không gian tên (tùy chọn)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Tham chiếu:",
+    "infisical": "Sử dụng danh tính máy với Universal Auth. Tham chiếu:",
+    "bitwarden-sm": "Để URL như hiện tại cho bitwarden.com, hoặc sử dụng địa chỉ máy chủ của riêng bạn. Tham chiếu:",
+    "hashicorp-vault": "Đọc KV phiên bản 1 hoặc 2. Tham chiếu:",
+    "bitwarden-cli": "Chạy bw serve ở nơi Termix có thể truy cập và giữ vault mở khóa. Trường là tên người dùng, mật khẩu, totp, ghi chú, uri hoặc tên trường tùy chỉnh. Tham chiếu:"
+  }
 }

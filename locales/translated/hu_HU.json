@@ -1,8 +1,8 @@
 {
-  "hint": "A titok helyett beilleszthetsz egy 1Password-referenciát (op://vault/item/field). Ez a titokforrásból lesz lekérve a csatlakozáskor.",
+  "hint": "A titok helyett titok-referenciát is beilleszthetsz, például op://vault/item/field vagy vault://secret/app#password formátumban. Ez a titokforrásból lesz lekérdezve a csatlakozáskor.",
   "manage": "Titokforrások kezelése",
   "title": "Titokforrások",
-  "description": "Külső jelszókezelők, amelyekből a Termix titkokat olvas a csatlakozáskor. Önmagad által üzemeltetett 1Password Connect-szerverrel működik. A hozzáférési token titkosítva tárolódik a szerveren, és soha nem kerül vissza a böngészőbe.",
+  "description": "Külső jelszókezelők, amelyekből a Termix titkokat olvas a csatlakozáskor: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, vagy Bitwarden és Vaultwarden a bw serve segítségével. A tokenek titkosítva tárolódnak a szerveren, és soha nem kerülnek vissza a böngészőbe.",
   "new": "Új forrás",
   "nameLabel": "Megnevezés",
   "namePlaceholder": "Csapat 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Megosztás minden felhasználóval (csak adminisztrátorok számára)",
   "shared": "megosztott",
   "test": "Teszt",
-  "testOk_one": "Csatlakozva, {{count}} tároló látható",
-  "testOk_other": "Csatlakozva, {{count}} tároló látható",
   "testFailed": "A kapcsolatteszt sikertelen",
-  "required": "A név, a szerver URL-je és a token megadása kötelező",
+  "required": "A név, a szerver URL-je és a bejelentkezési adatok megadása kötelező",
   "saved": "Titokforrás mentve",
   "deleted": "Titokforrás törölve",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Privát végpontok engedélyezési listája",
-        "description": "Privát vagy loopback hosztok, amelyeket egy titokforrás elérhet, soronként egyet. Egy önmagad által üzemeltetett 1Password Connect-szervernek általában a saját címét kell itt feltüntetni."
+        "description": "Privát vagy loopback hosztok, amelyeket a titokforrás elérhet, soronként egyet. Egy saját szerver, mint például a 1Password Connect, Vault vagy bw serve, általában a saját címét igényli itt."
       }
     }
   },
   "plugin": {
     "name": "Titokforrások",
-    "description": "A 1Passwordból húzza be a hoszt jelszavait és kulcsait a csatlakozáskor, ahelyett, hogy a Termixben tárolná őket."
+    "description": "Hosztjelszavak és kulcsok lekérése a 1Password, Bitwarden, Infisical vagy HashiCorp Vault szolgáltatásból a csatlakozáskor, ahelyett, hogy a Termixben tárolnád őket."
   },
-  "deleteConfirm": "Törli a(z) {{name}} titokforrást?"
+  "deleteConfirm": "Törli a(z) {{name}} titokforrást?",
+  "kindLabel": "Típus",
+  "serverUrlLabel": "Szerver URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "Csatlakozva",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden vagy Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Kliensazonosító",
+    "clientSecret": "Kliens titok",
+    "accessToken": "Gépi fiók hozzáférési token",
+    "vaultToken": "Token (vagy használd az alábbi AppRole-t)",
+    "roleId": "AppRole szerepazonosító",
+    "secretId": "AppRole titokazonosító",
+    "namespace": "Névtér (opcionális)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referencia:",
+    "infisical": "Gépi identitást használ az Universal Auth segítségével. Referencia:",
+    "bitwarden-sm": "Hagyd az URL-t változatlanul a bitwarden.com esetén, vagy használd a saját szervered címét. Referencia:",
+    "hashicorp-vault": "KV verzió 1 vagy 2 olvasása. Referencia:",
+    "bitwarden-cli": "Futtasd a bw serve parancsot ott, ahol a Termix elérheti, és tartsd nyitva a vaultot. A mező lehet felhasználónév, jelszó, totp, jegyzetek, uri vagy egyéni mezőnév. Referencia:"
+  }
 }

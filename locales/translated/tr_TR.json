@@ -1,8 +1,8 @@
 {
-  "hint": "Sırrın yerine bir 1Password referansı (op://vault/item/field) yapıştırabilirsiniz. Bağlanırken sırrınız bu kaynaktan alınır.",
+  "hint": "Sırrın kendisi yerine bir sır referansı yapıştırabilirsiniz, örneğin op://vault/item/field veya vault://secret/app#password. Bağlanırken bu referans sır kaynağınızdan alınır.",
   "manage": "Sır kaynaklarını yönet",
   "title": "Sır kaynakları",
-  "description": "Termix'in bağlanırken sırları okuduğu harici parola yöneticileri. Kendi barındırılan bir 1Password Connect sunucusuyla çalışır. Erişim belirteci sunucuda şifrelenmiş olarak saklanır ve tarayıcıya asla geri gönderilmez.",
+  "description": "Termix'in bağlanırken sırları okuduğu harici parola yöneticileri: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault veya bw serve üzerinden Bitwarden ve Vaultwarden. Jetonlar sunucuda şifreli olarak saklanır ve tarayıcıya asla geri gönderilmez.",
   "new": "Yeni kaynak",
   "nameLabel": "Gösterilecek ad",
   "namePlaceholder": "Ekip 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Tüm kullanıcılarla paylaş (sadece yöneticiler)",
   "shared": "paylaşılan",
   "test": "Test et",
-  "testOk_one": "Bağlandı, {{count}} kasa görünüyor",
-  "testOk_other": "Bağlandı, {{count}} kasa görünüyor",
   "testFailed": "Bağlantı testi başarısız oldu",
-  "required": "Ad, sunucu URL'si ve belirteç gereklidir",
+  "required": "Ad, sunucu URL'si ve giriş bilgileri gereklidir",
   "saved": "Sır kaynağı kaydedildi",
   "deleted": "Sır kaynağı silindi",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Özel uç nokta izin listesi",
-        "description": "Bir sır kaynağının erişebileceği özel veya döngü içi ana bilgisayarlar, her satırda biri. Kendi barındırılan bir 1Password Connect sunucusu genellikle kendi adresinin burada listelenmesine ihtiyaç duyar."
+        "description": "Bir sır kaynağının erişebileceği özel veya döngüsel ana bilgisayarlar, her satıra bir tane. 1Password Connect, Vault veya bw serve gibi kendi kendine barındırılan bir sunucu, genellikle kendi adresini burada listelenmesi gerekir."
       }
     }
   },
   "plugin": {
     "name": "Sır Kaynakları",
-    "description": "Bağlanırken parola ve anahtarları Termix'te saklamak yerine 1Password'dan çekin."
+    "description": "Ana bilgisayar parolalarını ve anahtarlarını Termix'te saklamak yerine, bağlanırken 1Password, Bitwarden, Infisical veya HashiCorp Vault'tan çekin."
   },
-  "deleteConfirm": "{{name}} sır kaynağı silinsin mi?"
+  "deleteConfirm": "{{name}} sır kaynağı silinsin mi?",
+  "kindLabel": "Tür",
+  "serverUrlLabel": "Sunucu URL'si",
+  "bwServeUrlLabel": "bw serve URL'si",
+  "testPassed": "Bağlandı",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden veya Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "İstemci Kimliği",
+    "clientSecret": "İstemci sırrı",
+    "accessToken": "Makine hesabı erişim jetonu",
+    "vaultToken": "Jeton (veya aşağıda AppRole kullanın)",
+    "roleId": "AppRole rol kimliği",
+    "secretId": "AppRole sır kimliği",
+    "namespace": "Ad alanı (isteğe bağlı)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referans:",
+    "infisical": "Evrensel Kimlik Doğrulama ile makine kimliği kullanır. Referans:",
+    "bitwarden-sm": "bitwarden.com için URL'yi olduğu gibi bırakın veya kendi sunucunuzun adresini kullanın. Referans:",
+    "hashicorp-vault": "KV sürüm 1 veya 2'yi okur. Referans:",
+    "bitwarden-cli": "Termix'in erişebileceği bir yerde bw serve çalıştırın ve vault'u açık tutun. Alan, kullanıcı adı, parola, totp, notlar, uri veya özel bir alan adıdır. Referans:"
+  }
 }

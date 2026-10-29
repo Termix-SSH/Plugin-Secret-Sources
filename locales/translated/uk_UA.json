@@ -1,8 +1,8 @@
 {
-  "hint": "Замість секрета можна вставити посилання 1Password (op://vault/item/field). Під час підключення він буде отримано з вашого джерела секретів.",
+  "hint": "Замість самого секрету можна вставити посилання на нього, наприклад op://vault/item/field або vault://secret/app#password. Під час підключення значення буде отримано з вашого джерела секретів.",
   "manage": "Керування джерелами секретів",
   "title": "Джерела секретів",
-  "description": "Зовнішні менеджери паролів, з яких Termix читає секрети під час підключення. Працює з власним сервером 1Password Connect. Токен доступу зберігається на сервері в зашифрованому вигляді і ніколи не надсилається назад у браузер.",
+  "description": "Зовнішні менеджери паролів, з яких Termix читає секрети під час підключення: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault або Bitwarden і Vaultwarden через bw serve. Токени зберігаються на сервері у зашифрованому вигляді і ніколи не надсилаються назад у браузер.",
   "new": "Нове джерело",
   "nameLabel": "Зрозуміла назва",
   "namePlaceholder": "Командний 1Password",
@@ -12,25 +12,48 @@
   "sharedLabel": "Поділитися з усіма користувачами (тільки для адміністраторів)",
   "shared": "спільний",
   "test": "Перевірити",
-  "testOk_one": "Підключено, видно {{count}} сховище",
-  "testOk_few": "Підключено, видно {{count}} сховища",
-  "testOk_many": "Підключено, видно {{count}} сховищ",
-  "testOk_other": "Підключено, видно {{count}} сховищ",
   "testFailed": "Тест підключення не вдалося",
-  "required": "Назва, URL-адреса сервера та токен є обов'язковими",
+  "required": "Назва, URL-адреса сервера та дані для входу є обов'язковими",
   "saved": "Джерело секретів збережено",
   "deleted": "Джерело секретів видалено",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Білий список приватних кінцевих точок",
-        "description": "Приватні або локальні хости, до яких може звертатися джерело секретів, по одному на рядок. Власний сервер 1Password Connect зазвичай потребує вказання своєї адреси тут."
+        "description": "Приватні або локальні хости, до яких може звертатися джерело секретів, по одному на рядок. Самостійно розміщений сервер, наприклад 1Password Connect, Vault або bw serve, зазвичай потребує вказання своєї адреси тут."
       }
     }
   },
   "plugin": {
     "name": "Джерела секретів",
-    "description": "Отримуйте паролі та ключі хостів із 1Password під час підключення, замість того щоб зберігати їх у Termix."
+    "description": "Отримуйте паролі та ключі хостів з 1Password, Bitwarden, Infisical або HashiCorp Vault під час підключення, замість того щоб зберігати їх у Termix."
   },
-  "deleteConfirm": "Видалити джерело секретів {{name}}?"
+  "deleteConfirm": "Видалити джерело секретів {{name}}?",
+  "kindLabel": "Тип",
+  "serverUrlLabel": "URL-адреса сервера",
+  "bwServeUrlLabel": "URL-адреса bw serve",
+  "testPassed": "Підключено",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden або Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Ідентифікатор клієнта",
+    "clientSecret": "Секрет клієнта",
+    "accessToken": "Токен доступу машинного облікового запису",
+    "vaultToken": "Токен (або використовуйте AppRole нижче)",
+    "roleId": "Ідентифікатор ролі AppRole",
+    "secretId": "Секретний ідентифікатор AppRole",
+    "namespace": "Простір імен (необов'язково)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Посилання:",
+    "infisical": "Використовує машинну ідентичність з Universal Auth. Посилання:",
+    "bitwarden-sm": "Залиште URL-адресу як є для bitwarden.com або вкажіть адресу свого сервера. Посилання:",
+    "hashicorp-vault": "Читає KV версії 1 або 2. Посилання:",
+    "bitwarden-cli": "Запустіть bw serve так, щоб Termix міг до нього звернутися, і тримайте сховище розблокованим. Поле може бути username, password, totp, notes, uri або назвою користувацького поля. Посилання:"
+  }
 }

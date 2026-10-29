@@ -1,8 +1,8 @@
 {
-  "hint": "Puoi incollare un riferimento 1Password (op://vault/item/field) al posto del segreto. Viene recuperato dalla tua origine dei segreti durante la connessione.",
+  "hint": "Puoi incollare un riferimento al segreto invece del segreto stesso, come op://vault/item/field o vault://secret/app#password. Viene recuperato dalla tua fonte di segreti durante la connessione.",
   "manage": "Gestisci origini dei segreti",
   "title": "Origini dei segreti",
-  "description": "Gestori di password esterni da cui Termix legge i segreti durante la connessione. Funziona con un server 1Password Connect auto-ospitato. Il token di accesso è memorizzato in modo crittografato sul server e non viene mai inviato al browser.",
+  "description": "Gestori di password esterni da cui Termix legge i segreti durante la connessione: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, oppure Bitwarden e Vaultwarden tramite bw serve. I token sono memorizzati crittografati sul server e non vengono mai inviati al browser.",
   "new": "Nuova origine",
   "nameLabel": "Nome visualizzato",
   "namePlaceholder": "1Password del team",
@@ -12,24 +12,48 @@
   "sharedLabel": "Condividi con tutti gli utenti (solo amministratori)",
   "shared": "condiviso",
   "test": "Test",
-  "testOk_one": "Connesso, {{count}} vault visibile",
-  "testOk_many": "Connesso, {{count}} vault visibili",
-  "testOk_other": "Connesso, {{count}} vault visibili",
   "testFailed": "Test di connessione non riuscito",
-  "required": "Nome, URL del server e token sono obbligatori",
+  "required": "Nome, URL del server e le credenziali di accesso sono obbligatori",
   "saved": "Origine dei segreti salvata",
   "deleted": "Origine dei segreti eliminata",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Lista consentita degli endpoint privati",
-        "description": "Host privati o di loopback a cui un'origine dei segreti può accedere, uno per riga. Un server 1Password Connect auto-ospitato di solito ha bisogno del proprio indirizzo elencato qui."
+        "description": "Host privati o di loopback a cui una fonte di segreti può accedere, uno per riga. Un server self-hosted, come 1Password Connect, Vault o bw serve, di solito ha bisogno che il proprio indirizzo sia elencato qui."
       }
     }
   },
   "plugin": {
     "name": "Origini dei segreti",
-    "description": "Recupera le password e le chiavi degli host da 1Password durante la connessione, invece di memorizzarle in Termix."
+    "description": "Recupera password e chiavi degli host da 1Password, Bitwarden, Infisical o HashiCorp Vault durante la connessione invece di memorizzarli in Termix."
   },
-  "deleteConfirm": "Eliminare l'origine dei segreti {{name}}?"
+  "deleteConfirm": "Eliminare l'origine dei segreti {{name}}?",
+  "kindLabel": "Tipo",
+  "serverUrlLabel": "URL del server",
+  "bwServeUrlLabel": "URL di bw serve",
+  "testPassed": "Connesso",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID client",
+    "clientSecret": "Segreto client",
+    "accessToken": "Token di accesso account macchina",
+    "vaultToken": "Token (oppure usa AppRole di seguito)",
+    "roleId": "ID ruolo AppRole",
+    "secretId": "ID segreto AppRole",
+    "namespace": "Namespace (opzionale)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Riferimento:",
+    "infisical": "Utilizza un'identità macchina con Universal Auth. Riferimento:",
+    "bitwarden-sm": "Lascia l'URL così com'è per bitwarden.com, oppure usa l'indirizzo del tuo server. Riferimento:",
+    "hashicorp-vault": "Legge KV versione 1 o 2. Riferimento:",
+    "bitwarden-cli": "Esegui bw serve in un punto raggiungibile da Termix e mantieni il vault sbloccato. Il campo è username, password, totp, notes, uri o un nome di campo personalizzato. Riferimento:"
+  }
 }

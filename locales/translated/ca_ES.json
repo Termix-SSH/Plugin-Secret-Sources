@@ -1,8 +1,8 @@
 {
-  "hint": "Podeu enganxar una referència de 1Password (op://vault/item/field) en lloc del secret. S'obté de la font de secrets en connectar.",
+  "hint": "Podeu enganxar una referència secreta en lloc del secret, com ara op://vault/item/field o vault://secret/app#password. S'obté de la font de secrets en connectar.",
   "manage": "Gestionar fonts de secrets",
   "title": "Fonts de secrets",
-  "description": "Gestors de contrasenyes externs d'on Termix llegeix els secrets en connectar. Funciona amb un servidor 1Password Connect allotjat pròpiament. El token d'accés s'emmagatzema xifrat al servidor i mai s'envia de nou al navegador.",
+  "description": "Gestors de contrasenyes externs dels quals Termix llegeix secrets en connectar: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault o Bitwarden i Vaultwarden a través de bw serve. Els tokens s'emmagatzemen xifrats al servidor i mai s'envien de nou al navegador.",
   "new": "Nova font",
   "nameLabel": "Nom amigable",
   "namePlaceholder": "1Password de l'equip",
@@ -12,24 +12,48 @@
   "sharedLabel": "Compartir amb tots els usuaris (només administradors)",
   "shared": "compartit",
   "test": "Prova",
-  "testOk_one": "Connectat, {{count}} magatzem visible",
-  "testOk_many": "Connectat, {{count}} magatzems visibles",
-  "testOk_other": "Connectat, {{count}} magatzems visibles",
   "testFailed": "Ha fallat la prova de connexió",
-  "required": "El nom, l'URL del servidor i el token són obligatoris",
+  "required": "El nom, l'URL del servidor i les credencials d'inici de sessió són obligatoris",
   "saved": "Font de secrets desada",
   "deleted": "Font de secrets eliminada",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Llista permesa de punts finals privats",
-        "description": "Amfitrions privats o de bucle que una font de secrets pot arribar, un per línia. Un servidor 1Password Connect allotjat pròpiament sol necessitar que la seva pròpia adreça estigui llistada aquí."
+        "description": "Amfitrions privats o de bucle que una font de secrets pot arribar, un per línia. Un servidor autoallotjat, com ara 1Password Connect, Vault o bw serve, sol necessitar que la seva pròpia adreça estigui llistada aquí."
       }
     }
   },
   "plugin": {
     "name": "Fonts de secrets",
-    "description": "Obté les contrasenyes i claus dels amfitrions des de 1Password quan et connectis, en lloc d'emmagatzemar-les a Termix."
+    "description": "Obteniu contrasenyes i claus d'amfitrió de 1Password, Bitwarden, Infisical o HashiCorp Vault en connectar en lloc d'emmagatzemar-les a Termix."
   },
-  "deleteConfirm": "Voleu eliminar la font de secrets {{name}}?"
+  "deleteConfirm": "Voleu eliminar la font de secrets {{name}}?",
+  "kindLabel": "Tipus",
+  "serverUrlLabel": "URL del servidor",
+  "bwServeUrlLabel": "URL de bw serve",
+  "testPassed": "Connectat",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID del client",
+    "clientSecret": "Secret del client",
+    "accessToken": "Token d'accés del compte de màquina",
+    "vaultToken": "Token (o utilitzeu AppRole a continuació)",
+    "roleId": "ID de rol d'AppRole",
+    "secretId": "ID secret d'AppRole",
+    "namespace": "Espai de noms (opcional)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referència:",
+    "infisical": "Utilitza una identitat de màquina amb Universal Auth. Referència:",
+    "bitwarden-sm": "Deixeu l'URL tal com està per a bitwarden.com, o utilitzeu l'adreça del vostre propi servidor. Referència:",
+    "hashicorp-vault": "Llegeix KV versió 1 o 2. Referència:",
+    "bitwarden-cli": "Executeu bw serve on Termix pugui arribar-hi i mantingueu el vault desbloquejat. El camp és usuari, contrasenya, totp, notes, uri o un nom de camp personalitzat. Referència:"
+  }
 }

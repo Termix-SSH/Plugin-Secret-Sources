@@ -1,8 +1,8 @@
 {
-  "hint": "Уместо тајне можете залепити 1Password референцу (op://vault/item/field). Она се учитава из вашег извора тајни приликом повезивања.",
+  "hint": "Уместо тајне можете налепити референцу на тајну, на пример op://vault/item/field или vault://secret/app#password. Она се преузима из вашег извора тајни приликом повезивања.",
   "manage": "Управљајте изворима тајни",
   "title": "Извори тајни",
-  "description": "Спољни менаџери лозинки из којих Termix чита тајне при повезивању. Ради са само-хостованим 1Password Connect сервером. Токен за приступ се чува шифровано на серверу и никада се не шаље назад у прегледач.",
+  "description": "Спољни менаџери лозинки из којих Termix чита тајне при повезивању: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault или Bitwarden и Vaultwarden преко bw serve. Токени су заштићени шифровањем на серверу и никада се не шаљу назад у прегледач.",
   "new": "Нови извор",
   "nameLabel": "Пријатељски назив",
   "namePlaceholder": "Тим 1Password",
@@ -12,24 +12,48 @@
   "sharedLabel": "Дели са свим корисницима (само администратори)",
   "shared": "заједнички",
   "test": "Тестирај",
-  "testOk_one": "Повезано, {{count}} торињо је видљиво",
-  "testOk_few": "Повезано, {{count}} ториња су видљива",
-  "testOk_other": "Повезано, {{count}} ториња је видљиво",
   "testFailed": "Тест повезивања није успео",
-  "required": "Назив, URL сервера и токен су обавезни",
+  "required": "Име, URL адреса сервера и подаци за пријаву су обавезни",
   "saved": "Извор тајни је сачуван",
   "deleted": "Извор тајни је обрисан",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Листа дозвољених приватних крајњих тачака",
-        "description": "Приватни или петљени домаћини које извор тајни може да достигне, по један по линији. Само-хостовани 1Password Connect сервер обично захтева да се његова адреса наведе овде."
+        "description": "Приватни или петљасте (loopback) адресе које извор тајни може да достигне, по једна по линији. Самостално хостовани сервер, као што су 1Password Connect, Vault или bw serve, обично захтева да се његова сопствена адреса наведе овде."
       }
     }
   },
   "plugin": {
     "name": "Извори тајни",
-    "description": "Преузмите лозинке и кључеве за хостове из 1Password-а при повезивању, уместо да их чувате у Termix-у."
+    "description": "Преузима лозинке и кључеве за хостове из 1Password, Bitwarden, Infisical или HashiCorp Vault при повезивању, уместо да их чува у Termix."
   },
-  "deleteConfirm": "Обрисати извор тајни {{name}}?"
+  "deleteConfirm": "Обрисати извор тајни {{name}}?",
+  "kindLabel": "Тип",
+  "serverUrlLabel": "URL адреса сервера",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "Повезано",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID клијента",
+    "clientSecret": "Тајна клијента",
+    "accessToken": "Токен за приступ машинског налога",
+    "vaultToken": "Токен (или користите AppRole испод)",
+    "roleId": "ID улоге за AppRole",
+    "secretId": "ID тајне за AppRole",
+    "namespace": "Простор имена (опционо)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Референца:",
+    "infisical": "Користи машински идентитет са Universal Auth. Референца:",
+    "bitwarden-sm": "Оставите URL као што јесте за bitwarden.com или користите адресу свог сервера. Референца:",
+    "hashicorp-vault": "Чита KV верзију 1 или 2. Референца:",
+    "bitwarden-cli": "Покрените bw serve тако да Termix може да га достигне и држите vault откључаним. Поље је username, password, totp, notes, uri или име прилагођеног поља. Референца:"
+  }
 }

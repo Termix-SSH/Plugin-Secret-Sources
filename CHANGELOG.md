@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+
+- Infisical, Bitwarden Secrets Manager and HashiCorp Vault sources, with `infisical://`, `bws://` and `vault://` references
+- Bitwarden and Vaultwarden vaults through `bw serve`, with `bw://item/field` references
+- Pick the type of a new source, and Test shows what it found for each type
+
 ## 1.0.2
 
 ### Changed

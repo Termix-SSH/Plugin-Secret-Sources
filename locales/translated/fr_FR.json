@@ -1,8 +1,8 @@
 {
-  "hint": "Vous pouvez coller une référence 1Password (op://vault/item/field) à la place du secret. Il sera récupéré depuis votre source de secrets lors de la connexion.",
+  "hint": "Vous pouvez coller une référence de secret au lieu du secret lui-même, comme op://vault/item/field ou vault://secret/app#password. Il est récupéré depuis votre source de secrets lors de la connexion.",
   "manage": "Gérer les sources de secrets",
   "title": "Sources de secrets",
-  "description": "Gestionnaires de mots de passe externes dont Termix lit les secrets lors de la connexion. Fonctionne avec un serveur 1Password Connect auto-hébergé. Le jeton d'accès est stocké de manière chiffrée sur le serveur et n'est jamais renvoyé au navigateur.",
+  "description": "Gestionnaires de mots de passe externes dont Termix lit les secrets lors de la connexion : 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, ou Bitwarden et Vaultwarden via bw serve. Les jetons sont stockés chiffrés sur le serveur et ne sont jamais renvoyés au navigateur.",
   "new": "Nouvelle source",
   "nameLabel": "Nom affiché",
   "namePlaceholder": "1Password de l'équipe",
@@ -12,24 +12,48 @@
   "sharedLabel": "Partager avec tous les utilisateurs (administrateurs uniquement)",
   "shared": "partagé",
   "test": "Tester",
-  "testOk_one": "Connecté, {{count}} coffre visible",
-  "testOk_many": "Connecté, {{count}} coffres visibles",
-  "testOk_other": "Connecté, {{count}} coffres visibles",
   "testFailed": "Échec du test de connexion",
-  "required": "Le nom, l'URL du serveur et le jeton sont requis",
+  "required": "Le nom, l'URL du serveur et les informations de connexion sont requis",
   "saved": "Source de secrets enregistrée",
   "deleted": "Source de secrets supprimée",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Liste d'autorisation des points de terminaison privés",
-        "description": "Hôtes privés ou de bouclage local qu'une source de secrets peut atteindre, un par ligne. Un serveur 1Password Connect auto-hébergé a généralement besoin que son propre adresse soit indiquée ici."
+        "description": "Hôtes privés ou en boucle locale qu'une source de secrets peut atteindre, un par ligne. Un serveur auto-hébergé, comme 1Password Connect, Vault ou bw serve, a généralement besoin que son propre adresse soit listée ici."
       }
     }
   },
   "plugin": {
     "name": "Sources de secrets",
-    "description": "Récupérez les mots de passe et clés des hôtes depuis 1Password lors de la connexion au lieu de les stocker dans Termix."
+    "description": "Récupérez les mots de passe et clés des hôtes depuis 1Password, Bitwarden, Infisical ou HashiCorp Vault lors de la connexion au lieu de les stocker dans Termix."
   },
-  "deleteConfirm": "Supprimer la source de secrets {{name}} ?"
+  "deleteConfirm": "Supprimer la source de secrets {{name}} ?",
+  "kindLabel": "Type",
+  "serverUrlLabel": "URL du serveur",
+  "bwServeUrlLabel": "URL de bw serve",
+  "testPassed": "Connecté",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden ou Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID client",
+    "clientSecret": "Secret client",
+    "accessToken": "Jeton d'accès du compte machine",
+    "vaultToken": "Jeton (ou utilisez AppRole ci-dessous)",
+    "roleId": "ID de rôle AppRole",
+    "secretId": "ID de secret AppRole",
+    "namespace": "Espace de noms (facultatif)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Référence :",
+    "infisical": "Utilise une identité machine avec l'authentification universelle. Référence :",
+    "bitwarden-sm": "Laissez l'URL telle quelle pour bitwarden.com, ou utilisez l'adresse de votre propre serveur. Référence :",
+    "hashicorp-vault": "Lit les versions KV 1 ou 2. Référence :",
+    "bitwarden-cli": "Exécutez bw serve là où Termix peut l'atteindre et gardez le coffre déverrouillé. Le champ est le nom d'utilisateur, le mot de passe, le TOTP, les notes, l'URI ou un nom de champ personnalisé. Référence :"
+  }
 }

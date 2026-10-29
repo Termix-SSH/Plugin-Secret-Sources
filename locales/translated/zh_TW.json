@@ -1,8 +1,8 @@
 {
-  "hint": "您可以貼上 1Password 參考連結 (op://vault/item/field) 來取代機密內容。在連線時，系統會從您的機密來源擷取該內容。",
+  "hint": "您可以貼上機密參考路徑而非機密內容本身，例如 op://vault/item/field 或 vault://secret/app#password。系統會在連線時從您的機密來源擷取這些資訊。",
   "manage": "管理機密來源",
   "title": "機密來源",
-  "description": "Termix 在連線時會從這些外部密碼管理器讀取機密內容。此功能支援自行架設的 1Password Connect 伺服器。存取權杖會以加密方式儲存於伺服器上，且絕不會傳回瀏覽器。",
+  "description": "Termix 在連線時會從以下外部密碼管理器讀取機密：1Password Connect、Infisical、Bitwarden Secrets Manager、HashiCorp Vault，或透過 bw serve 使用的 Bitwarden 與 Vaultwarden。權杖會以加密方式儲存於伺服器上，且絕不會傳回瀏覽器。",
   "new": "新增來源",
   "nameLabel": "顯示名稱",
   "namePlaceholder": "團隊 1Password",
@@ -12,22 +12,48 @@
   "sharedLabel": "與所有使用者共用（僅限管理員）",
   "shared": "共用",
   "test": "測試",
-  "testOk_other": "已連線，可見 {{count}} 個保險箱",
   "testFailed": "連線測試失敗",
-  "required": "名稱、伺服器 URL 和權杖為必填欄位",
+  "required": "名稱、伺服器 URL 與登入資訊為必填欄位",
   "saved": "機密來源已儲存",
   "deleted": "機密來源已刪除",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "私人端點允許清單",
-        "description": "機密來源可存取的私人或回環位址，每行一個。自行架設的 1Password Connect 伺服器通常需在此列出其自身位址。"
+        "description": "機密來源可存取的私人或迴環位址，每行一個。自架伺服器（如 1Password Connect、Vault 或 bw serve）通常需在此列出其自身位址。"
       }
     }
   },
   "plugin": {
     "name": "機密來源",
-    "description": "連線時從 1Password 取得主機密碼和金鑰，無需儲存在 Termix 中。"
+    "description": "連線時從 1Password、Bitwarden、Infisical 或 HashiCorp Vault 擷取主機密碼與金鑰，而非將其儲存於 Termix 中。"
   },
-  "deleteConfirm": "確定要刪除機密來源 {{name}} 嗎？"
+  "deleteConfirm": "確定要刪除機密來源 {{name}} 嗎？",
+  "kindLabel": "類型",
+  "serverUrlLabel": "伺服器 URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "已連線",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden 或 Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "用戶端 ID",
+    "clientSecret": "用戶端機密",
+    "accessToken": "機器帳戶存取權杖",
+    "vaultToken": "權杖（或於下方使用 AppRole）",
+    "roleId": "AppRole 角色 ID",
+    "secretId": "AppRole 機密 ID",
+    "namespace": "命名空間（選填）"
+  },
+  "kindHints": {
+    "onepassword-connect": "參考路徑：",
+    "infisical": "使用具備 Universal Auth 的機器身分。參考路徑：",
+    "bitwarden-sm": "若使用 bitwarden.com 請保留預設 URL，或改用您自有伺服器的位址。參考路徑：",
+    "hashicorp-vault": "讀取 KV 版本 1 或 2。參考路徑：",
+    "bitwarden-cli": "在 Termix 可存取的環境中執行 bw serve，並保持金庫解鎖狀態。欄位可為 username、password、totp、notes、uri 或自訂欄位名稱。參考路徑："
+  }
 }

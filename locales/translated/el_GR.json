@@ -1,8 +1,8 @@
 {
-  "hint": "Μπορείτε να επικολλήσετε μια αναφορά 1Password (op://vault/item/field) αντί του μυστικού. Ανακτήθηκε από την πηγή μυστικών σας κατά τη σύνδεση.",
+  "hint": "Μπορείτε να επικολλήσετε μια αναφορά μυστικού αντί για το ίδιο το μυστικό, όπως op://vault/item/field ή vault://secret/app#password. Ανακτήθηκε από την πηγή μυστικών σας κατά τη σύνδεση.",
   "manage": "Διαχείριση πηγών μυστικών",
   "title": "Πηγές μυστικών",
-  "description": "Εξωτερικοί διαχειριστές κωδικών από τους οποίους το Termix διαβάζει μυστικά κατά τη σύνδεση. Λειτουργεί με έναν αυτοξενοδοχευόμενο διακομιστή 1Password Connect. Το token πρόσβασης αποθηκεύεται κρυπτογραφημένο στον διακομιστή και δεν αποστέλλεται ποτέ πίσω στον περιηγητή.",
+  "description": "Εξωτερικοί διαχειριστές κωδικών πρόσβασης από τους οποίους το Termix διαβάζει μυστικά κατά τη σύνδεση: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, ή Bitwarden και Vaultwarden μέσω bw serve. Τα tokens αποθηκεύονται κρυπτογραφημένα στον server και δεν αποστέλλονται ποτέ πίσω στον browser.",
   "new": "Νέα πηγή",
   "nameLabel": "Φιλικό όνομα",
   "namePlaceholder": "Ομάδα 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Κοινή χρήση με όλους τους χρήστες (μόνο για διαχειριστές)",
   "shared": "κοινόχρηστο",
   "test": "Δοκιμή",
-  "testOk_one": "Συνδεδεμένο, {{count}} θησαυροφυλάκιο ορατό",
-  "testOk_other": "Συνδεδεμένο, {{count}} θησαυροφυλάκια ορατά",
   "testFailed": "Η δοκιμή σύνδεσης απέτυχε",
-  "required": "Το όνομα, το URL του διακομιστή και το token είναι υποχρεωτικά",
+  "required": "Το όνομα, η διεύθυνση URL του server και τα στοιχεία σύνδεσης είναι υποχρεωτικά",
   "saved": "Η πηγή μυστικών αποθηκεύτηκε",
   "deleted": "Η πηγή μυστικών διαγράφηκε",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Λίστα επιτρεπόμενων ιδιωτικών τελικών σημείων",
-        "description": "Ιδιωτικοί ή τοπικοί διακομιστές που μπορεί να φτάσει μια πηγή μυστικών, ένας ανά γραμμή. Ένας αυτοξενοδοχευόμενος διακομιστής 1Password Connect συνήθως χρειάζεται να αναφέρεται η δική του διεύθυνση εδώ."
+        "description": "Ιδιωτικοί ή loopback hosts που μπορεί να φτάσει μια πηγή μυστικών, ένας ανά γραμμή. Ένας self-hosted server, όπως το 1Password Connect, το Vault ή το bw serve, συνήθως χρειάζεται να αναγραφεί η δική του διεύθυνση εδώ."
       }
     }
   },
   "plugin": {
     "name": "Πηγές μυστικών",
-    "description": "Ανάκτηση κωδικών πρόσβασης και κλειδιών υπολογιστών από το 1Password κατά τη σύνδεση, αντί να αποθηκεύονται στο Termix."
+    "description": "Λάβετε κωδικούς πρόσβασης και κλειδιά hosts από το 1Password, Bitwarden, Infisical ή HashiCorp Vault κατά τη σύνδεση αντί να τα αποθηκεύετε στο Termix."
   },
-  "deleteConfirm": "Διαγραφή της πηγής μυστικών {{name}};"
+  "deleteConfirm": "Διαγραφή της πηγής μυστικών {{name}};",
+  "kindLabel": "Τύπος",
+  "serverUrlLabel": "Διεύθυνση URL server",
+  "bwServeUrlLabel": "Διεύθυνση URL bw serve",
+  "testPassed": "Συνδέθηκε",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden ή Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Client ID",
+    "clientSecret": "Client secret",
+    "accessToken": "Token πρόσβασης machine account",
+    "vaultToken": "Token (ή χρησιμοποιήστε AppRole παρακάτω)",
+    "roleId": "Role ID AppRole",
+    "secretId": "Secret ID AppRole",
+    "namespace": "Namespace (προαιρετικό)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Αναφορά:",
+    "infisical": "Χρησιμοποιεί machine identity με Universal Auth. Αναφορά:",
+    "bitwarden-sm": "Αφήστε τη διεύθυνση URL ως έχει για bitwarden.com, ή χρησιμοποιήστε τη διεύθυνση του δικού σας server. Αναφορά:",
+    "hashicorp-vault": "Διαβάζει KV έκδοση 1 ή 2. Αναφορά:",
+    "bitwarden-cli": "Τρέξτε το bw serve όπου μπορεί να το φτάσει το Termix και κρατήστε το vault ξεκλειδωμένο. Το πεδίο είναι username, password, totp, notes, uri ή ένα προσαρμοσμένο όνομα πεδίου. Αναφορά:"
+  }
 }

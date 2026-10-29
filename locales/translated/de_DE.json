@@ -1,8 +1,8 @@
 {
-  "hint": "Sie können einen 1Password-Verweis (op://vault/item/field) anstelle des Geheimnisses einfügen. Es wird beim Verbinden aus Ihrer Geheimnisquelle abgerufen.",
+  "hint": "Statt des Geheimnisses können Sie eine Referenz einfügen, z. B. op://vault/item/field oder vault://secret/app#password. Diese wird beim Verbinden von Ihrer Geheimnisquelle abgerufen.",
   "manage": "Geheimnisquellen verwalten",
   "title": "Geheimnisquellen",
-  "description": "Externe Passwortmanager, aus denen Termix Geheimnisse beim Verbinden liest. Funktioniert mit einem selbst gehosteten 1Password Connect-Server. Das Zugriffstoken wird verschlüsselt auf dem Server gespeichert und niemals an den Browser zurückgesendet.",
+  "description": "Externe Passwortmanager, aus denen Termix Geheimnisse beim Verbinden liest: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault oder Bitwarden und Vaultwarden über bw serve. Tokens werden verschlüsselt auf dem Server gespeichert und niemals an den Browser zurückgesendet.",
   "new": "Neue Quelle",
   "nameLabel": "Anzeigename",
   "namePlaceholder": "Team 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Mit allen Nutzern teilen (nur für Administratoren)",
   "shared": "geteilt",
   "test": "Testen",
-  "testOk_one": "Verbunden, {{count}} Tresor sichtbar",
-  "testOk_other": "Verbunden, {{count}} Tresore sichtbar",
   "testFailed": "Verbindungstest fehlgeschlagen",
-  "required": "Name, Server-URL und Token sind erforderlich",
+  "required": "Name, Server-URL und die Anmeldeinformationen sind erforderlich",
   "saved": "Geheimnisquelle gespeichert",
   "deleted": "Geheimnisquelle gelöscht",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Erlaubnisliste für private Endpunkte",
-        "description": "Private oder Loopback-Hosts, die eine Geheimnisquelle erreichen darf, einer pro Zeile. Ein selbst gehosteter 1Password Connect-Server benötigt in der Regel seine eigene Adresse hier."
+        "description": "Private oder Loopback-Hosts, die eine Geheimnisquelle erreichen darf, einer pro Zeile. Ein selbst gehosteter Server wie 1Password Connect, Vault oder bw serve benötigt in der Regel seine eigene Adresse hier."
       }
     }
   },
   "plugin": {
     "name": "Geheimnisquellen",
-    "description": "Rufen Sie Host-Passwörter und Schlüssel aus 1Password ab, wenn Sie eine Verbindung herstellen, anstatt sie in Termix zu speichern."
+    "description": "Ziehen Sie Host-Passwörter und Schlüssel von 1Password, Bitwarden, Infisical oder HashiCorp Vault beim Verbinden, anstatt sie in Termix zu speichern."
   },
-  "deleteConfirm": "Geheimnisquelle {{name}} löschen?"
+  "deleteConfirm": "Geheimnisquelle {{name}} löschen?",
+  "kindLabel": "Typ",
+  "serverUrlLabel": "Server-URL",
+  "bwServeUrlLabel": "bw serve-URL",
+  "testPassed": "Verbunden",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden oder Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Client-ID",
+    "clientSecret": "Client-Geheimnis",
+    "accessToken": "Zugriffstoken für Maschinenkonto",
+    "vaultToken": "Token (oder AppRole unten verwenden)",
+    "roleId": "AppRole-Rollen-ID",
+    "secretId": "AppRole-Geheimnis-ID",
+    "namespace": "Namespace (optional)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referenz:",
+    "infisical": "Verwendet eine Maschinenidentität mit Universal Auth. Referenz:",
+    "bitwarden-sm": "URL unverändert lassen für bitwarden.com oder die Adresse Ihres eigenen Servers verwenden. Referenz:",
+    "hashicorp-vault": "Liest KV Version 1 oder 2. Referenz:",
+    "bitwarden-cli": "Führen Sie bw serve aus, wo Termix darauf zugreifen kann, und halten Sie den Vault entsperrt. Das Feld ist Benutzername, Passwort, TOTP, Notizen, URI oder ein benutzerdefinierter Feldname. Referenz:"
+  }
 }

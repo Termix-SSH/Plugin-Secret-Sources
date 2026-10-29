@@ -1,8 +1,8 @@
 {
-  "hint": "Namiesto tajomstva môžete vložiť odkaz 1Password (op://vault/item/field). Pri pripájaní sa načíta zo zdroja tajomstiev.",
+  "hint": "Namiesto tajomstva môžete vložiť odkaz na tajomstvo, napríklad op://vault/item/field alebo vault://secret/app#password. Pri pripájaní sa načíta zo zdroja tajomstiev.",
   "manage": "Spravovať zdroje tajomstiev",
   "title": "Zdroje tajomstiev",
-  "description": "Externé manažéry hesiel, z ktorých Termix pri pripájaní číta tajomstvá. Funguje so samostatne hosteným serverom 1Password Connect. Prístupový token je uložený šifrovaný na serveri a nikdy sa neodosiela späť do prehliadača.",
+  "description": "Externé správcovia hesiel, z ktorých Termix číta tajomstvá pri pripájaní: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault alebo Bitwarden a Vaultwarden prostredníctvom bw serve. Tokeny sú uložené šifrované na serveri a nikdy sa neodosielajú späť do prehliadača.",
   "new": "Nový zdroj",
   "nameLabel": "Pohodlný názov",
   "namePlaceholder": "Tím 1Password",
@@ -12,25 +12,48 @@
   "sharedLabel": "Zdieľať so všetkými používateľmi (iba pre administrátorov)",
   "shared": "zdieľané",
   "test": "Test",
-  "testOk_one": "Pripojené, viditeľná {{count}} trezor",
-  "testOk_few": "Pripojené, viditeľné {{count}} trezory",
-  "testOk_many": "Pripojené, viditeľných {{count}} trezorov",
-  "testOk_other": "Pripojené, viditeľných {{count}} trezorov",
   "testFailed": "Test pripojenia zlyhal",
-  "required": "Názov, URL servera a token sú povinné",
+  "required": "Názov, URL servera a prihlasovacie údaje sú povinné",
   "saved": "Zdroj tajomstiev uložený",
   "deleted": "Zdroj tajomstiev odstránený",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Povolený zoznam súkromných koncových bodov",
-        "description": "Súkromné alebo slučkové hostiteľy, ktorých môže zdroj tajomstiev dosiahnuť, každý na samostatnom riadku. Samostatne hostený server 1Password Connect zvyčajne potrebuje mať tu uvedenú vlastnú adresu."
+        "description": "Súkromné alebo slučkové hostiteľské mená, ktoré môže zdroj tajomstiev dosiahnuť, jedno na riadok. Samostatne hostovaný server, ako je 1Password Connect, Vault alebo bw serve, zvyčajne potrebuje mať svoju vlastnú adresu uvedenú tu."
       }
     }
   },
   "plugin": {
     "name": "Zdroje tajomstiev",
-    "description": "Pri pripájaní načítajte heslá a kľúče hostiteľa z 1Password namiesto ich ukladania v Termix."
+    "description": "Pri pripájaní získavajte heslá a kľúče hostiteľov z 1Password, Bitwarden, Infisical alebo HashiCorp Vault namiesto ich ukladania v Termix."
   },
-  "deleteConfirm": "Odstrániť zdroj tajomstiev {{name}}?"
+  "deleteConfirm": "Odstrániť zdroj tajomstiev {{name}}?",
+  "kindLabel": "Typ",
+  "serverUrlLabel": "URL servera",
+  "bwServeUrlLabel": "URL bw serve",
+  "testPassed": "Pripojené",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden alebo Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID klienta",
+    "clientSecret": "Tajomstvo klienta",
+    "accessToken": "Prístupový token strojového účtu",
+    "vaultToken": "Token (alebo použite AppRole nižšie)",
+    "roleId": "ID role AppRole",
+    "secretId": "Tajomné ID AppRole",
+    "namespace": "Menový priestor (voliteľné)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Odkaz:",
+    "infisical": "Používa strojovú identitu s univerzálnym overovaním. Odkaz:",
+    "bitwarden-sm": "Nechajte URL tak, ako je, pre bitwarden.com, alebo použite adresu vlastného servera. Odkaz:",
+    "hashicorp-vault": "Číta KV verziu 1 alebo 2. Odkaz:",
+    "bitwarden-cli": "Spustite bw serve na mieste, kde ho Termix môže dosiahnuť, a nechajte vault odomknutý. Pole je používateľské meno, heslo, totp, poznámky, uri alebo názov vlastného poľa. Odkaz:"
+  }
 }

@@ -1,8 +1,8 @@
 {
-  "hint": "Anda boleh menampal rujukan 1Password (op://vault/item/field) sebagai ganti rahsia. Ia akan diambil dari sumber rahsia anda semasa menyambung.",
+  "hint": "Anda boleh menampal rujukan rahsia sebagai ganti rahsia itu sendiri, seperti op://vault/item/field atau vault://secret/app#password. Ia akan diambil dari sumber rahsia anda semasa menyambung.",
   "manage": "Urus sumber rahsia",
   "title": "Sumber rahsia",
-  "description": "Pengurus kata laluan luaran yang dibaca oleh Termix untuk mendapatkan rahsia semasa anda menyambung. Berfungsi dengan pelayan 1Password Connect yang dihoskan sendiri. Token akses disimpan dalam keadaan terenkripsi pada pelayan dan tidak pernah dihantar kembali ke pelayar.",
+  "description": "Pengurus kata laluan luaran yang dibaca oleh Termix untuk mendapatkan rahsia semasa anda menyambung: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, atau Bitwarden dan Vaultwarden melalui bw serve. Token disimpan dalam keadaan terenkripsi pada pelayan dan tidak pernah dihantar kembali ke pelayar.",
   "new": "Sumber baru",
   "nameLabel": "Nama mesra",
   "namePlaceholder": "1Password Pasukan",
@@ -12,22 +12,48 @@
   "sharedLabel": "Kongsi dengan semua pengguna (pentadbir sahaja)",
   "shared": "dikongsi",
   "test": "Uji",
-  "testOk_other": "Bersambung, {{count}} peti besi kelihatan",
   "testFailed": "Ujian sambungan gagal",
-  "required": "Nama, URL pelayan dan token diperlukan",
+  "required": "Nama, URL pelayan, dan butiran log masuk diperlukan",
   "saved": "Sumber rahsia disimpan",
   "deleted": "Sumber rahsia dipadam",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Senarai kebenaran titik akhir peribadi",
-        "description": "Hos peribadi atau loopback yang boleh dicapai oleh sumber rahsia, satu setiap baris. Pelayan 1Password Connect yang dihoskan sendiri biasanya memerlukan alamatnya sendiri disenaraikan di sini."
+        "description": "Hos peribadi atau loopback yang boleh dicapai oleh sumber rahsia, satu setiap baris. Pelayan yang dihoskan sendiri, seperti 1Password Connect, Vault, atau bw serve, biasanya memerlukan alamatnya sendiri disenaraikan di sini."
       }
     }
   },
   "plugin": {
     "name": "Sumber Rahsia",
-    "description": "Ambil kata laluan dan kunci hos dari 1Password semasa menyambung, bukannya menyimpannya dalam Termix."
+    "description": "Ambil kata laluan dan kunci hos dari 1Password, Bitwarden, Infisical, atau HashiCorp Vault semasa anda menyambung sebagai ganti menyimpannya dalam Termix."
   },
-  "deleteConfirm": "Padam sumber rahsia {{name}}?"
+  "deleteConfirm": "Padam sumber rahsia {{name}}?",
+  "kindLabel": "Jenis",
+  "serverUrlLabel": "URL Pelayan",
+  "bwServeUrlLabel": "URL bw serve",
+  "testPassed": "Berjaya disambung",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden atau Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID Pelanggan",
+    "clientSecret": "Rahsia pelanggan",
+    "accessToken": "Token akses akaun mesin",
+    "vaultToken": "Token (atau gunakan AppRole di bawah)",
+    "roleId": "ID peranan AppRole",
+    "secretId": "ID rahsia AppRole",
+    "namespace": "Ruang nama (pilihan)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Rujukan:",
+    "infisical": "Menggunakan identiti mesin dengan Universal Auth. Rujukan:",
+    "bitwarden-sm": "Biarkan URL seperti sedia ada untuk bitwarden.com, atau gunakan alamat pelayan anda sendiri. Rujukan:",
+    "hashicorp-vault": "Membaca KV versi 1 atau 2. Rujukan:",
+    "bitwarden-cli": "Jalankan bw serve di mana Termix boleh mencapainya dan pastikan vault tidak dikunci. Medan adalah nama pengguna, kata laluan, totp, nota, uri, atau nama medan tersuai. Rujukan:"
+  }
 }

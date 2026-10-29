@@ -1,8 +1,8 @@
 {
-  "hint": "Puteți lipi o referință 1Password (op://vault/item/field) în loc de secret. Acesta este preluat din sursa de secrete la conectare.",
+  "hint": "Puteți lipi o referință la secret în loc de secretul în sine, de exemplu op://vault/item/field sau vault://secret/app#password. Acesta este preluat din sursa de secrete la conectare.",
   "manage": "Gestionează sursele de secrete",
   "title": "Surse de secrete",
-  "description": "Manageri externi de parole din care Termix citește secretele la conectare. Funcționează cu un server 1Password Connect găzduit local. Token-ul de acces este stocat criptat pe server și nu este niciodată trimis înapoi către browser.",
+  "description": "Manageri externi de parole din care Termix citește secretele la conectare: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault sau Bitwarden și Vaultwarden prin bw serve. Token-urile sunt stocate criptate pe server și nu sunt niciodată trimise înapoi către browser.",
   "new": "Sursă nouă",
   "nameLabel": "Nume afișat",
   "namePlaceholder": "1Password Echipă",
@@ -12,24 +12,48 @@
   "sharedLabel": "Partajează cu toți utilizatorii (doar pentru admini)",
   "shared": "partajat",
   "test": "Testează",
-  "testOk_one": "Conectat, {{count}} vault vizibil",
-  "testOk_few": "Conectat, {{count}} vault-uri vizibile",
-  "testOk_other": "Conectat, {{count}} vault-uri vizibile",
   "testFailed": "Testul de conectare a eșuat",
-  "required": "Numele, URL-ul serverului și token-ul sunt obligatorii",
+  "required": "Numele, URL-ul serverului și datele de autentificare sunt obligatorii",
   "saved": "Sursa de secrete a fost salvată",
   "deleted": "Sursa de secrete a fost ștearsă",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Listă de permisiuni pentru endpoint-uri private",
-        "description": "Gazde private sau de loopback pe care o sursă de secrete le poate atinge, câte una pe linie. Un server 1Password Connect găzduit local are de obicei nevoie ca propria sa adresă să fie listată aici."
+        "description": "Gazde private sau de loopback pe care o sursă de secrete le poate atinge, câte una pe linie. Un server auto-găzduit, precum 1Password Connect, Vault sau bw serve, de obicei necesită adresa sa proprie listată aici."
       }
     }
   },
   "plugin": {
     "name": "Surse de secrete",
-    "description": "Preia parolele și cheile serverelor din 1Password la conectare, în loc să le salvezi în Termix."
+    "description": "Preluarea parolelor și cheilor gazdelor din 1Password, Bitwarden, Infisical sau HashiCorp Vault la conectare, în loc să le stocați în Termix."
   },
-  "deleteConfirm": "Ștergeți sursa de secrete {{name}}?"
+  "deleteConfirm": "Ștergeți sursa de secrete {{name}}?",
+  "kindLabel": "Tip",
+  "serverUrlLabel": "URL server",
+  "bwServeUrlLabel": "URL bw serve",
+  "testPassed": "Conectat",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden sau Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID client",
+    "clientSecret": "Secret client",
+    "accessToken": "Token de acces pentru cont de mașină",
+    "vaultToken": "Token (sau folosiți AppRole mai jos)",
+    "roleId": "ID rol AppRole",
+    "secretId": "ID secret AppRole",
+    "namespace": "Spațiu de nume (opțional)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referință:",
+    "infisical": "Folosește o identitate de mașină cu Universal Auth. Referință:",
+    "bitwarden-sm": "Lăsați URL-ul așa cum este pentru bitwarden.com sau folosiți adresa propriului server. Referință:",
+    "hashicorp-vault": "Citește KV versiunea 1 sau 2. Referință:",
+    "bitwarden-cli": "Executați bw serve unde Termix îl poate atinge și mențineți vault-ul deblocat. Câmpul este username, password, totp, notes, uri sau un nume de câmp personalizat. Referință:"
+  }
 }

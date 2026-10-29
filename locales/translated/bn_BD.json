@@ -1,8 +1,8 @@
 {
-  "hint": "You can paste a 1Password reference (op://vault/item/field) instead of the secret. It is fetched from your secret source when connecting.",
+  "hint": "You can paste a secret reference instead of the secret, like op://vault/item/field or vault://secret/app#password. It is fetched from your secret source when connecting.",
   "manage": "Manage secret sources",
   "title": "Secret sources",
-  "description": "External password managers Termix reads secrets from when you connect. Works with a self-hosted 1Password Connect server. The access token is stored encrypted on the server and never sent back to the browser.",
+  "description": "External password managers Termix reads secrets from when you connect: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, or Bitwarden and Vaultwarden through bw serve. Tokens are stored encrypted on the server and never sent back to the browser.",
   "new": "New source",
   "nameLabel": "Friendly name",
   "namePlaceholder": "Team 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Share with all users (admins only)",
   "shared": "shared",
   "test": "Test",
-  "testOk_one": "Connected, {{count}} vault visible",
-  "testOk_other": "Connected, {{count}} vaults visible",
   "testFailed": "Connection test failed",
-  "required": "Name, server URL and token are required",
+  "required": "Name, server URL and the login details are required",
   "saved": "Secret source saved",
   "deleted": "Secret source deleted",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Private endpoint allowlist",
-        "description": "Private or loopback hosts a secret source may reach, one per line. A self-hosted 1Password Connect server usually needs its own address listed here."
+        "description": "Private or loopback hosts a secret source may reach, one per line. A self-hosted server, like 1Password Connect, Vault or bw serve, usually needs its own address listed here."
       }
     }
   },
   "plugin": {
     "name": "Secret Sources",
-    "description": "কানেক্ট করার সময় Termix-এ সেভ না করে 1Password থেকে হোস্টের পাসওয়ার্ড এবং কীগুলো টেনে আনুন।"
+    "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect instead of storing them in Termix."
   },
-  "deleteConfirm": "Delete the secret source {{name}}?"
+  "deleteConfirm": "Delete the secret source {{name}}?",
+  "kindLabel": "Type",
+  "serverUrlLabel": "Server URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "Connected",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden or Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Client ID",
+    "clientSecret": "Client secret",
+    "accessToken": "Machine account access token",
+    "vaultToken": "Token (or use AppRole below)",
+    "roleId": "AppRole role ID",
+    "secretId": "AppRole secret ID",
+    "namespace": "Namespace (optional)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Reference:",
+    "infisical": "Uses a machine identity with Universal Auth. Reference:",
+    "bitwarden-sm": "Leave the URL as is for bitwarden.com, or use your own server's address. Reference:",
+    "hashicorp-vault": "Reads KV version 1 or 2. Reference:",
+    "bitwarden-cli": "Run bw serve where Termix can reach it and keep the vault unlocked. Field is username, password, totp, notes, uri or a custom field name. Reference:"
+  }
 }

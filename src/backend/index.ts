@@ -4,7 +4,7 @@ import { sources } from "./tables.js";
 import { createSecretSourceRepository } from "./repository.js";
 import { createTokenStore } from "./token-store.js";
 import { registerSecretSourceRoutes } from "./routes.js";
-import { registerOnePasswordResolver } from "./resolver.js";
+import { registerSecretResolvers } from "./resolver.js";
 
 export async function activate(ctx: PluginContext) {
   const table = await ctx.db.define(sources);
@@ -17,7 +17,7 @@ export async function activate(ctx: PluginContext) {
     repository,
     tokenStore,
   );
-  registerOnePasswordResolver(ctx, repository, tokenStore);
+  registerSecretResolvers(ctx, repository, tokenStore);
 
   ctx.log.info("Secret sources routes mounted at /plugin-api/secret-sources");
 }

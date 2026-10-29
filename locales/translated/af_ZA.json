@@ -1,8 +1,8 @@
 {
-  "hint": "U kan 'n 1Password-verwysing (op://vault/item/field) plak in plaas van die geheim. Dit word van u geheimebron opgehaal wanneer u verbind.",
+  "hint": "U kan 'n geheime verwysing plak in plaas van die geheime self, soos op://vault/item/field of vault://secret/app#password. Dit word van u geheime bron opgehaal wanneer u verbind.",
   "manage": "Bestuur geheimebronne",
   "title": "Geheimebronne",
-  "description": "Eksterne wagwoordbestuurders waaruit Termix geheime lees wanneer u verbind. Werk saam met 'n self-gehoste 1Password Connect-bedienaar. Die toegangsteken word versleutel op die bedienaar gestoor en nooit terug na die blaaier gestuur nie.",
+  "description": "Eksterne wagwoordbestuurders waaruit Termix geheime lees wanneer u verbind: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, of Bitwarden en Vaultwarden deur bw serve. Tokens word versleutel op die bediener gestoor en nooit na die blaaier teruggestuur nie.",
   "new": "Nuwe bron",
   "nameLabel": "Vriendelike naam",
   "namePlaceholder": "Span 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Deel met alle gebruikers (slegs administrateurs)",
   "shared": "gedeel",
   "test": "Toets",
-  "testOk_one": "Verbind, {{count}} kluis sigbaar",
-  "testOk_other": "Verbind, {{count}} kluisse sigbaar",
   "testFailed": "Verbindingstoets het misluk",
-  "required": "Naam, bedienaar-URL en teken is verpligtend",
+  "required": "Naam, bediener-URL en die aanmeldbesonderhede is verpligtend",
   "saved": "Geheimebron gestoor",
   "deleted": "Geheimebron verwyder",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Privaat-eindpunt-toestelys",
-        "description": "Privaat of lus-terug-bedienaar waarheen 'n geheimebron mag verbind, een per lyn. 'n Self-gehoste 1Password Connect-bedienaar moet gewoonlik sy eie adres hier gelys hê."
+        "description": "Privaat of lus-terug bedieners wat 'n geheime bron kan bereik, een per lyn. 'n Self-gehoste bediener, soos 1Password Connect, Vault of bw serve, moet gewoonlik sy eie adres hier gelys hê."
       }
     }
   },
   "plugin": {
     "name": "Geheimebronne",
-    "description": "Trek gasheerwagwoorde en sleutels uit 1Password wanneer jy verbind, in plaas daarvan om dit in Termix te stoor."
+    "description": "Haal bediener-wagwoorde en sleutels van 1Password, Bitwarden, Infisical of HashiCorp Vault wanneer u verbind, in plaas daarvan om dit in Termix te stoor."
   },
-  "deleteConfirm": "Verwyder die geheimebron {{name}}?"
+  "deleteConfirm": "Verwyder die geheimebron {{name}}?",
+  "kindLabel": "Tipe",
+  "serverUrlLabel": "Bediener-URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "Verbind",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden of Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Kliënt-ID",
+    "clientSecret": "Kliëntgeheim",
+    "accessToken": "Masjienrekening-toegangstoken",
+    "vaultToken": "Token (of gebruik AppRole hieronder)",
+    "roleId": "AppRole rol-ID",
+    "secretId": "AppRole geheim-ID",
+    "namespace": "Naamruimte (opsioneel)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Verwysing:",
+    "infisical": "Gebruik 'n masjienidentiteit met Universele Auth. Verwysing:",
+    "bitwarden-sm": "Laat die URL soos dit is vir bitwarden.com, of gebruik u eie bediener se adres. Verwysing:",
+    "hashicorp-vault": "Lees KV weergawe 1 of 2. Verwysing:",
+    "bitwarden-cli": "Voer bw serve uit waar Termix dit kan bereik en hou die kluis ontgrendel. Veld is gebruikersnaam, wagwoord, totp, notas, uri of 'n aangepaste veldnaam. Verwysing:"
+  }
 }

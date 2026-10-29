@@ -1,8 +1,8 @@
 {
-  "hint": "يمكنك لصق مرجع 1Password (op://vault/item/field) بدلاً من السر. سيتم جلبه من مصدر الأسرار الخاص بك عند الاتصال.",
+  "hint": "يمكنك لصق مرجع سري بدلاً من السري نفسه، مثل op://vault/item/field أو vault://secret/app#password. يتم جلبه من مصدر الأسرار الخاص بك عند الاتصال.",
   "manage": "إدارة مصادر الأسرار",
   "title": "مصادر الأسرار",
-  "description": "مديري كلمات المرور الخارجيين الذين يقرأ Termix منهم الأسرار عند الاتصال. يعمل مع خادم 1Password Connect المستضاف ذاتيًا. يتم تخزين رمز الوصول مشفرًا على الخادم ولا يتم إرساله أبدًا إلى المتصفح.",
+  "description": "مديري كلمات المرور الخارجيين التي يقرأ Termix منها الأسرار عند الاتصال: 1Password Connect، وInfisical، وBitwarden Secrets Manager، وHashiCorp Vault، أو Bitwarden وVaultwarden عبر bw serve. يتم تخزين الرموز مشفرة على الخادم ولا يتم إرسالها مرة أخرى إلى المتصفح أبداً.",
   "new": "مصدر جديد",
   "nameLabel": "الاسم الوصفي",
   "namePlaceholder": "فريق 1Password",
@@ -12,27 +12,48 @@
   "sharedLabel": "مشاركة مع جميع المستخدمين (للمسؤولين فقط)",
   "shared": "مشترك",
   "test": "اختبار",
-  "testOk_zero": "متصل، لا توجد خزائن مرئية",
-  "testOk_one": "متصل، خزنة واحدة مرئية",
-  "testOk_two": "متصل، خزنتان مرئيتان",
-  "testOk_few": "متصل، {{count}} خزائن مرئية",
-  "testOk_many": "متصل، {{count}} خزينة مرئية",
-  "testOk_other": "متصل، {{count}} خزائن مرئية",
   "testFailed": "فشل اختبار الاتصال",
-  "required": "الاسم وعنوان URL للسيرفر والرمز مطلوبان",
+  "required": "الاسم، وعنوان URL للخادم، وتفاصيل تسجيل الدخول مطلوبة",
   "saved": "تم حفظ مصدر الأسرار",
   "deleted": "تم حذف مصدر الأسرار",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "قائمة السماح بالنقاط النهائية الخاصة",
-        "description": "المضيفين الخاصين أو حلقة الوصل التي قد يصل إليها مصدر الأسرار، واحد في كل سطر. يحتاج خادم 1Password Connect المستضاف ذاتيًا عادةً إلى إدراج عنوانه الخاص هنا."
+        "description": "المضيفين الخاصين أو حلقة الوصل التي قد يصل إليها مصدر الأسرار، واحد في كل سطر. يحتاج الخادم المستضاف ذاتياً، مثل 1Password Connect أو Vault أو bw serve، عادةً إلى إدراج عنوانه الخاص هنا."
       }
     }
   },
   "plugin": {
     "name": "مصادر الأسرار",
-    "description": "اسحب كلمات مرور المفاتيح الرئيسية من 1Password عند الاتصال بدلاً من تخزينها في Termix."
+    "description": "اسحب كلمات مرور المفاتيح والمضيفين من 1Password أو Bitwarden أو Infisical أو HashiCorp Vault عند الاتصال بدلاً من تخزينها في Termix."
   },
-  "deleteConfirm": "هل تريد حذف مصدر الأسرار {{name}}؟"
+  "deleteConfirm": "هل تريد حذف مصدر الأسرار {{name}}؟",
+  "kindLabel": "النوع",
+  "serverUrlLabel": "عنوان URL للخادم",
+  "bwServeUrlLabel": "عنوان URL لـ bw serve",
+  "testPassed": "متصل",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden أو Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "معرف العميل",
+    "clientSecret": "السر الخاص بالعميل",
+    "accessToken": "رمز الوصول لحساب الجهاز",
+    "vaultToken": "الرمز (أو استخدم AppRole أدناه)",
+    "roleId": "معرف دور AppRole",
+    "secretId": "معرف سر AppRole",
+    "namespace": "مساحة الاسم (اختياري)"
+  },
+  "kindHints": {
+    "onepassword-connect": "المرجع:",
+    "infisical": "يستخدم هوية جهاز مع المصادقة العالمية. المرجع:",
+    "bitwarden-sm": "اترك عنوان URL كما هو لـ bitwarden.com، أو استخدم عنوان خادمك الخاص. المرجع:",
+    "hashicorp-vault": "يقرأ النسخة 1 أو 2 من KV. المرجع:",
+    "bitwarden-cli": "قم بتشغيل bw serve حيث يمكن لـ Termix الوصول إليه واحتفظ بالصندوق مفتوحاً. الحقل هو اسم المستخدم، كلمة المرور، totp، ملاحظات، uri أو اسم حقل مخصص. المرجع:"
+  }
 }

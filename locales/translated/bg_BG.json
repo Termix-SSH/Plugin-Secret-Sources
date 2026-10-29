@@ -1,8 +1,8 @@
 {
-  "hint": "Можете да поставите препратка към 1Password (op://vault/item/field) вместо тайната стойност. Тя се извлича от вашия източник на тайни при свързване.",
+  "hint": "Можете да поставите референция към тайна вместо самата тайна, например op://vault/item/field или vault://secret/app#password. Тя се извлича от вашия източник на тайни при свързване.",
   "manage": "Управление на източници на тайни",
   "title": "Източници на тайни",
-  "description": "Външни мениджъри на пароли, от които Termix извлича тайни стойности при свързване. Работи със самохостнат 1Password Connect сървър. Токенът за достъп се съхранява криптирано на сървъра и никога не се изпраща обратно към браузъра.",
+  "description": "Външни мениджъри на пароли, от които Termix извлича тайни при свързване: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault или Bitwarden и Vaultwarden чрез bw serve. Токените се съхраняват криптирани на сървъра и никога не се изпращат обратно към браузъра.",
   "new": "Нов източник",
   "nameLabel": "Описателно име",
   "namePlaceholder": "Екипен 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Споделяне с всички потребители (само за администратори)",
   "shared": "споделен",
   "test": "Тест",
-  "testOk_one": "Свързан, {{count}} хранилище видимо",
-  "testOk_other": "Свързан, {{count}} хранилища видими",
   "testFailed": "Тестът за връзка не успя",
-  "required": "Името, URL адресът на сървъра и токенът са задължителни",
+  "required": "Името, URL адресът на сървъра и данните за вход са задължителни",
   "saved": "Източникът на тайни е запазен",
   "deleted": "Източникът на тайни е изтрит",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Списък с разрешени частни крайни точки",
-        "description": "Частни или локални хостове, до които източникът на тайни може да стигне, по един на ред. Самохостнат 1Password Connect сървър обикновено изисква неговия собствен адрес да бъде посочен тук."
+        "description": "Частни или локални хостове, до които източникът на тайни може да се свързва, по един на ред. Самостоятелно хостван сървър, като 1Password Connect, Vault или bw serve, обикновено трябва да има своя адрес, посочен тук."
       }
     }
   },
   "plugin": {
     "name": "Източници на тайни",
-    "description": "Извличайте пароли и ключове на хостове от 1Password при свързване, вместо да ги съхранявате в Termix."
+    "description": "Извличане на пароли и ключове за хостове от 1Password, Bitwarden, Infisical или HashiCorp Vault при свързване, вместо да ги съхранявате в Termix."
   },
-  "deleteConfirm": "Да се изтрие ли източникът на тайни {{name}}?"
+  "deleteConfirm": "Да се изтрие ли източникът на тайни {{name}}?",
+  "kindLabel": "Тип",
+  "serverUrlLabel": "URL адрес на сървъра",
+  "bwServeUrlLabel": "URL адрес на bw serve",
+  "testPassed": "Свързан",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Client ID",
+    "clientSecret": "Client secret",
+    "accessToken": "Токен за достъп на машинна акаунт",
+    "vaultToken": "Токен (или използвайте AppRole по-долу)",
+    "roleId": "AppRole role ID",
+    "secretId": "AppRole secret ID",
+    "namespace": "Namespace (по избор)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Референция:",
+    "infisical": "Използва машинна идентичност с Universal Auth. Референция:",
+    "bitwarden-sm": "Оставете URL адреса както е за bitwarden.com, или използвайте адреса на вашия собствен сървър. Референция:",
+    "hashicorp-vault": "Чете KV версия 1 или 2. Референция:",
+    "bitwarden-cli": "Стартирайте bw serve на място, до което Termix може да се свърже, и поддържайте vault отключен. Полето е username, password, totp, notes, uri или име на персонализирано поле. Референция:"
+  }
 }

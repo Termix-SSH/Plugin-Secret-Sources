@@ -1,8 +1,8 @@
 {
-  "hint": "Je kunt een 1Password-referentie (op://vault/item/field) plakken in plaats van het geheim. Deze wordt opgehaald uit je geheimebron bij het verbinden.",
+  "hint": "Je kunt een geheime referentie plakken in plaats van het geheime zelf, zoals op://vault/item/field of vault://secret/app#wachtwoord. Deze wordt opgehaald uit je geheimebron bij het verbinden.",
   "manage": "Geheimebronnen beheren",
   "title": "Geheimebronnen",
-  "description": "Externe wachtwoordbeheerders waar Termix geheimen van ophaalt bij het verbinden. Werkt met een zelfgehoste 1Password Connect-server. Het toegangstoken is versleuteld opgeslagen op de server en wordt nooit naar de browser gestuurd.",
+  "description": "Externe wachtwoordbeheerders waar Termix geheimen van ophaalt bij het verbinden: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, of Bitwarden en Vaultwarden via bw serve. Tokens zijn versleuteld opgeslagen op de server en worden nooit terug naar de browser gestuurd.",
   "new": "Nieuwe bron",
   "nameLabel": "Vriendelijke naam",
   "namePlaceholder": "Team 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Delen met alle gebruikers (alleen beheerders)",
   "shared": "gedeeld",
   "test": "Testen",
-  "testOk_one": "Verbonden, {{count}} kluis zichtbaar",
-  "testOk_other": "Verbonden, {{count}} kluizen zichtbaar",
   "testFailed": "Verbindingstest mislukt",
-  "required": "Naam, server-URL en token zijn verplicht",
+  "required": "Naam, server-URL en inloggegevens zijn verplicht",
   "saved": "Geheimebron opgeslagen",
   "deleted": "Geheimebron verwijderd",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Toegestane lijst voor privé-eindpunten",
-        "description": "Privé- of loopback-hosts die een geheimebron mag bereiken, één per regel. Een zelfgehoste 1Password Connect-server heeft meestal zijn eigen adres hier nodig."
+        "description": "Private of loopback-hosts die een geheimebron mag bereiken, één per regel. Een zelfgehoste server, zoals 1Password Connect, Vault of bw serve, heeft meestal zijn eigen adres hier nodig."
       }
     }
   },
   "plugin": {
     "name": "Geheimebronnen",
-    "description": "Haal hostwachtwoorden en -sleutels op uit 1Password bij het verbinden, in plaats van ze op te slaan in Termix."
+    "description": "Haal hostwachtwoorden en -sleutels op uit 1Password, Bitwarden, Infisical of HashiCorp Vault bij het verbinden in plaats van ze in Termix op te slaan."
   },
-  "deleteConfirm": "Geheimebron {{name}} verwijderen?"
+  "deleteConfirm": "Geheimebron {{name}} verwijderen?",
+  "kindLabel": "Type",
+  "serverUrlLabel": "Server-URL",
+  "bwServeUrlLabel": "bw serve-URL",
+  "testPassed": "Verbonden",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden of Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Client-ID",
+    "clientSecret": "Clientgeheim",
+    "accessToken": "Toegangstoken voor machineaccount",
+    "vaultToken": "Token (of gebruik AppRole hieronder)",
+    "roleId": "AppRole-rollen-ID",
+    "secretId": "AppRole-geheim-ID",
+    "namespace": "Namespace (optioneel)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referentie:",
+    "infisical": "Gebruikt een machine-identiteit met Universal Auth. Referentie:",
+    "bitwarden-sm": "Laat de URL zoals hij is voor bitwarden.com, of gebruik het adres van je eigen server. Referentie:",
+    "hashicorp-vault": "Leest KV-versie 1 of 2. Referentie:",
+    "bitwarden-cli": "Voer bw serve uit waar Termix het kan bereiken en houd de vault ontgrendeld. Veld is gebruikersnaam, wachtwoord, totp, notities, uri of een aangepaste veldnaam. Referentie:"
+  }
 }

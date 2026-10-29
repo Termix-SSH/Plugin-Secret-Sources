@@ -1,8 +1,8 @@
 {
-  "hint": "Du kan klistra in en 1Password-referens (op://vault/item/field) istället för hemligheten. Den hämtas från din hemlighetskälla vid anslutning.",
+  "hint": "Du kan klistra in en hemlig referens istället för själva hemligheten, som op://vault/item/field eller vault://secret/app#password. Den hämtas från din hemlighetskälla vid anslutning.",
   "manage": "Hantera hemlighetskällor",
   "title": "Hemlighetskällor",
-  "description": "Externa lösenordshanterare som Termix läser hemligheter från vid anslutning. Fungerar med en självhostad 1Password Connect-server. Åtkomsttoken lagras krypterat på servern och skickas aldrig tillbaka till webbläsaren.",
+  "description": "Externa lösenordshanterare som Termix läser hemligheter från vid anslutning: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault eller Bitwarden och Vaultwarden via bw serve. Token lagras krypterade på servern och skickas aldrig tillbaka till webbläsaren.",
   "new": "Ny källa",
   "nameLabel": "Visningsnamn",
   "namePlaceholder": "Team 1Password",
@@ -12,23 +12,48 @@
   "sharedLabel": "Dela med alla användare (endast administratörer)",
   "shared": "delad",
   "test": "Testa",
-  "testOk_one": "Ansluten, {{count}} valv synligt",
-  "testOk_other": "Ansluten, {{count}} valv synliga",
   "testFailed": "Anslutningstestet misslyckades",
-  "required": "Namn, server-URL och token krävs",
+  "required": "Namn, server-URL och inloggningsuppgifter krävs",
   "saved": "Hemlighetskälla sparad",
   "deleted": "Hemlighetskälla raderad",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Tillåtlista för privata ändpunkter",
-        "description": "Privata eller loopback-värdar som en hemlighetskälla får nå, en per rad. En självhostad 1Password Connect-server behöver vanligtvis sin egen adress listad här."
+        "description": "Privata eller loopback-värdar som en hemlighetskälla kan nå, en per rad. En självhostad server, som 1Password Connect, Vault eller bw serve, behöver vanligtvis sin egen adress listad här."
       }
     }
   },
   "plugin": {
     "name": "Hemlighetskällor",
-    "description": "Hämta värdens lösenord och nycklar från 1Password när du ansluter istället för att lagra dem i Termix."
+    "description": "Hämta värdens lösenord och nycklar från 1Password, Bitwarden, Infisical eller HashiCorp Vault vid anslutning istället för att lagra dem i Termix."
   },
-  "deleteConfirm": "Radera hemlighetskällan {{name}}?"
+  "deleteConfirm": "Radera hemlighetskällan {{name}}?",
+  "kindLabel": "Typ",
+  "serverUrlLabel": "Server-URL",
+  "bwServeUrlLabel": "bw serve-URL",
+  "testPassed": "Ansluten",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden eller Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "Klient-ID",
+    "clientSecret": "Klienthemlighet",
+    "accessToken": "Åtkomsttoken för maskinkonto",
+    "vaultToken": "Token (eller använd AppRole nedan)",
+    "roleId": "AppRole-roll-ID",
+    "secretId": "AppRole-hemlig ID",
+    "namespace": "Namnrymd (valfritt)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referens:",
+    "infisical": "Använder en maskinidentitet med Universal Auth. Referens:",
+    "bitwarden-sm": "Lämna URL:en som den är för bitwarden.com, eller använd din egen servers adress. Referens:",
+    "hashicorp-vault": "Läser KV version 1 eller 2. Referens:",
+    "bitwarden-cli": "Kör bw serve där Termix kan nå den och håll valvet olåst. Fält är användarnamn, lösenord, totp, anteckningar, uri eller ett anpassat fältnamn. Referens:"
+  }
 }

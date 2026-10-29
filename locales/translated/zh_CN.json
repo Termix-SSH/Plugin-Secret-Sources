@@ -1,8 +1,8 @@
 {
-  "hint": "您可以粘贴 1Password 引用（op://vault/item/field）来代替密钥。连接时，它将从您的密钥源中获取。",
+  "hint": "您可以粘贴密钥引用（如 op://vault/item/field 或 vault://secret/app#password）来代替直接输入密钥。连接时，系统会从您的密钥源获取实际值。",
   "manage": "管理密钥源",
   "title": "密钥源",
-  "description": "Termix 在连接时从中读取密钥的外部密码管理器。适用于自托管的 1Password Connect 服务器。访问令牌在服务器上加密存储，绝不会发送回浏览器。",
+  "description": "Termix 在连接时从中读取密钥的外部密码管理器：1Password Connect、Infisical、Bitwarden Secrets Manager、HashiCorp Vault，或通过 bw serve 使用的 Bitwarden 和 Vaultwarden。令牌在服务器上加密存储，绝不会发送回浏览器。",
   "new": "新建源",
   "nameLabel": "显示名称",
   "namePlaceholder": "团队 1Password",
@@ -12,22 +12,48 @@
   "sharedLabel": "与所有用户共享（仅限管理员）",
   "shared": "已共享",
   "test": "测试",
-  "testOk_other": "已连接，可见 {{count}} 个保险库",
   "testFailed": "连接测试失败",
-  "required": "名称、服务器 URL 和令牌为必填项",
+  "required": "名称、服务器 URL 和登录凭据为必填项",
   "saved": "密钥源已保存",
   "deleted": "密钥源已删除",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "私有端点允许列表",
-        "description": "密钥源可以访问的私有或回环主机，每行一个。自托管的 1Password Connect 服务器通常需要将自身的地址列在此处。"
+        "description": "密钥源可以访问的私有或回环主机地址，每行一个。自托管服务器（如 1Password Connect、Vault 或 bw serve）通常需要将自身的地址列在此处。"
       }
     }
   },
   "plugin": {
     "name": "密钥源",
-    "description": "连接时从 1Password 获取主机密码和密钥，无需存储在 Termix 中。"
+    "description": "连接时从 1Password、Bitwarden、Infisical 或 HashiCorp Vault 拉取主机密码和密钥，而不是将它们存储在 Termix 中。"
   },
-  "deleteConfirm": "确定删除密钥源 {{name}} 吗？"
+  "deleteConfirm": "确定删除密钥源 {{name}} 吗？",
+  "kindLabel": "类型",
+  "serverUrlLabel": "服务器 URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "已连接",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden 或 Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "客户端 ID",
+    "clientSecret": "客户端密钥",
+    "accessToken": "机器账户访问令牌",
+    "vaultToken": "令牌（或在下文使用 AppRole）",
+    "roleId": "AppRole 角色 ID",
+    "secretId": "AppRole 密钥 ID",
+    "namespace": "命名空间（可选）"
+  },
+  "kindHints": {
+    "onepassword-connect": "引用格式：",
+    "infisical": "使用通用身份验证（Universal Auth）的机器身份。引用格式：",
+    "bitwarden-sm": "若使用 bitwarden.com，请保留 URL 不变；否则请使用您自有服务器的地址。引用格式：",
+    "hashicorp-vault": "读取 KV 版本 1 或 2。引用格式：",
+    "bitwarden-cli": "在 Termix 可访问的位置运行 bw serve，并保持密钥库处于解锁状态。字段可以是 username、password、totp、notes、uri 或自定义字段名称。引用格式："
+  }
 }

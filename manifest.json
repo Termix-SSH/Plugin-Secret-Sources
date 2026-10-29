@@ -1,8 +1,8 @@
 {
   "id": "secret-sources",
   "name": "Secret Sources",
-  "version": "1.0.2",
-  "description": "Pull host passwords and keys from 1Password when you connect instead of storing them in Termix.",
+  "version": "1.1.0",
+  "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect instead of storing them in Termix.",
   "author": {
     "name": "Termix"
   },
@@ -13,8 +13,8 @@
   "category": "Access & Security",
   "icon": "KeyRound",
   "features": [
-    "Works with a self-hosted 1Password Connect server",
-    "Use op://vault/item/field references in a host's password or key fields",
+    "Works with 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault and Bitwarden or Vaultwarden through bw serve",
+    "Use references like op://vault/item/field or vault://secret/app#password in a host's password or key fields",
     "Secrets are fetched each time you connect and never stored in Termix"
   ],
   "engine": {
@@ -32,7 +32,7 @@
   ],
   "contributes": {
     "auth": {
-      "secretSchemes": ["op"]
+      "secretSchemes": ["op", "infisical", "bws", "vault", "bw"]
     },
     "settings": {
       "admin": [

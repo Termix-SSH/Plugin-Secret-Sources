@@ -1,8 +1,8 @@
 {
-  "hint": "비밀번호 대신 1Password 참조(op://vault/item/field)를 붙여넣을 수 있습니다. 연결 시 비밀 저장소에서 가져옵니다.",
+  "hint": "비밀번호 대신 op://vault/item/field 또는 vault://secret/app#password와 같은 참조를 붙여넣을 수 있습니다. 연결 시 비밀 저장소에서 가져옵니다.",
   "manage": "비밀 저장소 관리",
   "title": "비밀 저장소",
-  "description": "Termix가 연결 시 비밀번호를 읽는 외부 비밀번호 관리자입니다. 자체 호스팅 1Password Connect 서버와 함께 작동합니다. 액세스 토큰은 서버에 암호화되어 저장되며 브라우저로 다시 전송되지 않습니다.",
+  "description": "Termix가 연결 시 비밀번호를 읽어오는 외부 비밀번호 관리자: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, 또는 bw serve를 통한 Bitwarden 및 Vaultwarden. 토큰은 서버에 암호화되어 저장되며 브라우저로 전송되지 않습니다.",
   "new": "새 저장소",
   "nameLabel": "표시 이름",
   "namePlaceholder": "팀 1Password",
@@ -12,22 +12,48 @@
   "sharedLabel": "모든 사용자와 공유(관리자 전용)",
   "shared": "공유됨",
   "test": "테스트",
-  "testOk_other": "연결됨, {{count}}개의 Vault 표시",
   "testFailed": "연결 테스트 실패",
-  "required": "이름, 서버 URL 및 토큰은 필수입니다",
+  "required": "이름, 서버 URL 및 로그인 정보가 필요합니다.",
   "saved": "비밀 저장소 저장됨",
   "deleted": "비밀 저장소 삭제됨",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "프라이빗 엔드포인트 허용 목록",
-        "description": "비밀 저장소가 도달할 수 있는 프라이빗 또는 루프백 호스트를 한 줄에 하나씩 입력하세요. 자체 호스팅 1Password Connect 서버는 일반적으로 여기에 자체 주소를 등록해야 합니다."
+        "description": "비밀 저장소에서 접근할 수 있는 사설 또는 루프백 호스트를 한 줄에 하나씩 입력합니다. 1Password Connect, Vault 또는 bw serve와 같은 자체 호스팅 서버는 일반적으로 여기에 자체 주소를 등록해야 합니다."
       }
     }
   },
   "plugin": {
     "name": "비밀 저장소",
-    "description": "Termix에 저장하는 대신 연결할 때 1Password에서 호스트 비밀번호와 키를 가져옵니다."
+    "description": "Termix에 저장하는 대신 연결 시 1Password, Bitwarden, Infisical 또는 HashiCorp Vault에서 호스트 비밀번호와 키를 가져옵니다."
   },
-  "deleteConfirm": "비밀 저장소 {{name}}을(를) 삭제하시겠습니까?"
+  "deleteConfirm": "비밀 저장소 {{name}}을(를) 삭제하시겠습니까?",
+  "kindLabel": "유형",
+  "serverUrlLabel": "서버 URL",
+  "bwServeUrlLabel": "bw serve URL",
+  "testPassed": "연결됨",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden 또는 Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "클라이언트 ID",
+    "clientSecret": "클라이언트 비밀",
+    "accessToken": "머신 계정 액세스 토큰",
+    "vaultToken": "토큰 (또는 아래 AppRole 사용)",
+    "roleId": "AppRole 역할 ID",
+    "secretId": "AppRole 비밀 ID",
+    "namespace": "네임스페이스 (선택사항)"
+  },
+  "kindHints": {
+    "onepassword-connect": "참조:",
+    "infisical": "Universal Auth를 사용하는 머신 ID를 사용합니다. 참조:",
+    "bitwarden-sm": "bitwarden.com의 경우 URL을 그대로 두거나 자체 서버 주소를 사용하세요. 참조:",
+    "hashicorp-vault": "KV 버전 1 또는 2를 읽습니다. 참조:",
+    "bitwarden-cli": "Termix가 접근할 수 있는 곳에서 bw serve를 실행하고 Vault를 잠금 해제 상태로 유지하세요. 필드는 사용자 이름, 비밀번호, totp, 메모, uri 또는 사용자 정의 필드 이름입니다. 참조:"
+  }
 }

@@ -1,8 +1,8 @@
 {
-  "hint": "Anda dapat menempelkan referensi 1Password (op://vault/item/field) sebagai pengganti rahasia. Referensi ini akan diambil dari sumber rahasia Anda saat terhubung.",
+  "hint": "Anda dapat menempelkan referensi rahasia alih-alih rahasia itu sendiri, seperti op://vault/item/field atau vault://secret/app#password. Referensi ini diambil dari sumber rahasia Anda saat terhubung.",
   "manage": "Kelola sumber rahasia",
   "title": "Sumber rahasia",
-  "description": "Manajer kata sandi eksternal yang dibaca Termix untuk mengambil rahasia saat Anda terhubung. Berfungsi dengan server 1Password Connect yang di-hosting sendiri. Token akses disimpan dalam keadaan terenkripsi di server dan tidak pernah dikirim kembali ke browser.",
+  "description": "Manajer kata sandi eksternal yang dibaca Termix untuk mengambil rahasia saat Anda terhubung: 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, atau Bitwarden dan Vaultwarden melalui bw serve. Token disimpan dalam bentuk terenkripsi di server dan tidak pernah dikirim kembali ke browser.",
   "new": "Sumber baru",
   "nameLabel": "Nama tampilan",
   "namePlaceholder": "1Password Tim",
@@ -12,22 +12,48 @@
   "sharedLabel": "Bagikan dengan semua pengguna (hanya admin)",
   "shared": "dibagikan",
   "test": "Uji",
-  "testOk_other": "Terhubung, {{count}} brankas terlihat",
   "testFailed": "Uji koneksi gagal",
-  "required": "Nama, URL server, dan token wajib diisi",
+  "required": "Nama, URL server, dan detail login wajib diisi",
   "saved": "Sumber rahasia disimpan",
   "deleted": "Sumber rahasia dihapus",
   "settings": {
     "admin": {
       "privateEndpoints": {
         "label": "Daftar izin titik akhir pribadi",
-        "description": "Host pribadi atau loopback yang boleh diakses oleh sumber rahasia, satu per baris. Server 1Password Connect yang di-hosting sendiri biasanya perlu mencantumkan alamatnya sendiri di sini."
+        "description": "Host privat atau loopback yang dapat diakses oleh sumber rahasia, satu per baris. Server self-hosted, seperti 1Password Connect, Vault, atau bw serve, biasanya perlu mencantumkan alamatnya sendiri di sini."
       }
     }
   },
   "plugin": {
     "name": "Sumber Rahasia",
-    "description": "Ambil kata sandi dan kunci host dari 1Password saat Anda terhubung, alih-alih menyimpannya di Termix."
+    "description": "Ambil kata sandi dan kunci host dari 1Password, Bitwarden, Infisical, atau HashiCorp Vault saat Anda terhubung alih-alih menyimpannya di Termix."
   },
-  "deleteConfirm": "Hapus sumber rahasia {{name}}?"
+  "deleteConfirm": "Hapus sumber rahasia {{name}}?",
+  "kindLabel": "Jenis",
+  "serverUrlLabel": "URL Server",
+  "bwServeUrlLabel": "URL bw serve",
+  "testPassed": "Terhubung",
+  "kinds": {
+    "onepassword-connect": "1Password Connect",
+    "infisical": "Infisical",
+    "bitwarden-sm": "Bitwarden Secrets Manager",
+    "hashicorp-vault": "HashiCorp Vault",
+    "bitwarden-cli": "Bitwarden atau Vaultwarden (bw serve)"
+  },
+  "fields": {
+    "clientId": "ID Klien",
+    "clientSecret": "Rahasia Klien",
+    "accessToken": "Token akses akun mesin",
+    "vaultToken": "Token (atau gunakan AppRole di bawah)",
+    "roleId": "ID peran AppRole",
+    "secretId": "ID rahasia AppRole",
+    "namespace": "Ruang nama (opsional)"
+  },
+  "kindHints": {
+    "onepassword-connect": "Referensi:",
+    "infisical": "Menggunakan identitas mesin dengan Universal Auth. Referensi:",
+    "bitwarden-sm": "Biarkan URL tetap seperti itu untuk bitwarden.com, atau gunakan alamat server Anda sendiri. Referensi:",
+    "hashicorp-vault": "Membaca KV versi 1 atau 2. Referensi:",
+    "bitwarden-cli": "Jalankan bw serve di tempat yang dapat dijangkau Termix dan pastikan vault tetap terbuka. Bidang adalah username, password, totp, notes, uri, atau nama bidang kustom. Referensi:"
+  }
 }
