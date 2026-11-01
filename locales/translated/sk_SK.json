@@ -13,6 +13,15 @@
   "shared": "zdieľané",
   "test": "Test",
   "testFailed": "Test pripojenia zlyhal",
+  "referenceTestLabel": "Otestovať odkaz na tajomstvo",
+  "referenceStatus": {
+    "found": "Nájdené v {{source}}. Tajomstvo bolo prečítané a nezobrazuje sa.",
+    "invalid": "Toto nie je platný odkaz na tajomstvo.",
+    "no_source": "Pre tento typ odkazu nie je nastavený žiadny zdroj tajomstiev.",
+    "not_found": "{{source}} nemá na tomto odkaze žiadne tajomstvo.",
+    "denied": "{{source}} zamietol prístup k tomuto tajomstvu. Skontrolujte token a jeho oprávnenia.",
+    "connection": "Nepodarilo sa pripojiť k {{source}}."
+  },
   "required": "Názov, URL servera a prihlasovacie údaje sú povinné",
   "saved": "Zdroj tajomstiev uložený",
   "deleted": "Zdroj tajomstiev odstránený",

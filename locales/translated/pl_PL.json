@@ -13,6 +13,15 @@
   "shared": "udostępnione",
   "test": "Testuj",
   "testFailed": "Test połączenia nie powiódł się",
+  "referenceTestLabel": "Przetestuj odwołanie do tajnej",
+  "referenceStatus": {
+    "found": "Znaleziono w {{source}}. Tajna została odczytana i nie jest wyświetlana.",
+    "invalid": "To nie jest poprawne odwołanie do tajnej.",
+    "no_source": "Nie skonfigurowano źródła tajnych dla tego typu odwołania.",
+    "not_found": "{{source}} nie zawiera tajnej pod tym odwołaniem.",
+    "denied": "{{source}} odmówił dostępu do tej tajnej. Sprawdź token i jego uprawnienia.",
+    "connection": "Nie udało się połączyć z {{source}}."
+  },
   "required": "Nazwa, adres URL serwera oraz dane logowania są wymagane",
   "saved": "Źródło haseł zostało zapisane",
   "deleted": "Źródło haseł zostało usunięte",

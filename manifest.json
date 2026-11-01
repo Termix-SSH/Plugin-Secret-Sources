@@ -1,7 +1,7 @@
 {
   "id": "secret-sources",
   "name": "Secret Sources",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect instead of storing them in Termix.",
   "author": {
     "name": "Termix"

@@ -13,6 +13,15 @@
   "shared": "partagé",
   "test": "Tester",
   "testFailed": "Échec du test de connexion",
+  "referenceTestLabel": "Tester une référence de secret",
+  "referenceStatus": {
+    "found": "Trouvé dans {{source}}. Le secret a été lu et n'est pas affiché.",
+    "invalid": "Cette référence de secret n'est pas valide.",
+    "no_source": "Aucune source de secret n'est configurée pour ce type de référence.",
+    "not_found": "{{source}} ne contient aucun secret à cette référence.",
+    "denied": "{{source}} a refusé l'accès à ce secret. Vérifiez le jeton et ses autorisations.",
+    "connection": "Impossible d'atteindre {{source}}."
+  },
   "required": "Le nom, l'URL du serveur et les informations de connexion sont requis",
   "saved": "Source de secrets enregistrée",
   "deleted": "Source de secrets supprimée",

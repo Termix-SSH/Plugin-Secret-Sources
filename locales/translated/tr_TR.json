@@ -13,6 +13,15 @@
   "shared": "paylaşılan",
   "test": "Test et",
   "testFailed": "Bağlantı testi başarısız oldu",
+  "referenceTestLabel": "Bir gizli referansı test et",
+  "referenceStatus": {
+    "found": "{{source}} içinde bulundu. Gizli değer okundu ve gösterilmiyor.",
+    "invalid": "Bu geçerli bir gizli referans değil.",
+    "no_source": "Bu tür referanslar için gizli değer kaynağı yapılandırılmamış.",
+    "not_found": "{{source}} bu referansta gizli değer içermiyor.",
+    "denied": "{{source}} bu gizli değere erişimi reddetti. Token'ı ve izinlerini kontrol edin.",
+    "connection": "{{source}}'a ulaşılamadı."
+  },
   "required": "Ad, sunucu URL'si ve giriş bilgileri gereklidir",
   "saved": "Sır kaynağı kaydedildi",
   "deleted": "Sır kaynağı silindi",

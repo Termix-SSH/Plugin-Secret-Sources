@@ -13,6 +13,15 @@
   "shared": "gedeeld",
   "test": "Testen",
   "testFailed": "Verbindingstest mislukt",
+  "referenceTestLabel": "Test een geheime referentie",
+  "referenceStatus": {
+    "found": "Gevonden in {{source}}. Het geheim is gelezen en wordt niet weergegeven.",
+    "invalid": "Dit is geen geldige geheime referentie.",
+    "no_source": "Er is geen geheime bron ingesteld voor dit type referentie.",
+    "not_found": "{{source}} heeft geen geheim op deze referentie.",
+    "denied": "{{source}} heeft toegang tot dit geheim geweigerd. Controleer het token en de machtigingen.",
+    "connection": "{{source}} is niet bereikbaar."
+  },
   "required": "Naam, server-URL en inloggegevens zijn verplicht",
   "saved": "Geheimebron opgeslagen",
   "deleted": "Geheimebron verwijderd",

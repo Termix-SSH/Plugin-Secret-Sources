@@ -4,7 +4,8 @@ import type { PluginContext } from "@termix-ssh/plugin-sdk/backend";
 import type { SecretSourceRepository } from "./repository.js";
 import type { TokenStore } from "./token-store.js";
 import { parseAllowlist } from "./egress.js";
-import { KINDS, providerForKind } from "./providers/index.js";
+import { KINDS, PROVIDERS, providerForKind } from "./providers/index.js";
+import { pickSecretSource } from "./resolver.js";
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -19,6 +20,27 @@ function validBaseUrl(raw: unknown): string | null {
   } catch {
     return null;
   }
+}
+
+/** Sorts a failed lookup into what the person can do about it. */
+function referenceFailure(
+  message: string,
+): "not_found" | "denied" | "connection" {
+  if (
+    /HTTP 40[13]\b|forbidden|unauthori[sz]ed|permission|access denied/i.test(
+      message,
+    )
+  ) {
+    return "denied";
+  }
+  if (
+    /HTTP 404\b|not found|no such|does not exist|no field|no item/i.test(
+      message,
+    )
+  ) {
+    return "not_found";
+  }
+  return "connection";
 }
 
 function errorMessage(error: unknown): string {
@@ -242,6 +264,61 @@ export function registerSecretSourceRoutes(
       } catch (error) {
         ctx.log.error("Failed to delete secret source", error);
         res.status(500).json({ error: "Failed to delete secret source" });
+      }
+    },
+  );
+
+  /**
+   * @openapi
+   * /plugin-api/secret-sources/test-reference:
+   *   post:
+   *     summary: Check that a secret reference resolves, without returning the secret
+   *     description: Uses the same source a connection would use. Answers 200 with a status of found, invalid, no_source, not_found, denied or connection.
+   *     tags:
+   *       - Secret Sources
+   */
+  router.post(
+    "/test-reference",
+    requireCredentials("view") as never,
+    async (req: Request, res: Response) => {
+      const userId = ctx.currentActor()!;
+      const reference = req.body?.reference;
+      const scheme = isNonEmptyString(reference)
+        ? reference.trim().split("://")[0].toLowerCase()
+        : "";
+      const provider = PROVIDERS.find((entry) => entry.scheme === scheme);
+      const ref = provider?.parseReference(String(reference)) ?? null;
+      if (!provider || !ref) {
+        return res.json({ ok: false, status: "invalid" });
+      }
+      const source = await pickSecretSource(repository, userId, provider.kind);
+      if (!source) return res.json({ ok: false, status: "no_source" });
+      try {
+        const credential = await tokenStore.getForOwner(
+          source.id,
+          source.userId,
+        );
+        if (!credential && provider.needsCredential) {
+          return res.json({ ok: false, status: "denied", source: source.name });
+        }
+        await provider.resolve(
+          ctx.fetch,
+          {
+            baseUrl: source.baseUrl,
+            credential: credential ?? "",
+            allowedPrivateHosts: await allowedPrivateHosts(),
+          },
+          ref,
+        );
+        res.json({ ok: true, status: "found", source: source.name });
+      } catch (error) {
+        const message = errorMessage(error);
+        res.json({
+          ok: false,
+          status: referenceFailure(message),
+          source: source.name,
+          error: message,
+        });
       }
     },
   );

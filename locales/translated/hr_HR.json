@@ -13,6 +13,15 @@
   "shared": "dijeljeno",
   "test": "Testiraj",
   "testFailed": "Test povezivanja nije uspio",
+  "referenceTestLabel": "Testiraj referencu na tajnu",
+  "referenceStatus": {
+    "found": "Pronađeno u {{source}}. Tajna je pročitana i nije prikazana.",
+    "invalid": "Ovo nije valjana referenca na tajnu.",
+    "no_source": "Nema postavljene izvora tajni za ovu vrstu reference.",
+    "not_found": "{{source}} nema tajnu na ovoj referenci.",
+    "denied": "{{source}} je odbio pristup ovoj tajni. Provjeri token i njegova dopuštenja.",
+    "connection": "Nije moguće doseći {{source}}."
+  },
   "required": "Naziv, URL poslužitelja i podaci za prijavu su obavezni",
   "saved": "Izvor tajnosti spremljen",
   "deleted": "Izvor tajnosti obrisan",

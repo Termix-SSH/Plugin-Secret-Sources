@@ -13,6 +13,15 @@
   "shared": "partajat",
   "test": "Testează",
   "testFailed": "Testul de conectare a eșuat",
+  "referenceTestLabel": "Testează o referință la secret",
+  "referenceStatus": {
+    "found": "Găsit în {{source}}. Secretul a fost citit și nu este afișat.",
+    "invalid": "Aceasta nu este o referință validă la secret.",
+    "no_source": "Nu este configurată nicio sursă de secrete pentru acest tip de referință.",
+    "not_found": "{{source}} nu conține niciun secret la această referință.",
+    "denied": "{{source}} a refuzat accesul la acest secret. Verifică token-ul și permisiunile acestuia.",
+    "connection": "Nu s-a putut accesa {{source}}."
+  },
   "required": "Numele, URL-ul serverului și datele de autentificare sunt obligatorii",
   "saved": "Sursa de secrete a fost salvată",
   "deleted": "Sursa de secrete a fost ștearsă",

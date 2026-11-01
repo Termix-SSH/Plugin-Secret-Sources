@@ -13,6 +13,15 @@
   "shared": "condiviso",
   "test": "Test",
   "testFailed": "Test di connessione non riuscito",
+  "referenceTestLabel": "Testa un riferimento a un segreto",
+  "referenceStatus": {
+    "found": "Trovato in {{source}}. Il segreto è stato letto e non viene mostrato.",
+    "invalid": "Questo non è un riferimento a un segreto valido.",
+    "no_source": "Nessuna origine dei segreti è configurata per questo tipo di riferimento.",
+    "not_found": "{{source}} non contiene segreti a questo riferimento.",
+    "denied": "{{source}} ha negato l'accesso a questo segreto. Controlla il token e i suoi permessi.",
+    "connection": "Impossibile raggiungere {{source}}."
+  },
   "required": "Nome, URL del server e le credenziali di accesso sono obbligatori",
   "saved": "Origine dei segreti salvata",
   "deleted": "Origine dei segreti eliminata",

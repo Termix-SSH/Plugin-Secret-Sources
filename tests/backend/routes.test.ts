@@ -174,4 +174,48 @@ describe("secret-sources routes", () => {
       }),
     );
   });
+
+  describe("test-reference", () => {
+    const add = () =>
+      server.request("POST", "/", {
+        body: {
+          name: "Team",
+          baseUrl: "https://connect.internal",
+          token: "secret-token",
+        },
+      });
+
+    it("says a bad reference is invalid without calling anything", async () => {
+      const res = await server.request("POST", "/test-reference", {
+        body: { reference: "nope" },
+      });
+      expect(res.body).toMatchObject({ ok: false, status: "invalid" });
+    });
+
+    it("says when no source is set up for the reference", async () => {
+      const res = await server.request("POST", "/test-reference", {
+        body: { reference: "op://vault/item/field" },
+      });
+      expect(res.body).toMatchObject({ ok: false, status: "no_source" });
+    });
+
+    it("sorts provider failures and never returns the secret", async () => {
+      for (const [status, expected] of [
+        [403, "denied"],
+        [404, "not_found"],
+        [500, "connection"],
+      ] as const) {
+        await server.close();
+        server = await startServer({
+          fetch: vi.fn(async () => jsonResponse({}, false, status)),
+        });
+        await add();
+        const res = await server.request("POST", "/test-reference", {
+          body: { reference: "op://vault/item/field" },
+        });
+        expect(res.body).toMatchObject({ ok: false, status: expected });
+        expect(JSON.stringify(res.body)).not.toContain("secret-token");
+      }
+    });
+  });
 });

@@ -27,6 +27,14 @@ export interface SecretSourceUpdateInput {
   shared?: boolean;
 }
 
+export interface ReferenceTestResult {
+  ok: boolean;
+  status:
+    "found" | "invalid" | "no_source" | "not_found" | "denied" | "connection";
+  source?: string;
+  error?: string;
+}
+
 /** The secret-sources routes, through the plugin's own client. */
 export function createSecretSourcesApi(api: PluginApiClient) {
   const data = async <T>(request: Promise<{ data: T }>) => (await request).data;
@@ -45,6 +53,8 @@ export function createSecretSourcesApi(api: PluginApiClient) {
           `/${id}/test`,
         ),
       ),
+    testReference: (reference: string) =>
+      data(api.post<ReferenceTestResult>("/test-reference", { reference })),
   };
 }
 

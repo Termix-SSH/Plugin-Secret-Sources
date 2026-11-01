@@ -13,6 +13,15 @@
   "shared": "dikongsi",
   "test": "Uji",
   "testFailed": "Ujian sambungan gagal",
+  "referenceTestLabel": "Uji rujukan rahsia",
+  "referenceStatus": {
+    "found": "Dijumpai dalam {{source}}. Rahsia telah dibaca dan tidak dipaparkan.",
+    "invalid": "Ini bukan rujukan rahsia yang sah.",
+    "no_source": "Tiada sumber rahsia ditetapkan untuk jenis rujukan ini.",
+    "not_found": "{{source}} tiada rahsia pada rujukan ini.",
+    "denied": "{{source}} menolak akses ke rahsia ini. Semak token dan keizinan.",
+    "connection": "Tidak dapat menghubungi {{source}}."
+  },
   "required": "Nama, URL pelayan, dan butiran log masuk diperlukan",
   "saved": "Sumber rahsia disimpan",
   "deleted": "Sumber rahsia dipadam",

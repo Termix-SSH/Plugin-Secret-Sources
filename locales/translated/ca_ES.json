@@ -13,6 +13,15 @@
   "shared": "compartit",
   "test": "Prova",
   "testFailed": "Ha fallat la prova de connexió",
+  "referenceTestLabel": "Prova una referència de secret",
+  "referenceStatus": {
+    "found": "S'ha trobat a {{source}}. El secret s'ha llegit i no es mostra.",
+    "invalid": "Aquesta no és una referència de secret vàlida.",
+    "no_source": "No s'ha configurat cap origen de secrets per a aquest tipus de referència.",
+    "not_found": "{{source}} no té cap secret en aquesta referència.",
+    "denied": "{{source}} ha rebutjat l'accés a aquest secret. Comprova el testimoni i els seus permisos.",
+    "connection": "No s'ha pogut connectar a {{source}}."
+  },
   "required": "El nom, l'URL del servidor i les credencials d'inici de sessió són obligatoris",
   "saved": "Font de secrets desada",
   "deleted": "Font de secrets eliminada",

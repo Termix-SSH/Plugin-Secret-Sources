@@ -13,6 +13,15 @@
   "shared": "delad",
   "test": "Testa",
   "testFailed": "Anslutningstestet misslyckades",
+  "referenceTestLabel": "Testa en hemligreferens",
+  "referenceStatus": {
+    "found": "Hittad i {{source}}. Hemligheten har lästs och visas inte.",
+    "invalid": "Detta är inte en giltig hemligreferens.",
+    "no_source": "Ingen hemlighetskälla är konfigurerad för denna typ av referens.",
+    "not_found": "{{source}} har ingen hemlighet vid denna referens.",
+    "denied": "{{source}} nekad åtkomst till denna hemlighet. Kontrollera token och dess behörigheter.",
+    "connection": "Kunde inte nå {{source}}."
+  },
   "required": "Namn, server-URL och inloggningsuppgifter krävs",
   "saved": "Hemlighetskälla sparad",
   "deleted": "Hemlighetskälla raderad",

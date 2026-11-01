@@ -13,6 +13,15 @@
   "shared": "megosztott",
   "test": "Teszt",
   "testFailed": "A kapcsolatteszt sikertelen",
+  "referenceTestLabel": "Titkos hivatkozás tesztelése",
+  "referenceStatus": {
+    "found": "Megtalálva a(z) {{source}} forrásban. A titok el lett olvasva, és nem jelenik meg.",
+    "invalid": "Ez nem érvényes titkos hivatkozás.",
+    "no_source": "Nincs titokforrás beállítva ehhez a hivatkozási típushoz.",
+    "not_found": "A(z) {{source}} nem tartalmaz titkot ezen a hivatkozáson.",
+    "denied": "A(z) {{source}} megtagadta a hozzáférést ehhez a titokhoz. Ellenőrizze a tokent és annak jogosultságait.",
+    "connection": "Nem sikerült elérni a(z) {{source}} forrást."
+  },
   "required": "A név, a szerver URL-je és a bejelentkezési adatok megadása kötelező",
   "saved": "Titokforrás mentve",
   "deleted": "Titokforrás törölve",

@@ -13,6 +13,15 @@
   "shared": "compartido",
   "test": "Probar",
   "testFailed": "La prueba de conexión ha fallado",
+  "referenceTestLabel": "Probar una referencia de secreto",
+  "referenceStatus": {
+    "found": "Encontrado en {{source}}. El secreto se ha leído y no se muestra.",
+    "invalid": "Esta no es una referencia de secreto válida.",
+    "no_source": "No hay ninguna fuente de secretos configurada para este tipo de referencia.",
+    "not_found": "{{source}} no tiene ningún secreto en esta referencia.",
+    "denied": "{{source}} ha denegado el acceso a este secreto. Comprueba el token y sus permisos.",
+    "connection": "No se ha podido conectar con {{source}}."
+  },
   "required": "El nombre, la URL del servidor y los datos de inicio de sesión son obligatorios",
   "saved": "Fuente de secretos guardada",
   "deleted": "Fuente de secretos eliminada",

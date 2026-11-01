@@ -13,6 +13,15 @@
   "shared": "skupno",
   "test": "Preveri",
   "testFailed": "Preizkus povezave ni uspel",
+  "referenceTestLabel": "Preizkusite sklic na skrivnost",
+  "referenceStatus": {
+    "found": "Najdeno v {{source}}. Skrivnost je bila prebrana in ni prikazana.",
+    "invalid": "To ni veljaven sklic na skrivnost.",
+    "no_source": "Za to vrsto sklica ni nastavljenega vira skrivnosti.",
+    "not_found": "{{source}} nima skrivnosti na tem sklicu.",
+    "denied": "{{source}} je zavrnil dostop do te skrivnosti. Preverite žeton in njegova dovoljenja.",
+    "connection": "Ni bilo mogoče doseči {{source}}."
+  },
   "required": "Ime, naslov URL strežnika in podatki za prijavo so obvezni",
   "saved": "Vir skrivnosti je shranjen",
   "deleted": "Vir skrivnosti je izbrisan",

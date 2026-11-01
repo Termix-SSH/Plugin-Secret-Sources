@@ -13,6 +13,15 @@
   "shared": "공유됨",
   "test": "테스트",
   "testFailed": "연결 테스트 실패",
+  "referenceTestLabel": "비밀 참조 테스트",
+  "referenceStatus": {
+    "found": "{{source}}에서 찾았습니다. 비밀이 읽혔으며 표시되지 않습니다.",
+    "invalid": "유효하지 않은 비밀 참조입니다.",
+    "no_source": "이 유형의 참조에 대한 비밀 소스가 설정되지 않았습니다.",
+    "not_found": "{{source}}에 이 참조에 대한 비밀이 없습니다.",
+    "denied": "{{source}}가 이 비밀에 대한 접근을 거부했습니다. 토큰과 권한을 확인하세요.",
+    "connection": "{{source}}에 연결할 수 없습니다."
+  },
   "required": "이름, 서버 URL 및 로그인 정보가 필요합니다.",
   "saved": "비밀 저장소 저장됨",
   "deleted": "비밀 저장소 삭제됨",

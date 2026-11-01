@@ -13,6 +13,15 @@
   "shared": "kopīgs",
   "test": "Testēt",
   "testFailed": "Savienojuma tests neizdevās",
+  "referenceTestLabel": "Testēt noslēpuma atsauci",
+  "referenceStatus": {
+    "found": "Atrasts avotā {{source}}. Noslēpums ir izlasīts un netiek parādīts.",
+    "invalid": "Šī nav derīga noslēpuma atsauce.",
+    "no_source": "Šāda veida atsaucei nav iestatīts noslēpumu avots.",
+    "not_found": "Avotā {{source}} šajā atsauce nav noslēpuma.",
+    "denied": "Avots {{source}} atteicās piekļūt šim noslēpumam. Pārbaudiet žetona un tā atļauju derīgumu.",
+    "connection": "Nevarēja sasniegt avotu {{source}}."
+  },
   "required": "Ir nepieciešams nosaukums, servera URL un pieteikšanās dati",
   "saved": "Noslēpumu avots saglabāts",
   "deleted": "Noslēpumu avots dzēsts",

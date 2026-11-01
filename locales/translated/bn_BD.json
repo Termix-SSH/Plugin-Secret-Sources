@@ -13,6 +13,15 @@
   "shared": "shared",
   "test": "Test",
   "testFailed": "Connection test failed",
+  "referenceTestLabel": "একটি সিক্রেট রেফারেন্স পরীক্ষা করুন",
+  "referenceStatus": {
+    "found": "{{source}}-এ পাওয়া গেছে। সিক্রেটটি পড়া হয়েছে এবং এটি প্রদর্শিত হচ্ছে না।",
+    "invalid": "এটি একটি বৈধ সিক্রেট রেফারেন্স নয়।",
+    "no_source": "এই ধরনের রেফারেন্সের জন্য কোনো সিক্রেট সোর্স সেটআপ করা নেই।",
+    "not_found": "{{source}}-এ এই রেফারেন্সে কোনো সিক্রেট নেই।",
+    "denied": "{{source}} এই সিক্রেটে অ্যাক্সেস অস্বীকার করেছে। টোকেন এবং এর অনুমতিগুলো পরীক্ষা করুন।",
+    "connection": "{{source}}-এ পৌঁছানো যাচ্ছে না।"
+  },
   "required": "Name, server URL and the login details are required",
   "saved": "Secret source saved",
   "deleted": "Secret source deleted",

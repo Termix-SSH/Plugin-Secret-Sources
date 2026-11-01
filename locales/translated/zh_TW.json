@@ -13,6 +13,15 @@
   "shared": "共用",
   "test": "測試",
   "testFailed": "連線測試失敗",
+  "referenceTestLabel": "測試密碼參照",
+  "referenceStatus": {
+    "found": "已在 {{source}} 中找到。密碼已讀取，不會顯示。",
+    "invalid": "這不是有效的密碼參照。",
+    "no_source": "此類型的參照未設定任何密碼來源。",
+    "not_found": "{{source}} 在此參照中沒有密碼。",
+    "denied": "{{source}} 拒絕存取此密碼。請檢查權杖及其權限。",
+    "connection": "無法連線至 {{source}}。"
+  },
   "required": "名稱、伺服器 URL 與登入資訊為必填欄位",
   "saved": "機密來源已儲存",
   "deleted": "機密來源已刪除",

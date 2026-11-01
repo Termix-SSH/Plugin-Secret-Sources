@@ -13,6 +13,15 @@
   "shared": "đã chia sẻ",
   "test": "Kiểm tra",
   "testFailed": "Kiểm tra kết nối thất bại",
+  "referenceTestLabel": "Kiểm tra một tham chiếu bí mật",
+  "referenceStatus": {
+    "found": "Đã tìm thấy trong {{source}}. Bí mật đã được đọc và không được hiển thị.",
+    "invalid": "Đây không phải là một tham chiếu bí mật hợp lệ.",
+    "no_source": "Chưa cấu hình nguồn bí mật nào cho loại tham chiếu này.",
+    "not_found": "{{source}} không có bí mật tại tham chiếu này.",
+    "denied": "{{source}} từ chối truy cập vào bí mật này. Vui lòng kiểm tra token và quyền của nó.",
+    "connection": "Không thể kết nối đến {{source}}."
+  },
   "required": "Tên, URL máy chủ và thông tin đăng nhập là bắt buộc",
   "saved": "Đã lưu nguồn mật khẩu",
   "deleted": "Đã xóa nguồn mật khẩu",

@@ -13,6 +13,7 @@ import { usePluginApi, useTranslation } from "@termix-ssh/plugin-sdk/frontend";
 import {
   createSecretSourcesApi,
   type SecretSource,
+  type ReferenceTestResult,
 } from "./secret-sources-api";
 import {
   credentialComplete,
@@ -55,6 +56,10 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState<FormState | null>(null);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState<string | null>(null);
+  const [reference, setReference] = useState("");
+  const [referenceTesting, setReferenceTesting] = useState(false);
+  const [referenceResult, setReferenceResult] =
+    useState<ReferenceTestResult | null>(null);
 
   const reload = useCallback(async () => {
     try {
@@ -123,6 +128,18 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
       await reload();
     } catch (e) {
       toast.error(errorMessage(e));
+    }
+  };
+
+  const handleTestReference = async () => {
+    setReferenceTesting(true);
+    setReferenceResult(null);
+    try {
+      setReferenceResult(await api.testReference(reference.trim()));
+    } catch (e) {
+      toast.error(errorMessage(e));
+    } finally {
+      setReferenceTesting(false);
     }
   };
 
@@ -230,6 +247,51 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
           >
             <Plus className="size-3 mr-1" /> {t("new")}
           </Button>
+          <div className="flex flex-col gap-1 border-t border-border pt-2">
+            <label
+              htmlFor="secret-reference-test"
+              className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground"
+            >
+              {t("referenceTestLabel")}
+            </label>
+            <div className="flex items-center gap-2">
+              <Input
+                id="secret-reference-test"
+                className="h-7 text-xs"
+                value={reference}
+                placeholder="infisical://project/env/folder/name"
+                onChange={(event) => {
+                  setReference(event.target.value);
+                  setReferenceResult(null);
+                }}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 text-[10px]"
+                disabled={!reference.trim() || referenceTesting}
+                onClick={() => void handleTestReference()}
+              >
+                {t("test")}
+              </Button>
+            </div>
+            {referenceResult && (
+              <p
+                role="status"
+                className={
+                  referenceResult.ok
+                    ? "text-[10px] text-accent-brand"
+                    : "text-[10px] text-destructive"
+                }
+              >
+                {t(`referenceStatus.${referenceResult.status}`, {
+                  source: referenceResult.source,
+                })}
+                {referenceResult.error ? ` | ${referenceResult.error}` : ""}
+              </p>
+            )}
+          </div>
         </>
       )}
 

@@ -13,6 +13,15 @@
   "shared": "partilhado",
   "test": "Testar",
   "testFailed": "O teste de ligação falhou",
+  "referenceTestLabel": "Testar uma referência de segredo",
+  "referenceStatus": {
+    "found": "Encontrado em {{source}}. O segredo foi lido e não é exibido.",
+    "invalid": "Esta não é uma referência de segredo válida.",
+    "no_source": "Nenhuma fonte de segredo está configurada para este tipo de referência.",
+    "not_found": "{{source}} não tem nenhum segredo nesta referência.",
+    "denied": "{{source}} recusou o acesso a este segredo. Verifique o token e as suas permissões.",
+    "connection": "Não foi possível aceder a {{source}}."
+  },
   "required": "O nome, a URL do servidor e os detalhes de início de sessão são obrigatórios",
   "saved": "Fonte de segredos guardada",
   "deleted": "Fonte de segredos eliminada",

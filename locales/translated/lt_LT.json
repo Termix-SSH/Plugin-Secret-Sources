@@ -13,6 +13,15 @@
   "shared": "bendrinama",
   "test": "Testuoti",
   "testFailed": "Prisijungimo testas nepavyko",
+  "referenceTestLabel": "Testuoti slaptojo raktų nuorodą",
+  "referenceStatus": {
+    "found": "Rasta šaltinyje {{source}}. Slaptasis raktas buvo perskaitytas ir nerodomas.",
+    "invalid": "Tai nėra galiojanti slaptojo raktų nuoroda.",
+    "no_source": "Šiam nuorodų tipui nėra nustatyta slaptojo raktų šaltinio.",
+    "not_found": "Šaltinyje {{source}} nėra slaptojo rakto šiai nuorodai.",
+    "denied": "Šaltinis {{source}} atmetė prieigą prie šio slaptojo rakto. Patikrinkite žetoną ir jo teises.",
+    "connection": "Nepavyko pasiekti šaltinio {{source}}."
+  },
   "required": "Būtina nurodyti pavadinimą, serverio URL ir prisijungimo duomenis",
   "saved": "Slaptažodžių šaltinis išsaugotas",
   "deleted": "Slaptažodžių šaltinis ištrintas",

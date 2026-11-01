@@ -13,6 +13,15 @@
   "shared": "gedeel",
   "test": "Toets",
   "testFailed": "Verbindingstoets het misluk",
+  "referenceTestLabel": "Toets 'n geheime verwysing",
+  "referenceStatus": {
+    "found": "Vind in {{source}}. Die geheim is gelees en word nie vertoon nie.",
+    "invalid": "Dit is nie 'n geldige geheime verwysing nie.",
+    "no_source": "Geen geheime bron is vir hierdie tipe verwysing opgestel nie.",
+    "not_found": "{{source}} het geen geheim by hierdie verwysing nie.",
+    "denied": "{{source}} het toegang tot hierdie geheim geweier. Kontroleer die token en sy toestemmings.",
+    "connection": "{{source}} kon nie bereik word nie."
+  },
   "required": "Naam, bediener-URL en die aanmeldbesonderhede is verpligtend",
   "saved": "Geheimebron gestoor",
   "deleted": "Geheimebron verwyder",

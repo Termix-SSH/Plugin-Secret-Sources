@@ -13,6 +13,15 @@
   "shared": "geteilt",
   "test": "Testen",
   "testFailed": "Verbindungstest fehlgeschlagen",
+  "referenceTestLabel": "Geheimnisreferenz testen",
+  "referenceStatus": {
+    "found": "In {{source}} gefunden. Das Geheimnis wurde gelesen und wird nicht angezeigt.",
+    "invalid": "Dies ist keine gültige Geheimnisreferenz.",
+    "no_source": "Für diesen Referenztyp ist keine Geheimnisquelle konfiguriert.",
+    "not_found": "{{source}} enthält an dieser Referenz kein Geheimnis.",
+    "denied": "{{source}} hat den Zugriff auf dieses Geheimnis verweigert. Überprüfen Sie das Token und dessen Berechtigungen.",
+    "connection": "{{source}} konnte nicht erreicht werden."
+  },
   "required": "Name, Server-URL und die Anmeldeinformationen sind erforderlich",
   "saved": "Geheimnisquelle gespeichert",
   "deleted": "Geheimnisquelle gelöscht",

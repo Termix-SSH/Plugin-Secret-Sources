@@ -13,6 +13,15 @@
   "shared": "shared",
   "test": "Test",
   "testFailed": "Connection test failed",
+  "referenceTestLabel": "Test a secret reference",
+  "referenceStatus": {
+    "found": "Found in {{source}}. The secret was read and is not shown.",
+    "invalid": "This is not a valid secret reference.",
+    "no_source": "No secret source is set up for this type of reference.",
+    "not_found": "{{source}} has no secret at this reference.",
+    "denied": "{{source}} refused access to this secret. Check the token and its permissions.",
+    "connection": "Could not reach {{source}}."
+  },
   "required": "Name, server URL and the login details are required",
   "saved": "Secret source saved",
   "deleted": "Secret source deleted",

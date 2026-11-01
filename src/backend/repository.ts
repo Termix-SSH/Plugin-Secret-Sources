@@ -1,4 +1,4 @@
-import { eq, or } from "drizzle-orm";
+import { eq, or, sql } from "drizzle-orm";
 import type { PluginDatabase } from "@termix-ssh/plugin-sdk/backend";
 
 type SecretSourceKind = "onepassword-connect";
@@ -35,6 +35,15 @@ export interface SecretSourceUpdateInput {
 type Table = any;
 type Drizzle = any;
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+function isLegacyTokenError(error: unknown): boolean {
+  const seen: string[] = [];
+  for (let e = error as { message?: string; cause?: unknown } | undefined; e;) {
+    if (e.message) seen.push(e.message);
+    e = e.cause as typeof e;
+  }
+  return /token/i.test(seen.join(" "));
+}
 
 export type SecretSourceRepository = ReturnType<
   typeof createSecretSourceRepository
@@ -75,16 +84,28 @@ export function createSecretSourceRepository(db: PluginDatabase, table: Table) {
       now = new Date().toISOString(),
     ): Promise<SecretSourceRecord> {
       const drizzle = await client();
-      await drizzle.insert(table).values({
-        id: input.id,
-        userId: input.userId,
-        name: input.name,
-        kind: input.kind,
-        baseUrl: input.baseUrl,
-        shared: input.shared,
-        createdAt: now,
-        updatedAt: now,
-      });
+      try {
+        await drizzle.insert(table).values({
+          id: input.id,
+          userId: input.userId,
+          name: input.name,
+          kind: input.kind,
+          baseUrl: input.baseUrl,
+          shared: input.shared,
+          createdAt: now,
+          updatedAt: now,
+        });
+      } catch (error) {
+        if (!isLegacyTokenError(error)) throw error;
+        // A database from 2.8 keeps its required token column, since a token
+        // there may still be waiting for its owner's key to move it.
+        const shared =
+          db.dialect === "sqlite" ? Number(input.shared) : input.shared;
+        const insert = sql`INSERT INTO ${table} (id, user_id, name, kind, base_url, shared, created_at, updated_at, token) VALUES (${input.id}, ${input.userId}, ${input.name}, ${input.kind}, ${input.baseUrl}, ${shared}, ${now}, ${now}, '')`;
+        await (db.dialect === "sqlite"
+          ? drizzle.run(insert)
+          : drizzle.execute(insert));
+      }
       await db.persist();
       return (await findById(input.id)) as SecretSourceRecord;
     },

@@ -13,6 +13,15 @@
   "shared": "dibagikan",
   "test": "Uji",
   "testFailed": "Uji koneksi gagal",
+  "referenceTestLabel": "Uji referensi rahasia",
+  "referenceStatus": {
+    "found": "Ditemukan di {{source}}. Rahasia telah dibaca dan tidak ditampilkan.",
+    "invalid": "Ini bukan referensi rahasia yang valid.",
+    "no_source": "Tidak ada sumber rahasia yang diatur untuk jenis referensi ini.",
+    "not_found": "{{source}} tidak memiliki rahasia pada referensi ini.",
+    "denied": "{{source}} menolak akses ke rahasia ini. Periksa token dan izinnya.",
+    "connection": "Tidak dapat menghubungi {{source}}."
+  },
   "required": "Nama, URL server, dan detail login wajib diisi",
   "saved": "Sumber rahasia disimpan",
   "deleted": "Sumber rahasia dihapus",

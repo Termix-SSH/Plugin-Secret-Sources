@@ -13,6 +13,15 @@
   "shared": "delt",
   "test": "Test",
   "testFailed": "Tilkoblingstesten mislyktes",
+  "referenceTestLabel": "Test en hemmelighetsreferanse",
+  "referenceStatus": {
+    "found": "Fant i {{source}}. Hemmeligheten ble lest og vises ikke.",
+    "invalid": "Dette er ikke en gyldig hemmelighetsreferanse.",
+    "no_source": "Det er ingen hemmelighetskilde konfigurert for denne typen referanse.",
+    "not_found": "{{source}} har ingen hemmelighet ved denne referansen.",
+    "denied": "{{source}} nektet tilgang til denne hemmeligheten. Sjekk tokenet og dets tillatelser.",
+    "connection": "Kunne ikke nå {{source}}."
+  },
   "required": "Navn, server-URL og påloggingsdetaljer er påkrevd",
   "saved": "Hemmelighetskilden er lagret",
   "deleted": "Hemmelighetskilden er slettet",

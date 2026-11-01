@@ -13,6 +13,15 @@
   "shared": "jagatud",
   "test": "Testi",
   "testFailed": "Ühenduse test ebaõnnestus",
+  "referenceTestLabel": "Testi saladuse viidet",
+  "referenceStatus": {
+    "found": "Leiti allikast {{source}}. Saladus loeti ja seda ei kuvata.",
+    "invalid": "See ei ole kehtiv saladuse viide.",
+    "no_source": "Selle tüüpi viite jaoks ei ole saladuse allikat seadistatud.",
+    "not_found": "Allikas {{source}} ei sisalda sellel viitel saladust.",
+    "denied": "Allikas {{source}} keeldus sellele saladusele juurdepääsu andmast. Kontrolli tokenit ja selle õigusi.",
+    "connection": "Allikasse {{source}} ei õnnestunud ühendust saada."
+  },
   "required": "Nimi, serveri URL ja sisselogimise andmed on kohustuslikud",
   "saved": "Salaja allikas salvestatud",
   "deleted": "Salaja allikas kustutatud",

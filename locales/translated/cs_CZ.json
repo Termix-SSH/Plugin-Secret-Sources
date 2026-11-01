@@ -13,6 +13,15 @@
   "shared": "sdílené",
   "test": "Test",
   "testFailed": "Test připojení selhal",
+  "referenceTestLabel": "Otestovat odkaz na tajný údaj",
+  "referenceStatus": {
+    "found": "Nalezeno v {{source}}. Tajný údaj byl přečten a není zobrazován.",
+    "invalid": "Toto není platný odkaz na tajný údaj.",
+    "no_source": "Pro tento typ odkazu není nastaven žádný zdroj tajných údajů.",
+    "not_found": "Zdroj {{source}} neobsahuje žádný tajný údaj na tomto odkazu.",
+    "denied": "Zdroj {{source}} zamítl přístup k tomuto tajnému údaji. Zkontrolujte token a jeho oprávnění.",
+    "connection": "Nelze se připojit k {{source}}."
+  },
   "required": "Název, adresa serveru a přihlašovací údaje jsou povinné",
   "saved": "Zdroj tajných klíčů uložen",
   "deleted": "Zdroj tajných klíčů smazán",

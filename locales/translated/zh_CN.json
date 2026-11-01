@@ -13,6 +13,15 @@
   "shared": "已共享",
   "test": "测试",
   "testFailed": "连接测试失败",
+  "referenceTestLabel": "测试秘密引用",
+  "referenceStatus": {
+    "found": "在 {{source}} 中找到。秘密已读取，不会显示。",
+    "invalid": "这不是有效的秘密引用。",
+    "no_source": "未为此类引用设置秘密源。",
+    "not_found": "{{source}} 在此引用中没有秘密。",
+    "denied": "{{source}} 拒绝访问此秘密。请检查令牌及其权限。",
+    "connection": "无法连接到 {{source}}。"
+  },
   "required": "名称、服务器 URL 和登录凭据为必填项",
   "saved": "密钥源已保存",
   "deleted": "密钥源已删除",

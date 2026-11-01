@@ -13,6 +13,15 @@
   "shared": "jaettu",
   "test": "Testaa",
   "testFailed": "Yhteystesti epäonnistui",
+  "referenceTestLabel": "Testaa salaisen viitteen toiminta",
+  "referenceStatus": {
+    "found": "Löytyi kohteesta {{source}}. Salaisuus luettiin, eikä sitä näytetä.",
+    "invalid": "Tämä ei ole kelvollinen salaisen viitteen muoto.",
+    "no_source": "Tälle viitetyypille ei ole määritetty salaisuuksien lähdettä.",
+    "not_found": "Kohteessa {{source}} ei ole salaisuutta tällä viitteellä.",
+    "denied": "Kohde {{source}} kieltäytyi sallimasta pääsyä tähän salaisuuteen. Tarkista tunnus ja sen oikeudet.",
+    "connection": "Kohteeseen {{source}} ei saatu yhteyttä."
+  },
   "required": "Nimi, palvelimen URL-osoite ja kirjautumistiedot ovat pakollisia",
   "saved": "Salasanahallinta tallennettu",
   "deleted": "Salasanahallinta poistettu",
