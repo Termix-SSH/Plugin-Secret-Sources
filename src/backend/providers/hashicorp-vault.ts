@@ -104,12 +104,23 @@ export const vaultProvider: SecretProvider<VaultReference> = {
     const auth = { ...headers, "X-Vault-Token": token };
     const base = `${trimBase(source.baseUrl)}/v1`;
     // KV v2 keeps the data under <mount>/data/<path>; v1 at <mount>/<path>.
-    const v2 = await readKv(
-      fetch,
-      source,
-      auth,
-      `${base}/${pathOf(ref.mount, "data", ref.path)}`,
-    );
+    // A token that may only read a v1 path is refused on the v2 one, so a
+    // 403 there still tries v1 before giving up.
+    let v2: Record<string, unknown> | null = null;
+    let v2Refused: unknown = null;
+    try {
+      v2 = await readKv(
+        fetch,
+        source,
+        auth,
+        `${base}/${pathOf(ref.mount, "data", ref.path)}`,
+      );
+    } catch (error) {
+      if (!(error instanceof Error) || !error.message.endsWith("HTTP 403")) {
+        throw error;
+      }
+      v2Refused = error;
+    }
     const v2Data = (v2?.data as { data?: Record<string, unknown> } | undefined)
       ?.data;
     let data: Record<string, unknown> | undefined = v2Data;
@@ -122,6 +133,7 @@ export const vaultProvider: SecretProvider<VaultReference> = {
       );
       data = v1?.data as Record<string, unknown> | undefined;
     }
+    if (!data && v2Refused) throw v2Refused;
     if (!data) {
       throw new Error(`Vault secret "${ref.mount}/${ref.path}" not found`);
     }
