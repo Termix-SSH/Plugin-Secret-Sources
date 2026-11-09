@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2
+
+### Fixed
+
+- Vault KV v1 references work with a token that can only read the v1 path
+
 ## 1.1.1
 
 ### Added

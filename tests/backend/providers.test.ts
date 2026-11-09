@@ -120,6 +120,34 @@ describe("HashiCorp Vault", () => {
     expect(fetch.mock.calls[2][0]).toBe("https://secrets.test/v1/kv/db");
     expect(fetch.mock.calls[2][1].headers["X-Vault-Token"]).toBe("t1");
   });
+
+  it("reads KV v1 when the token is refused on the v2 path", async () => {
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(json({}, 403))
+      .mockResolvedValueOnce(json({ data: { password: "v1" } }));
+    const value = await vaultProvider.resolve(
+      fetch,
+      source(JSON.stringify({ token: "hvs.x" })),
+      parseVaultReference("vault://kv1/db#password")!,
+    );
+    expect(value).toBe("v1");
+    expect(fetch.mock.calls[1][0]).toBe("https://secrets.test/v1/kv1/db");
+  });
+
+  it("still reports a refusal when neither path can be read", async () => {
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(json({}, 403))
+      .mockResolvedValueOnce(json({}, 404));
+    await expect(
+      vaultProvider.resolve(
+        fetch,
+        source(JSON.stringify({ token: "hvs.x" })),
+        parseVaultReference("vault://kv/db#password")!,
+      ),
+    ).rejects.toThrow("HTTP 403");
+  });
 });
 
 describe("Bitwarden CLI", () => {
