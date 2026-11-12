@@ -1,0 +1,62 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Termix-SSH/Termix/main/scripts/authz/authz.schema.json",
+  "seed": [
+    {
+      "as": "owner",
+      "method": "POST",
+      "path": "/plugin-api/secret-sources",
+      "body": {
+        "name": "authz-own-source",
+        "kind": "onepassword-connect",
+        "baseUrl": "https://127.0.0.1:9",
+        "token": "authz-token"
+      },
+      "capture": {
+        "secret-sources.item": "source.id"
+      }
+    }
+  ],
+  "routes": {
+    "GET /plugin-api/secret-sources": {
+      "access": "user",
+      "permission": "credentials.view"
+    },
+    "POST /plugin-api/secret-sources": {
+      "access": "user"
+    },
+    "DELETE /plugin-api/secret-sources/:id": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.item"
+      },
+      "params": {
+        "id": "secret-sources.item"
+      },
+      "destructive": true
+    },
+    "PUT /plugin-api/secret-sources/:id": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.item"
+      },
+      "params": {
+        "id": "secret-sources.item"
+      }
+    },
+    "POST /plugin-api/secret-sources/:id/test": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.item"
+      },
+      "params": {
+        "id": "secret-sources.item"
+      }
+    },
+    "POST /plugin-api/secret-sources/test-reference": {
+      "access": "user"
+    }
+  }
+}
