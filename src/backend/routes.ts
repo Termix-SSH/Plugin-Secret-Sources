@@ -85,6 +85,9 @@ export function registerSecretSourceRoutes(
    *     summary: List secret sources visible to the caller (own + shared)
    *     tags:
    *       - Secret Sources
+   *     responses:
+   *       200:
+   *         description: The result.
    */
   router.get(
     "/",
@@ -118,6 +121,9 @@ export function registerSecretSourceRoutes(
    *       stored encrypted on the server and never returned.
    *     tags:
    *       - Secret Sources
+   *     responses:
+   *       200:
+   *         description: Done.
    */
   router.post(
     "/",
@@ -183,9 +189,18 @@ export function registerSecretSourceRoutes(
    * @openapi
    * /plugin-api/secret-sources/{id}:
    *   put:
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
    *     summary: Update a secret source (owner only; omit token to keep it)
    *     tags:
    *       - Secret Sources
+   *     responses:
+   *       200:
+   *         description: Done.
    */
   router.put(
     "/:id",
@@ -232,9 +247,18 @@ export function registerSecretSourceRoutes(
    * @openapi
    * /plugin-api/secret-sources/{id}:
    *   delete:
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
    *     summary: Delete a secret source (owner only)
    *     tags:
    *       - Secret Sources
+   *     responses:
+   *       200:
+   *         description: Done.
    */
   router.delete(
     "/:id",
@@ -276,6 +300,9 @@ export function registerSecretSourceRoutes(
    *     description: Uses the same source a connection would use. Answers 200 with a status of found, invalid, no_source, not_found, denied or connection.
    *     tags:
    *       - Secret Sources
+   *     responses:
+   *       200:
+   *         description: Done.
    */
   router.post(
     "/test-reference",
@@ -327,9 +354,18 @@ export function registerSecretSourceRoutes(
    * @openapi
    * /plugin-api/secret-sources/{id}/test:
    *   post:
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
    *     summary: Check that the source is reachable and the token is accepted
    *     tags:
    *       - Secret Sources
+   *     responses:
+   *       200:
+   *         description: Done.
    */
   router.post(
     "/:id/test",
