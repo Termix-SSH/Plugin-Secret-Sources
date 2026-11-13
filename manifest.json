@@ -18,8 +18,8 @@
     "Secrets are fetched each time you connect and never stored in Termix"
   ],
   "engine": {
-    "termix": ">=26.10.0",
-    "api": "^1.2"
+    "termix": ">=26.11.2-0",
+    "api": "^2.0.0"
   },
   "capabilities": [
     "db:own",

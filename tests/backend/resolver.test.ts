@@ -26,6 +26,7 @@ async function setUp(fetchMock: ReturnType<typeof vi.fn>) {
     .run("owner-1", "owner-1");
 
   const mock = createMockCtx({
+    sandbox: true,
     pluginId: manifest.id,
     manifest,
     capabilities: manifest.capabilities,

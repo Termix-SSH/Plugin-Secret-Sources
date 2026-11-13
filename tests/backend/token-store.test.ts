@@ -8,6 +8,7 @@ const manifest = manifestJson as unknown as PluginManifest;
 
 function mockCtx(actor?: string) {
   return createMockCtx({
+    sandbox: true,
     pluginId: manifest.id,
     manifest,
     capabilities: manifest.capabilities,
