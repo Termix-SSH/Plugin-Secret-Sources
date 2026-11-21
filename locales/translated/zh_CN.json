@@ -20,7 +20,8 @@
     "no_source": "未为此类引用设置秘密源。",
     "not_found": "{{source}} 在此引用中没有秘密。",
     "denied": "{{source}} 拒绝访问此秘密。请检查令牌及其权限。",
-    "connection": "无法连接到 {{source}}。"
+    "connection": "无法连接到 {{source}}。",
+    "locked": "您在 {{source}} 中的保险库已锁定。请先解锁。"
   },
   "required": "名称、服务器 URL 和登录凭据为必填项",
   "saved": "密钥源已保存",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "密钥源",
-    "description": "连接时从 1Password、Bitwarden、Infisical 或 HashiCorp Vault 拉取主机密码和密钥，而不是将它们存储在 Termix 中。"
+    "description": "连接时从 1Password、Bitwarden、Infisical、HashiCorp Vault、KeePass、AWS、Azure 或 Google Cloud 拉取主机密码和密钥，而不是将它们存储在 Termix 中。"
   },
   "deleteConfirm": "确定删除密钥源 {{name}} 吗？",
   "kindLabel": "类型",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden 或 Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden 或 Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx 文件)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden 或 Vaultwarden（每位用户单独登录）"
   },
   "fields": {
     "clientId": "客户端 ID",
@@ -56,13 +62,72 @@
     "vaultToken": "令牌（或在下文使用 AppRole）",
     "roleId": "AppRole 角色 ID",
     "secretId": "AppRole 密钥 ID",
-    "namespace": "命名空间（可选）"
+    "namespace": "命名空间（可选）",
+    "masterPassword": "主密码",
+    "keyFile": "密钥文件（可选）",
+    "httpUsername": "Web 登录用户名（可选）",
+    "httpPassword": "Web 登录密码（可选）",
+    "accessKeyId": "访问密钥 ID",
+    "secretAccessKey": "秘密访问密钥",
+    "sessionToken": "会话令牌（可选）",
+    "region": "区域（可选，从端点读取）",
+    "tenantId": "租户 ID",
+    "serviceAccountJson": "服务账号密钥（JSON 文件）",
+    "sessionHours": "解锁持续时间（小时）",
+    "ssoIdentifier": "SSO 标识符"
   },
   "kindHints": {
     "onepassword-connect": "引用格式：",
     "infisical": "使用通用身份验证（Universal Auth）的机器身份。引用格式：",
     "bitwarden-sm": "若使用 bitwarden.com，请保留 URL 不变；否则请使用您自有服务器的地址。引用格式：",
     "hashicorp-vault": "读取 KV 版本 1 或 2。引用格式：",
-    "bitwarden-cli": "在 Termix 可访问的位置运行 bw serve，并保持密钥库处于解锁状态。字段可以是 username、password、totp、notes、uri 或自定义字段名称。引用格式："
+    "bitwarden-cli": "在 Termix 可访问的位置运行 bw serve，并保持密钥库处于解锁状态。字段可以是 username、password、totp、notes、uri 或自定义字段名称。引用格式：",
+    "keepass": "Termix 从此地址（如 WebDAV 或 Nextcloud 链接）下载文件，并使用主密码打开它。字段默认为 Password，除非您添加 #UserName、#URL、#Notes 或自定义字段。参考：",
+    "aws-secrets-manager": "使用具有 secretsmanager:GetSecretValue 和 ListSecrets 权限的 IAM 用户或角色的访问密钥。添加 #key 以读取 JSON 密钥中的单个键。参考：",
+    "azure-key-vault": "使用具有客户端密钥的应用注册，该密钥有权在此保险库中获取和列出密钥。添加 /version 以固定版本。参考：",
+    "gcp-secret-manager": "使用具有 Secret Manager Secret Accessor 角色的服务账号密钥。添加 /version 以固定版本，否则为最新版本。参考：",
+    "bitwarden-vault": "每位用户使用 SSO、电子邮件或个人 API 密钥以及主密码解锁自己的保险库，并仅查看其账户有权访问的内容。会话长度以小时为单位（若为空则为 8 小时）。SSO 标识符是您的组织标识符（如果服务器要求）。字段可以是 username、password、totp、notes、uri、privatekey 或自定义字段名称。参考："
+  },
+  "picker": {
+    "open": "从保险库中选择",
+    "search": "搜索项目",
+    "close": "关闭",
+    "loading": "正在加载项目",
+    "empty": "未找到项目",
+    "failed": "无法列出项目。请检查保险库是否已解锁。",
+    "noSources": "添加 Bitwarden 或 Vaultwarden (bw serve) 源以从中选择项目。"
+  },
+  "kdbxUrlLabel": "文件地址",
+  "awsEndpointLabel": "端点",
+  "vaultUrlLabel": "保险库 URL",
+  "filePick": "选择文件",
+  "fileLoaded": "文件已加载",
+  "fileNone": "无文件",
+  "unlock": {
+    "title": "解锁保险库",
+    "toggle": "解锁您的保险库",
+    "intro": "登录您自己的账户。您的保险库仅对您保持解锁状态，直到会话结束。",
+    "methods": {
+      "sso": "SSO",
+      "password": "电子邮件",
+      "apikey": "API 密钥"
+    },
+    "ssoOpen": "打开登录",
+    "ssoHint": "在新窗口中登录。",
+    "ssoPaste": "当窗口显示无法加载的页面时，复制其地址并粘贴到下方。",
+    "ssoAddress": "窗口最终停留的地址",
+    "email": "电子邮件",
+    "clientId": "API 密钥 client_id",
+    "clientSecret": "API 密钥 client_secret",
+    "masterPassword": "主密码",
+    "code": "两步登录代码",
+    "codeNeeded": "请输入您的两步登录代码。",
+    "submit": "解锁",
+    "done": "保险库已解锁",
+    "lock": "锁定",
+    "unlockedAs": "以 {{email}} 身份解锁，有效期至 {{until}}",
+    "retry": "已解锁。请重新连接主机。",
+    "none": "没有可解锁的保险库",
+    "noneHint": "请联系管理员添加 Bitwarden 或 Vaultwarden 源，以便每位用户单独登录。"
   }
 }

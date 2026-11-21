@@ -20,7 +20,8 @@
     "no_source": "Det er ingen hemmelighetskilde konfigurert for denne typen referanse.",
     "not_found": "{{source}} har ingen hemmelighet ved denne referansen.",
     "denied": "{{source}} nektet tilgang til denne hemmeligheten. Sjekk tokenet og dets tillatelser.",
-    "connection": "Kunne ikke nå {{source}}."
+    "connection": "Kunne ikke nå {{source}}.",
+    "locked": "Vaulten din i {{source}} er låst. Lås den opp først."
   },
   "required": "Navn, server-URL og påloggingsdetaljer er påkrevd",
   "saved": "Hemmelighetskilden er lagret",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Hemmelighetskilder",
-    "description": "Hent vertspassord og nøkler fra 1Password, Bitwarden, Infisical eller HashiCorp Vault når du kobler til i stedet for å lagre dem i Termix."
+    "description": "Hent vertsord og nøkler fra 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure eller Google Cloud når du kobler til, i stedet for å lagre dem i Termix."
   },
   "deleteConfirm": "Slett hemmelighetskilden {{name}}?",
   "kindLabel": "Type",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden eller Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden eller Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx-fil)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden eller Vaultwarden (hver bruker logger seg inn)"
   },
   "fields": {
     "clientId": "Klient-ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (eller bruk AppRole nedenfor)",
     "roleId": "AppRole-rollen-ID",
     "secretId": "AppRole-hemmelighets-ID",
-    "namespace": "Navnerom (valgfritt)"
+    "namespace": "Navnerom (valgfritt)",
+    "masterPassword": "Hovedpassord",
+    "keyFile": "Nøkselfil (valgfritt)",
+    "httpUsername": "Web-innloggingsbruker (valgfritt)",
+    "httpPassword": "Web-innloggingspassord (valgfritt)",
+    "accessKeyId": "Tilgangsnøkkel-ID",
+    "secretAccessKey": "Hemmelig tilgangsnøkkel",
+    "sessionToken": "Sesjonstoken (valgfritt)",
+    "region": "Region (valgfritt, leses fra sluttpunktet)",
+    "tenantId": "Leietaker-ID",
+    "serviceAccountJson": "Tjenestekonto-nøkkel (JSON-fil)",
+    "sessionHours": "Opplåst i (timer)",
+    "ssoIdentifier": "SSO-identifikator"
   },
   "kindHints": {
     "onepassword-connect": "Referanse:",
     "infisical": "Bruker en maskinidentitet med Universal Auth. Referanse:",
     "bitwarden-sm": "La URL-en være som den er for bitwarden.com, eller bruk adressen til din egen server. Referanse:",
     "hashicorp-vault": "Leker KV-versjon 1 eller 2. Referanse:",
-    "bitwarden-cli": "Kjør bw serve der Termix kan nå den, og hold valuet låst opp. Feltet er brukernavn, passord, totp, notater, uri eller et egendefinert feltnavn. Referanse:"
+    "bitwarden-cli": "Kjør bw serve der Termix kan nå den, og hold valuet låst opp. Feltet er brukernavn, passord, totp, notater, uri eller et egendefinert feltnavn. Referanse:",
+    "keepass": "Termix laster ned filen fra denne adressen, som en WebDAV- eller Nextcloud-lenke, og åpner den med hovedpassordet. Feltet er Passord med mindre du legger til #UserName, #URL, #Notes eller et egendefinert felt. Referanse:",
+    "aws-secrets-manager": "Bruk en tilgangsnøkkel for en IAM-bruker eller -rolle som har tillatelse til secretsmanager:GetSecretValue og ListSecrets. Legg til #key for å lese én nøkkel fra et JSON-hemmelighet. Referanse:",
+    "azure-key-vault": "Bruk en app-registrering med en klienthemmelighet som kan hente og liste hemmeligheter i denne vaulten. Legg til /version for å fikse en versjon. Referanse:",
+    "gcp-secret-manager": "Bruk en tjenestekontonøkkel med rollen Secret Manager Secret Accessor. Legg til /version for å fikse en versjon, ellers nyeste. Referanse:",
+    "bitwarden-vault": "Hver bruker låser opp sin egen vault med SSO, e-post eller en personlig API-nøkkel, pluss sitt hovedpassord, og ser bare det kontoen deres har tilgang til. Sesjonslengde er i timer (8 hvis tom). SSO-identifikatoren er organisasjonsidentifikatoren din, hvis serveren din ber om en. Feltet er brukernavn, passord, totp, notater, uri, privatnøkkel eller et egendefinert feltnavn. Referanse:"
+  },
+  "picker": {
+    "open": "Velg fra en vault",
+    "search": "Søk etter elementer",
+    "close": "Lukk",
+    "loading": "Laster elementer",
+    "empty": "Ingen elementer funnet",
+    "failed": "Kunne ikke liste opp elementene. Sjekk at vaulten er opplåst.",
+    "noSources": "Legg til en Bitwarden- eller Vaultwarden (bw serve)-kilde for å velge elementer fra den."
+  },
+  "kdbxUrlLabel": "Filadresse",
+  "awsEndpointLabel": "Sluttpunkt",
+  "vaultUrlLabel": "Vault-URL",
+  "filePick": "Velg fil",
+  "fileLoaded": "Fil lastet inn",
+  "fileNone": "Ingen fil",
+  "unlock": {
+    "title": "Lås opp vault",
+    "toggle": "Lås opp vaulten din",
+    "intro": "Logg inn på din egen konto. Vaulten din forblir opplåst bare for deg, til sesjonen slutter.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-post",
+      "apikey": "API-nøkkel"
+    },
+    "ssoOpen": "Åpne innlogging",
+    "ssoHint": "Logg inn i det nye vinduet.",
+    "ssoPaste": "Når vinduet viser en side som ikke kan lastes, kopier adressen og lim den inn nedenfor.",
+    "ssoAddress": "Adressen vinduet endte på",
+    "email": "E-post",
+    "clientId": "API-nøkkel client_id",
+    "clientSecret": "API-nøkkel client_secret",
+    "masterPassword": "Hovedpassord",
+    "code": "To-trinns innloggingskode",
+    "codeNeeded": "Skriv inn to-trinns innloggingskoden din.",
+    "submit": "Lås opp",
+    "done": "Vault opplåst",
+    "lock": "Lås",
+    "unlockedAs": "Opplåst som {{email}} til {{until}}",
+    "retry": "Opplåst. Koble til verten igjen.",
+    "none": "Ingen vault å låse opp",
+    "noneHint": "Be en administrator om å legge til en Bitwarden- eller Vaultwarden-kilde der hver bruker logger seg inn."
   }
 }

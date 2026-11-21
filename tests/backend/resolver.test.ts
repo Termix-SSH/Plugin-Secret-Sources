@@ -4,6 +4,7 @@ import { createMockCtx, createTestDb } from "@termix-ssh/plugin-sdk/testing";
 import { createSecretSourceRepository } from "../../src/backend/repository.js";
 import { createTokenStore } from "../../src/backend/token-store.js";
 import { registerSecretResolvers } from "../../src/backend/resolver.js";
+import { createVaultSessions } from "../../src/backend/bitwarden/vault-sessions.js";
 import { sources } from "../../src/backend/tables.js";
 import manifestJson from "../../manifest.json";
 import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
@@ -38,7 +39,10 @@ async function setUp(fetchMock: ReturnType<typeof vi.fn>) {
   const table = await mock.ctx.db.define(sources);
   const repository = createSecretSourceRepository(mock.ctx.db, table as never);
   const tokenStore = createTokenStore(mock.ctx);
-  registerSecretResolvers(mock.ctx, repository, tokenStore);
+  registerSecretResolvers(
+    { ctx: mock.ctx, tokenStore, sessions: createVaultSessions(mock.ctx) },
+    repository,
+  );
 
   const resolve = mock.auth.secretResolvers.get("op");
   if (!resolve) throw new Error("resolver was not registered");

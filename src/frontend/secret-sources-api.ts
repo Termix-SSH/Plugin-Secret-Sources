@@ -27,10 +27,47 @@ export interface SecretSourceUpdateInput {
   shared?: boolean;
 }
 
+export interface PickItem {
+  id: string;
+  name: string;
+  folder: string | null;
+  username: string | null;
+  password: string | null;
+}
+
+export interface VaultSession {
+  unlocked: boolean;
+  email: string | null;
+  method: "sso" | "password" | "apikey" | null;
+  expiresAt: number | null;
+}
+
+export type UnlockBody =
+  | {
+      method: "password";
+      email: string;
+      password: string;
+      twoFactorProvider?: number;
+      twoFactorCode?: string;
+    }
+  | {
+      method: "apikey";
+      clientId: string;
+      clientSecret: string;
+      password: string;
+    }
+  | { method: "sso"; redirect: string; password: string };
+
 export interface ReferenceTestResult {
   ok: boolean;
   status:
-    "found" | "invalid" | "no_source" | "not_found" | "denied" | "connection";
+    | "found"
+    | "invalid"
+    | "no_source"
+    | "not_found"
+    | "denied"
+    | "connection"
+    | "locked";
   source?: string;
   error?: string;
 }
@@ -53,9 +90,22 @@ export function createSecretSourcesApi(api: PluginApiClient) {
           `/${id}/test`,
         ),
       ),
+    items: (id: string, search: string) =>
+      data(
+        api.get<{ items: PickItem[] }>(
+          `/${id}/items?search=${encodeURIComponent(search)}`,
+        ),
+      ).then((r) => r.items),
+    session: (id: string) => data(api.get<VaultSession>(`/${id}/session`)),
+    unlock: (id: string, body: UnlockBody) =>
+      data(api.post<VaultSession>(`/${id}/session`, body)),
+    startSso: (id: string) =>
+      data(api.post<{ url: string }>(`/${id}/session/sso`)).then((r) => r.url),
+    lock: (id: string) =>
+      data(api.delete<{ success: boolean }>(`/${id}/session`)),
     testReference: (reference: string) =>
       data(api.post<ReferenceTestResult>("/test-reference", { reference })),
   };
 }
 
-type SecretSourcesApi = ReturnType<typeof createSecretSourcesApi>;
+export type SecretSourcesApi = ReturnType<typeof createSecretSourcesApi>;

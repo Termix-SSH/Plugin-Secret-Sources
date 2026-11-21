@@ -1,4 +1,5 @@
 import type { PluginFetch } from "@termix-ssh/plugin-sdk/backend";
+import type { OpenVault } from "../bitwarden/vault-items.js";
 
 /** What a provider gets to reach its server. */
 export interface ProviderSource {
@@ -6,6 +7,8 @@ export interface ProviderSource {
   /** The stored credential: a token, or JSON for providers with several fields. */
   credential: string;
   allowedPrivateHosts: readonly string[];
+  /** The acting user's own unlocked vault, for per-user kinds. */
+  vault?: () => Promise<OpenVault>;
 }
 
 export interface SecretProvider<Ref = unknown> {
@@ -14,6 +17,8 @@ export interface SecretProvider<Ref = unknown> {
   scheme: string;
   /** Whether a source of this kind needs a stored credential. */
   needsCredential: boolean;
+  /** Each user unlocks it with their own account (see vault-sessions). */
+  perUser?: boolean;
   parseReference: (raw: string) => Ref | null;
   resolve: (
     fetch: PluginFetch,
@@ -22,7 +27,24 @@ export interface SecretProvider<Ref = unknown> {
   ) => Promise<string>;
   /** Checks the server and credential. Returns a short description of what it found. */
   test: (fetch: PluginFetch, source: ProviderSource) => Promise<string>;
+  /** Items to pick from, as references. Never any secret value. */
+  listItems?: (
+    fetch: PluginFetch,
+    source: ProviderSource,
+    search: string,
+  ) => Promise<PickItem[]>;
 }
+
+/** One item in the picker: its name and the references it can fill. */
+export interface PickItem {
+  id: string;
+  name: string;
+  folder: string | null;
+  username: string | null;
+  password: string | null;
+}
+
+export const PICK_LIMIT = 100;
 
 export const FETCH_TIMEOUT_MS = 10_000;
 

@@ -20,7 +20,8 @@
     "no_source": "Није подешен извор тајни за овај тип референце.",
     "not_found": "{{source}} нема тајну на овој референци.",
     "denied": "{{source}} је одбио приступ овој тајни. Проверите жетон и његова овлашћења.",
-    "connection": "Није могуће успоставити везу са {{source}}."
+    "connection": "Није могуће успоставити везу са {{source}}.",
+    "locked": "Ваше складиште у {{source}} је закључано. Прво га откључајте."
   },
   "required": "Име, URL адреса сервера и подаци за пријаву су обавезни",
   "saved": "Извор тајни је сачуван",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Извори тајни",
-    "description": "Преузима лозинке и кључеве за хостове из 1Password, Bitwarden, Infisical или HashiCorp Vault при повезивању, уместо да их чува у Termix."
+    "description": "Преузмите лозинке и кључеве за хостове из 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure или Google Cloud при повезивању, уместо да их чувате у Termix."
   },
   "deleteConfirm": "Обрисати извор тајни {{name}}?",
   "kindLabel": "Тип",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx фајл)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden или Vaultwarden (сваки корисник се пријављује)"
   },
   "fields": {
     "clientId": "ID клијента",
@@ -56,13 +62,72 @@
     "vaultToken": "Токен (или користите AppRole испод)",
     "roleId": "ID улоге за AppRole",
     "secretId": "ID тајне за AppRole",
-    "namespace": "Простор имена (опционо)"
+    "namespace": "Простор имена (опционо)",
+    "masterPassword": "Главна лозинка",
+    "keyFile": "Фајл са кључем (опционо)",
+    "httpUsername": "Корисник за веб пријаву (опционо)",
+    "httpPassword": "Лозинка за веб пријаву (опционо)",
+    "accessKeyId": "ID кључа за приступ",
+    "secretAccessKey": "Тајни кључ за приступ",
+    "sessionToken": "Токен сесије (опционо)",
+    "region": "Регион (опционо, чита се са крајње тачке)",
+    "tenantId": "ID закупца",
+    "serviceAccountJson": "Кључ сервисног налога (JSON фајл)",
+    "sessionHours": "Откључавање траје (сати)",
+    "ssoIdentifier": "SSO идентификатор"
   },
   "kindHints": {
     "onepassword-connect": "Референца:",
     "infisical": "Користи машински идентитет са Universal Auth. Референца:",
     "bitwarden-sm": "Оставите URL као што јесте за bitwarden.com или користите адресу свог сервера. Референца:",
     "hashicorp-vault": "Чита KV верзију 1 или 2. Референца:",
-    "bitwarden-cli": "Покрените bw serve тако да Termix може да га достигне и држите vault откључаним. Поље је username, password, totp, notes, uri или име прилагођеног поља. Референца:"
+    "bitwarden-cli": "Покрените bw serve тако да Termix може да га достигне и држите vault откључаним. Поље је username, password, totp, notes, uri или име прилагођеног поља. Референца:",
+    "keepass": "Termix преузима фајл са ове адресе, као што је WebDAV или Nextcloud веза, и отвара га главном лозинком. Поље је Лозинка осим ако не додате #UserName, #URL, #Notes или прилагођено поље. Референца:",
+    "aws-secrets-manager": "Користите кључ за приступ IAM корисника или улоге којем су дозвољени secretsmanager:GetSecretValue и ListSecrets. Додајте #key да прочитате један кључ JSON тајне. Референца:",
+    "azure-key-vault": "Користите регистрацију апликације са тајним кључем клијента који може да добије и наведе тајне у овом складишту. Додајте /version да фиксирујете верзију. Референца:",
+    "gcp-secret-manager": "Користите кључ сервисног налога са улогом Secret Manager Secret Accessor. Додајте /version да фиксирујете верзију, иначе последња. Референца:",
+    "bitwarden-vault": "Сваки корисник откључава своје складиште помоћу SSO, е-поште или личног API кључа, плус главне лозинке, и види само оно што његов налог дозвољава. Трајање сесије је у сатима (8 ако је празно). SSO идентификатор је идентификатор ваше организације, ако га сервер тражи. Поље је username, password, totp, notes, uri, privatekey или име прилагођеног поља. Референца:"
+  },
+  "picker": {
+    "open": "Изаберите из складишта",
+    "search": "Претражи ставке",
+    "close": "Затвори",
+    "loading": "Учитавање ставки",
+    "empty": "Ниједна ставка није пронађена",
+    "failed": "Није могуће навести ставке. Проверите да ли је складиште откључано.",
+    "noSources": "Додајте Bitwarden или Vaultwarden (bw serve) извор да бисте изабрали ставке из њега."
+  },
+  "kdbxUrlLabel": "Адреса фајла",
+  "awsEndpointLabel": "Крајња тачка",
+  "vaultUrlLabel": "URL складишта",
+  "filePick": "Изаберите фајл",
+  "fileLoaded": "Фајл је учитан",
+  "fileNone": "Нема фајла",
+  "unlock": {
+    "title": "Откључајте складиште",
+    "toggle": "Откључајте своје складиште",
+    "intro": "Пријавите се на свој налог. Ваше складиште остаје откључано само за вас, док сесија не истекне.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Е-пошта",
+      "apikey": "API кључ"
+    },
+    "ssoOpen": "Отвори пријаву",
+    "ssoHint": "Пријавите се у новом прозору.",
+    "ssoPaste": "Када прозор прикаже страницу која се не може учитати, копирајте њену адресу и залепите је испод.",
+    "ssoAddress": "Адреса на којој је прозор завршио",
+    "email": "Е-пошта",
+    "clientId": "client_id API кључа",
+    "clientSecret": "client_secret API кључа",
+    "masterPassword": "Главна лозинка",
+    "code": "Код за двостепену пријаву",
+    "codeNeeded": "Унесите код за двостепену пријаву.",
+    "submit": "Откључај",
+    "done": "Складиште је откључано",
+    "lock": "Закључај",
+    "unlockedAs": "Откључано као {{email}} до {{until}}",
+    "retry": "Откључано. Повезите се са хостом поново.",
+    "none": "Нема складишта за откључавање",
+    "noneHint": "Питајте администратора да дода Bitwarden или Vaultwarden извор где се сваки корисник пријављује."
   }
 }

@@ -20,7 +20,8 @@
     "no_source": "Šiam nuorodų tipui nėra nustatyta slaptojo raktų šaltinio.",
     "not_found": "Šaltinyje {{source}} nėra slaptojo rakto šiai nuorodai.",
     "denied": "Šaltinis {{source}} atmetė prieigą prie šio slaptojo rakto. Patikrinkite žetoną ir jo teises.",
-    "connection": "Nepavyko pasiekti šaltinio {{source}}."
+    "connection": "Nepavyko pasiekti šaltinio {{source}}.",
+    "locked": "Jūsų saugykla šaltinyje {{source}} yra užrakinta. Pirmiausia atrakinkite ją."
   },
   "required": "Būtina nurodyti pavadinimą, serverio URL ir prisijungimo duomenis",
   "saved": "Slaptažodžių šaltinis išsaugotas",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Slaptažodžių šaltiniai",
-    "description": "Atsisiųskite hostų slaptažodžius ir raktus iš 1Password, Bitwarden, Infisical arba HashiCorp Vault prisijungiant, vietoj to, kad saugotumėte juos Termix."
+    "description": "Prijungimo metu slaptažodžius ir raktus ištraukite iš 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure arba Google Cloud, vietoj to, kad saugotumėte juos Termix."
   },
   "deleteConfirm": "Ištrinti slaptažodžių šaltinį {{name}}?",
   "kindLabel": "Tipas",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden arba Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden arba Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx failas)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden arba Vaultwarden (kiekvienas vartotojas prisijungia atskirai)"
   },
   "fields": {
     "clientId": "Kliento ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Žetonas (arba naudokite AppRole žemiau)",
     "roleId": "AppRole vaidmens ID",
     "secretId": "AppRole slaptojo ID",
-    "namespace": "Vardų erdvė (nebūtina)"
+    "namespace": "Vardų erdvė (nebūtina)",
+    "masterPassword": "Pagrindinis slaptažodis",
+    "keyFile": "Rakto failas (nebūtina)",
+    "httpUsername": "Tinklo prisijungimo vartotojas (nebūtina)",
+    "httpPassword": "Tinklo prisijungimo slaptažodis (nebūtina)",
+    "accessKeyId": "Prieigos rakto ID",
+    "secretAccessKey": "Slaptasis prieigos raktas",
+    "sessionToken": "Sesijos žetonas (nebūtina)",
+    "region": "Regionas (nebūtina, nuskaitoma iš galinio taško)",
+    "tenantId": "Nuomos ID",
+    "serviceAccountJson": "Paslaugos paskyros raktas (JSON failas)",
+    "sessionHours": "Atrakimo trukmė (valandos)",
+    "ssoIdentifier": "SSO identifikatorius"
   },
   "kindHints": {
     "onepassword-connect": "Nuoroda:",
     "infisical": "Naudojama mašinos tapatybė su Universal Auth. Nuoroda:",
     "bitwarden-sm": "Palikite URL kaip yra bitwarden.com arba naudokite savo serverio adresą. Nuoroda:",
     "hashicorp-vault": "Skaito KV versiją 1 arba 2. Nuoroda:",
-    "bitwarden-cli": "Paleiskite bw serve taip, kad Termix galėtų jį pasiekti, ir palikite saugykla atrakintą. Laukas yra vartotojo vardas, slaptažodis, totp, pastabos, uri arba pritaikytas lauko pavadinimas. Nuoroda:"
+    "bitwarden-cli": "Paleiskite bw serve taip, kad Termix galėtų jį pasiekti, ir palikite saugykla atrakintą. Laukas yra vartotojo vardas, slaptažodis, totp, pastabos, uri arba pritaikytas lauko pavadinimas. Nuoroda:",
+    "keepass": "Termix atsisiunčia failą iš šio adreso, pavyzdžiui, WebDAV arba Nextcloud nuorodos, ir atidaro jį naudodama pagrindinį slaptažodį. Laukas yra „Slaptažodis“, nebent pridėsite #UserName, #URL, #Notes arba pritaikytą lauką. Nuoroda:",
+    "aws-secrets-manager": "Naudokite IAM vartotojo arba vaidmens prieigos raktą, turintį teises secretsmanager:GetSecretValue ir ListSecrets. Pridėkite #key, kad perskaitytumėte vieną JSON slaptojo rakto raktą. Nuoroda:",
+    "azure-key-vault": "Naudokite programos registraciją su kliento slaptažodžiu, kuris gali gauti ir išvardinti šios saugyklos slaptažodžius. Pridėkite /version, kad pritvirtintumėte versiją. Nuoroda:",
+    "gcp-secret-manager": "Naudokite paslaugos paskyros raktą su Secret Manager Secret Accessor vaidmeniu. Pridėkite /version, kad pritvirtintumėte versiją, kitaip bus naudojama naujausia. Nuoroda:",
+    "bitwarden-vault": "Kiekvienas vartotojas atrakina savo saugyklą naudodamas SSO, el. paštą arba asmeninį API raktą bei savo pagrindinį slaptažodį ir mato tik tai, ką leidžia jo paskyra. Sesijos ilgis nurodomas valandomis (8, jei tuščia). SSO identifikatorius yra jūsų organizacijos identifikatorius, jei jūsų serveris jo prašo. Laukas gali būti username, password, totp, notes, uri, privatekey arba pritaikytas lauko pavadinimas. Nuoroda:"
+  },
+  "picker": {
+    "open": "Pasirinkti iš saugyklos",
+    "search": "Ieškoti elementų",
+    "close": "Uždaryti",
+    "loading": "Elementai įkeliami",
+    "empty": "Elementų nerasta",
+    "failed": "Nepavyko išvardinti elementų. Patikrinkite, ar saugykla atrakinta.",
+    "noSources": "Pridėkite Bitwarden arba Vaultwarden (bw serve) šaltinį, kad galėtumėte iš jo rinktis elementus."
+  },
+  "kdbxUrlLabel": "Failo adresas",
+  "awsEndpointLabel": "Galinis taškas",
+  "vaultUrlLabel": "Saugyklos URL",
+  "filePick": "Pasirinkti failą",
+  "fileLoaded": "Failas įkeltas",
+  "fileNone": "Nėra failo",
+  "unlock": {
+    "title": "Atrakinti saugyklą",
+    "toggle": "Atrakinkite savo saugyklą",
+    "intro": "Prisijunkite prie savo paskyros. Jūsų saugykla lieka atrakinta tik jums, kol baigiasi sesija.",
+    "methods": {
+      "sso": "SSO",
+      "password": "El. paštas",
+      "apikey": "API raktas"
+    },
+    "ssoOpen": "Atidaryti prisijungimą",
+    "ssoHint": "Prisijunkite naujame lange.",
+    "ssoPaste": "Kai lange atsiras puslapis, kurio nepavyksta įkelti, nukopijuokite jo adresą ir įklijuokite žemiau.",
+    "ssoAddress": "Adresas, kuriame baigėsi langas",
+    "email": "El. paštas",
+    "clientId": "API rakto client_id",
+    "clientSecret": "API rakto client_secret",
+    "masterPassword": "Pagrindinis slaptažodis",
+    "code": "Dviejų žingsnių prisijungimo kodas",
+    "codeNeeded": "Įveskite savo dviejų žingsnių prisijungimo kodą.",
+    "submit": "Atrakinti",
+    "done": "Saugykla atrakinta",
+    "lock": "Užrakinti",
+    "unlockedAs": "Atrakinta kaip {{email}} iki {{until}}",
+    "retry": "Atrakinta. Vėl prisijunkite prie serverio.",
+    "none": "Nėra saugyklos, kurią reikėtų atrakinti",
+    "noneHint": "Paprašykite administratoriaus pridėti Bitwarden arba Vaultwarden šaltinį, kuriame kiekvienas vartotojas prisijungia atskirai."
   }
 }

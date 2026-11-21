@@ -199,6 +199,62 @@ describe("Bitwarden CLI", () => {
     ).toBe("5432");
   });
 
+  it("lists logins as references with folders and never a secret", async () => {
+    const id1 = "11111111-1111-4111-8111-111111111111";
+    const id2 = "22222222-2222-4222-8222-222222222222";
+    const fetch = vi.fn(async (url: string) =>
+      url.includes("/list/object/folders")
+        ? json({
+            success: true,
+            data: { data: [{ id: "f1", name: "Servers" }] },
+          })
+        : json({
+            success: true,
+            data: {
+              data: [
+                {
+                  id: id2,
+                  name: "web 1",
+                  folderId: "f1",
+                  login: { username: "root", password: "s3cret" },
+                },
+                {
+                  id: id1,
+                  name: "api",
+                  login: { username: "deploy", password: null },
+                },
+                { id: "33333333-3333-4333-8333-333333333333", name: "a note" },
+              ],
+            },
+          }),
+    );
+    const items = await bitwardenCliProvider.listItems!(
+      fetch as never,
+      source("", "http://localhost:8087"),
+      "web",
+    );
+    expect(items).toEqual([
+      {
+        id: id1,
+        name: "api",
+        folder: null,
+        username: `bw://${id1}/username`,
+        password: null,
+      },
+      {
+        id: id2,
+        name: "web 1",
+        folder: "Servers",
+        username: `bw://${id2}/username`,
+        password: `bw://${id2}/password`,
+      },
+    ]);
+    expect(JSON.stringify(items)).not.toContain("s3cret");
+    expect(fetch.mock.calls.map((c) => c[0])).toContain(
+      "http://localhost:8087/list/object/items?search=web",
+    );
+  });
+
   it("refuses a locked vault in the test", async () => {
     const fetch = vi
       .fn()

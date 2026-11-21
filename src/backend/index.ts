@@ -5,19 +5,19 @@ import { createSecretSourceRepository } from "./repository.js";
 import { createTokenStore } from "./token-store.js";
 import { registerSecretSourceRoutes } from "./routes.js";
 import { registerSecretResolvers } from "./resolver.js";
+import { createVaultSessions } from "./bitwarden/vault-sessions.js";
 
 export async function activate(ctx: PluginContext) {
   const table = await ctx.db.define(sources);
   const repository = createSecretSourceRepository(ctx.db, table);
-  const tokenStore = createTokenStore(ctx);
-
-  registerSecretSourceRoutes(
-    ctx.http.router<Router>(),
+  const deps = {
     ctx,
-    repository,
-    tokenStore,
-  );
-  registerSecretResolvers(ctx, repository, tokenStore);
+    tokenStore: createTokenStore(ctx),
+    sessions: createVaultSessions(ctx),
+  };
+
+  registerSecretSourceRoutes(ctx.http.router<Router>(), deps, repository);
+  registerSecretResolvers(deps, repository);
 
   ctx.log.info("Secret sources routes mounted at /plugin-api/secret-sources");
 }

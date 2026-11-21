@@ -20,7 +20,8 @@
     "no_source": "Za to vrsto sklica ni nastavljenega vira skrivnosti.",
     "not_found": "{{source}} nima skrivnosti na tem sklicu.",
     "denied": "{{source}} je zavrnil dostop do te skrivnosti. Preverite žeton in njegova dovoljenja.",
-    "connection": "Ni bilo mogoče doseči {{source}}."
+    "connection": "Ni bilo mogoče doseči {{source}}.",
+    "locked": "Vaš varnostni seaf v {{source}} je zaklenjen. Najprej ga odklenite."
   },
   "required": "Ime, naslov URL strežnika in podatki za prijavo so obvezni",
   "saved": "Vir skrivnosti je shranjen",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Viri skrivnosti",
-    "description": "Pridobite gesla in ključe gostiteljev iz 1Password, Bitwarden, Infisical ali HashiCorp Vault ob povezovanju namesto, da bi jih shranjevali v Termix."
+    "description": "Pridobite gesla in ključe gostiteljev iz 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure ali Google Cloud ob povezovanju namesto, da bi jih shranjevali v Termix."
   },
   "deleteConfirm": "Izbrišete vir skrivnosti {{name}}?",
   "kindLabel": "Vrsta",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden ali Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden ali Vaultwarden (bw serve)",
+    "keepass": "KeePass (datoteka .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden ali Vaultwarden (vsak uporabnik se prijavi posebej)"
   },
   "fields": {
     "clientId": "ID odjemalca",
@@ -56,13 +62,72 @@
     "vaultToken": "Žeton (ali uporabite AppRole spodaj)",
     "roleId": "ID vloge AppRole",
     "secretId": "ID skrivnosti AppRole",
-    "namespace": "Imenski prostor (izbirno)"
+    "namespace": "Imenski prostor (izbirno)",
+    "masterPassword": "Glavno geslo",
+    "keyFile": "Ključna datoteka (izbirno)",
+    "httpUsername": "Uporabnik za spletno prijavo (izbirno)",
+    "httpPassword": "Geslo za spletno prijavo (izbirno)",
+    "accessKeyId": "ID dostopnega ključa",
+    "secretAccessKey": "Zasebni dostopni ključ",
+    "sessionToken": "Žetoni seje (izbirno)",
+    "region": "Regija (izbirno, prebrano iz končne točke)",
+    "tenantId": "ID najemnika",
+    "serviceAccountJson": "Ključ storitvenega računa (datoteka JSON)",
+    "sessionHours": "Trajanje odklenitve (ure)",
+    "ssoIdentifier": "SSO identifikator"
   },
   "kindHints": {
     "onepassword-connect": "Referenca:",
     "infisical": "Uporablja strojno identiteto z univerzalno avtentikacijo. Referenca:",
     "bitwarden-sm": "Pustite naslov URL tak, kot je, za bitwarden.com, ali uporabite naslov svojega strežnika. Referenca:",
     "hashicorp-vault": "Bere KV različico 1 ali 2. Referenca:",
-    "bitwarden-cli": "Zaženite bw serve tam, kjer ga lahko doseže Termix, in pustite varnostno kopijo odklenjeno. Polje je uporabniško ime, geslo, totp, opombe, uri ali ime po meri. Referenca:"
+    "bitwarden-cli": "Zaženite bw serve tam, kjer ga lahko doseže Termix, in pustite varnostno kopijo odklenjeno. Polje je uporabniško ime, geslo, totp, opombe, uri ali ime po meri. Referenca:",
+    "keepass": "Termix prenese datoteko s tega naslova, na primer povezave WebDAV ali Nextcloud, in jo odpre z glavnim geslom. Polje je Geslo, razen če dodate #UserName, #URL, #Notes ali polje po meri. Sklic:",
+    "aws-secrets-manager": "Uporabite dostopni ključ uporabnika ali vloge IAM, ki ima dovoljeni secretsmanager:GetSecretValue in ListSecrets. Dodajte #key za branje enega ključa JSON skrivnosti. Sklic:",
+    "azure-key-vault": "Uporabite registracijo aplikacije s stranskim ključem, ki lahko pridobi in naštete skrivnosti v tem varnostnem sefu. Dodajte /version za fiksiranje različice. Sklic:",
+    "gcp-secret-manager": "Uporabite ključ storitvenega računa z vlogo Secret Manager Secret Accessor. Dodajte /version za fiksiranje različice, sicer zadnja. Sklic:",
+    "bitwarden-vault": "Vsak uporabnik odklene svoj varnostni sef s SSO, e-pošto ali osebnim API ključem ter glavnim geslom in vidi le tisto, kar mu dovoli njegov račun. Dolžina seje je v urah (8, če je prazno). SSO identifikator je identifikator vaše organizacije, če ga vaš strežnik zahteva. Polje je uporabniško ime, geslo, totp, opombe, uri, zasebni ključ ali polje po meri. Sklic:"
+  },
+  "picker": {
+    "open": "Izberi iz varnostnega sefa",
+    "search": "Išči elemente",
+    "close": "Zapri",
+    "loading": "Nalaganje elementov",
+    "empty": "Ni najdenih elementov",
+    "failed": "Elementov ni bilo mogoče našteti. Preverite, ali je varnostni sef odklenjen.",
+    "noSources": "Dodajte vir Bitwarden ali Vaultwarden (bw serve), da boste lahko izbirali elemente iz njega."
+  },
+  "kdbxUrlLabel": "Naslov datoteke",
+  "awsEndpointLabel": "Končna točka",
+  "vaultUrlLabel": "URL varnostnega sefa",
+  "filePick": "Izberi datoteko",
+  "fileLoaded": "Datoteka naložena",
+  "fileNone": "Brez datoteke",
+  "unlock": {
+    "title": "Odkleni varnostni sef",
+    "toggle": "Odklenite svoj varnostni sef",
+    "intro": "Prijavite se v svoj račun. Varnostni sef ostane odklenjen le za vas, dokler seja ne poteče.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-pošta",
+      "apikey": "API ključ"
+    },
+    "ssoOpen": "Odpri prijavo",
+    "ssoHint": "Prijavite se v novem oknu.",
+    "ssoPaste": "Ko okno prikaže stran, ki se ne more naložiti, kopirajte njen naslov in ga prilepite spodaj.",
+    "ssoAddress": "Naslov, na katerem se je okno končalo",
+    "email": "E-pošta",
+    "clientId": "client_id API ključa",
+    "clientSecret": "client_secret API ključa",
+    "masterPassword": "Glavno geslo",
+    "code": "Koda za dvostopenjsko prijavo",
+    "codeNeeded": "Vnesite svojo kodo za dvostopenjsko prijavo.",
+    "submit": "Odkleni",
+    "done": "Varnostni sef odklenjen",
+    "lock": "Zakleni",
+    "unlockedAs": "Odklenjeno kot {{email}} do {{until}}",
+    "retry": "Odklenjeno. Ponovno se povežite na gostitelja.",
+    "none": "Ni varnostnega sefa za odklepanje",
+    "noneHint": "Prosite administratorja, da doda vir Bitwarden ali Vaultwarden, kjer se vsak uporabnik prijavi posebej."
   }
 }

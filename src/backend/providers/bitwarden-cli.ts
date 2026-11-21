@@ -1,7 +1,9 @@
 import {
+  PICK_LIMIT,
   referenceParts,
   requestJson,
   trimBase,
+  type PickItem,
   type ProviderSource,
   type SecretProvider,
 } from "./types.js";
@@ -29,6 +31,7 @@ export function parseBitwardenCliReference(
 interface BwItem {
   id: string;
   name: string;
+  folderId?: string | null;
   notes?: string | null;
   login?: {
     username?: string | null;
@@ -101,6 +104,24 @@ async function findItem(
   return matches[0];
 }
 
+/** Logins as picker items, by id so names with spaces or twins still work. */
+export function bitwardenPickItems(
+  items: BwItem[],
+  folders: Map<string, string>,
+): PickItem[] {
+  return items
+    .filter((item) => item.login && UUID.test(item.id))
+    .slice(0, PICK_LIMIT)
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      folder: item.folderId ? (folders.get(item.folderId) ?? null) : null,
+      username: item.login?.username ? `bw://${item.id}/username` : null,
+      password: item.login?.password ? `bw://${item.id}/password` : null,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export const bitwardenCliProvider: SecretProvider<BitwardenCliReference> = {
   kind: "bitwarden-cli",
   scheme: "bw",
@@ -134,6 +155,31 @@ export const bitwardenCliProvider: SecretProvider<BitwardenCliReference> = {
       );
     }
     return value;
+  },
+  async listItems(fetch, source, search) {
+    const query = search.trim()
+      ? `?search=${encodeURIComponent(search.trim())}`
+      : "";
+    const [items, folders] = await Promise.all([
+      bw<{ data?: BwItem[] }>(
+        fetch,
+        source,
+        `/list/object/items${query}`,
+        "Bitwarden search",
+      ),
+      bw<{ data?: Array<{ id?: string | null; name?: string }> }>(
+        fetch,
+        source,
+        "/list/object/folders",
+        "Bitwarden folders",
+      ).catch(() => ({ data: [] })),
+    ]);
+    const folderNames = new Map(
+      (folders.data ?? [])
+        .filter((f) => f.id && f.name)
+        .map((f) => [f.id as string, f.name as string]),
+    );
+    return bitwardenPickItems(items.data ?? [], folderNames);
   },
   async test(fetch, source) {
     const status = await bw<{ template?: { status?: string } }>(

@@ -3,7 +3,12 @@ export type SecretSourceKind =
   | "infisical"
   | "bitwarden-sm"
   | "hashicorp-vault"
-  | "bitwarden-cli";
+  | "bitwarden-cli"
+  | "bitwarden-vault"
+  | "keepass"
+  | "aws-secrets-manager"
+  | "azure-key-vault"
+  | "gcp-secret-manager";
 
 export interface KindField {
   key: string;
@@ -11,6 +16,8 @@ export interface KindField {
   secret: boolean;
   placeholder?: string;
   optional?: boolean;
+  /** Filled from a file: its bytes as base64, or its text. */
+  file?: "base64" | "text";
 }
 
 export interface KindSpec {
@@ -112,7 +119,133 @@ export const KIND_SPECS: KindSpec[] = [
     example: "bw://item name/password",
     fields: [],
   },
+  {
+    kind: "bitwarden-vault",
+    labelKey: "kinds.bitwarden-vault",
+    urlLabelKey: "serverUrlLabel",
+    defaultUrl: "https://vault.bitwarden.com",
+    urlPlaceholder: "https://vault.example.com",
+    example: "bw://item name/password",
+    fields: [
+      {
+        key: "sessionHours",
+        labelKey: "fields.sessionHours",
+        secret: false,
+        optional: true,
+        placeholder: "8",
+      },
+      {
+        key: "ssoIdentifier",
+        labelKey: "fields.ssoIdentifier",
+        secret: false,
+        optional: true,
+      },
+    ],
+  },
+  {
+    kind: "keepass",
+    labelKey: "kinds.keepass",
+    urlLabelKey: "kdbxUrlLabel",
+    defaultUrl: "",
+    urlPlaceholder:
+      "https://cloud.example.com/remote.php/dav/files/me/Passwords.kdbx",
+    example: "kdbx://Servers/web-1#Password",
+    fields: [
+      {
+        key: "masterPassword",
+        labelKey: "fields.masterPassword",
+        secret: true,
+      },
+      {
+        key: "keyFile",
+        labelKey: "fields.keyFile",
+        secret: true,
+        optional: true,
+        file: "base64",
+      },
+      {
+        key: "httpUsername",
+        labelKey: "fields.httpUsername",
+        secret: false,
+        optional: true,
+      },
+      {
+        key: "httpPassword",
+        labelKey: "fields.httpPassword",
+        secret: true,
+        optional: true,
+      },
+    ],
+  },
+  {
+    kind: "aws-secrets-manager",
+    labelKey: "kinds.aws-secrets-manager",
+    urlLabelKey: "awsEndpointLabel",
+    defaultUrl: "https://secretsmanager.us-east-1.amazonaws.com",
+    urlPlaceholder: "https://secretsmanager.us-east-1.amazonaws.com",
+    example: "aws-sm://prod/db#password",
+    fields: [
+      {
+        key: "accessKeyId",
+        labelKey: "fields.accessKeyId",
+        secret: false,
+        placeholder: "AKIA...",
+      },
+      {
+        key: "secretAccessKey",
+        labelKey: "fields.secretAccessKey",
+        secret: true,
+      },
+      {
+        key: "sessionToken",
+        labelKey: "fields.sessionToken",
+        secret: true,
+        optional: true,
+      },
+      {
+        key: "region",
+        labelKey: "fields.region",
+        secret: false,
+        optional: true,
+        placeholder: "us-east-1",
+      },
+    ],
+  },
+  {
+    kind: "azure-key-vault",
+    labelKey: "kinds.azure-key-vault",
+    urlLabelKey: "vaultUrlLabel",
+    defaultUrl: "",
+    urlPlaceholder: "https://my-vault.vault.azure.net",
+    example: "azkv://db-password",
+    fields: [
+      { key: "tenantId", labelKey: "fields.tenantId", secret: false },
+      { key: "clientId", labelKey: "fields.clientId", secret: false },
+      { key: "clientSecret", labelKey: "fields.clientSecret", secret: true },
+    ],
+  },
+  {
+    kind: "gcp-secret-manager",
+    labelKey: "kinds.gcp-secret-manager",
+    urlLabelKey: "serverUrlLabel",
+    defaultUrl: "https://secretmanager.googleapis.com",
+    urlPlaceholder: "https://secretmanager.googleapis.com",
+    example: "gcpsm://my-project/db-password",
+    fields: [
+      {
+        key: "serviceAccountJson",
+        labelKey: "fields.serviceAccountJson",
+        secret: true,
+        file: "text",
+      },
+    ],
+  },
 ];
+
+/** Kinds each user unlocks with their own account. */
+export function isPerUserKind(kind: string): boolean {
+  return kind === "bitwarden-vault";
+}
 
 export function specFor(kind: string): KindSpec {
   return KIND_SPECS.find((spec) => spec.kind === kind) ?? KIND_SPECS[0];

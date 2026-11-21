@@ -1,8 +1,8 @@
 {
   "id": "secret-sources",
   "name": "Secret Sources",
-  "version": "1.1.3",
-  "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect instead of storing them in Termix.",
+  "version": "1.2.0",
+  "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure or Google Cloud when you connect instead of storing them in Termix.",
   "author": {
     "name": "Termix"
   },
@@ -13,9 +13,10 @@
   "category": "Access & Security",
   "icon": "KeyRound",
   "features": [
-    "Works with 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault and Bitwarden or Vaultwarden through bw serve",
+    "Works with 1Password, Infisical, Bitwarden, Vaultwarden, HashiCorp Vault, KeePass files, AWS Secrets Manager, Azure Key Vault and Google Cloud",
     "Use references like op://vault/item/field or vault://secret/app#password in a host's password or key fields",
-    "Secrets are fetched each time you connect and never stored in Termix"
+    "Secrets are fetched each time you connect and never stored in Termix",
+    "Bitwarden and Vaultwarden users can each unlock their own vault with SSO, email or an API key"
   ],
   "engine": {
     "termix": ">=26.11.2-0",
@@ -24,6 +25,7 @@
   "capabilities": [
     "db:own",
     "secrets:own",
+    "kv:own",
     "network:outbound",
     "network:serve",
     "auth:provide",
@@ -31,6 +33,14 @@
     "users:impersonate"
   ],
   "contributes": {
+    "tabs": [
+      {
+        "id": "vault-unlock",
+        "titleKey": "unlock.title",
+        "icon": "LockOpen",
+        "openFrom": ["palette"]
+      }
+    ],
     "auth": {
       "secretSchemes": ["op", "infisical", "bws", "vault", "bw"]
     },

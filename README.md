@@ -4,7 +4,7 @@
 
 <h1>Secret Sources</h1>
 
-<p>Pull host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect instead of storing them in Termix</p>
+<p>Pull host passwords and keys from 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure or Google Cloud when you connect instead of storing them in Termix</p>
 
 <!-- VIDEO:START -->
 
@@ -18,7 +18,7 @@
 
 ## Overview
 
-Secret Sources reads host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect, instead of storing them in Termix.
+Secret Sources reads host passwords and keys from 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure or Google Cloud when you connect, instead of storing them in Termix.
 
 Read the [docs](https://docs.termix.site/plugins/secret-sources) to set it up and use it.
 
@@ -26,8 +26,8 @@ Read the [docs](https://docs.termix.site/plugins/secret-sources) to set it up an
 
 ## Features
 
-- 1Password Connect, Infisical, Bitwarden Secrets Manager and HashiCorp Vault
-- Bitwarden and Vaultwarden vaults through `bw serve`
+- 1Password Connect, Infisical, Bitwarden Secrets Manager, HashiCorp Vault, KeePass files, AWS Secrets Manager, Azure Key Vault and Google Cloud Secret Manager
+- Bitwarden and Vaultwarden vaults, each user unlocking their own with SSO, email or an API key, or one shared vault through `bw serve`
 - Use references like `op://vault/item/field` in a host's password or key fields
 - Secrets are fetched each time you connect and never stored in Termix
 

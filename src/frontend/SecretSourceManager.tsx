@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { KeyRound, Pencil, Plus, Trash2, X } from "lucide-react";
+import { KeyRound, LockOpen, Pencil, Plus, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import {
   Button,
@@ -15,8 +15,10 @@ import {
   type SecretSource,
   type ReferenceTestResult,
 } from "./secret-sources-api";
+import { VaultUnlock } from "./VaultUnlock";
 import {
   credentialComplete,
+  isPerUserKind,
   KIND_SPECS,
   serializeCredential,
   specFor,
@@ -56,6 +58,7 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState<FormState | null>(null);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState<string | null>(null);
+  const [unlocking, setUnlocking] = useState<string | null>(null);
   const [reference, setReference] = useState("");
   const [referenceTesting, setReferenceTesting] = useState(false);
   const [referenceResult, setReferenceResult] =
@@ -181,60 +184,80 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
           {sources.map((source) => (
             <div
               key={source.id}
-              className="flex items-center gap-2 border border-border bg-background px-2 py-1.5 text-xs"
+              className="flex flex-col gap-2 border border-border bg-background px-2 py-1.5 text-xs"
             >
-              <KeyRound className="size-3.5 text-muted-foreground shrink-0" />
-              <div className="flex-1 min-w-0">
-                <div className="truncate">
-                  {source.name}
-                  {source.shared && (
-                    <span className="ml-1 text-[9px] uppercase text-muted-foreground">
-                      {t("shared")}
-                    </span>
-                  )}
+              <div className="flex items-center gap-2">
+                <KeyRound className="size-3.5 text-muted-foreground shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="truncate">
+                    {source.name}
+                    {source.shared && (
+                      <span className="ml-1 text-[9px] uppercase text-muted-foreground">
+                        {t("shared")}
+                      </span>
+                    )}
+                  </div>
+                  <div className="truncate text-[10px] text-muted-foreground">
+                    {t(specFor(source.kind).labelKey)} | {source.baseUrl}
+                  </div>
                 </div>
-                <div className="truncate text-[10px] text-muted-foreground">
-                  {t(specFor(source.kind).labelKey)} | {source.baseUrl}
-                </div>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-6 text-[10px]"
-                disabled={testing === source.id}
-                onClick={() => void handleTest(source)}
-              >
-                {t("test")}
-              </Button>
-              {source.owned && (
-                <>
+                {isPerUserKind(source.kind) && (
                   <button
                     type="button"
-                    aria-label={t("common.edit")}
+                    aria-label={t("unlock.toggle")}
+                    aria-expanded={unlocking === source.id}
                     className="text-muted-foreground hover:text-foreground"
                     onClick={() =>
-                      setForm({
-                        id: source.id,
-                        name: source.name,
-                        kind: specFor(source.kind).kind,
-                        baseUrl: source.baseUrl,
-                        credential: {},
-                        shared: source.shared,
-                      })
+                      setUnlocking((prev) =>
+                        prev === source.id ? null : source.id,
+                      )
                     }
                   >
-                    <Pencil className="size-3.5" />
+                    <LockOpen className="size-3.5" />
                   </button>
-                  <button
-                    type="button"
-                    aria-label={t("common.delete")}
-                    className="text-muted-foreground hover:text-destructive"
-                    onClick={() => void handleDelete(source)}
-                  >
-                    <Trash2 className="size-3.5" />
-                  </button>
-                </>
+                )}
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 text-[10px]"
+                  disabled={testing === source.id}
+                  onClick={() => void handleTest(source)}
+                >
+                  {t("test")}
+                </Button>
+                {source.owned && (
+                  <>
+                    <button
+                      type="button"
+                      aria-label={t("common.edit")}
+                      className="text-muted-foreground hover:text-foreground"
+                      onClick={() =>
+                        setForm({
+                          id: source.id,
+                          name: source.name,
+                          kind: specFor(source.kind).kind,
+                          baseUrl: source.baseUrl,
+                          credential: {},
+                          shared: source.shared,
+                        })
+                      }
+                    >
+                      <Pencil className="size-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={t("common.delete")}
+                      className="text-muted-foreground hover:text-destructive"
+                      onClick={() => void handleDelete(source)}
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </>
+                )}
+              </div>
+              {unlocking === source.id && (
+                <VaultUnlock api={api} source={source} />
               )}
             </div>
           ))}
@@ -352,6 +375,52 @@ export function SecretSourceManager({ onClose }: { onClose: () => void }) {
           </div>
           {specFor(form.kind).fields.map((field) => {
             const Field = field.secret ? PasswordInput : Input;
+            if (field.file) {
+              const loaded = !!form.credential[field.key];
+              return (
+                <div key={field.key} className="flex flex-col gap-1">
+                  <label className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
+                    {t(field.labelKey)}
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <label className="inline-flex h-8 cursor-pointer items-center border border-border px-3 text-xs hover:bg-muted">
+                      {t("filePick")}
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          e.target.value = "";
+                          if (!file) return;
+                          const value =
+                            field.file === "base64"
+                              ? btoa(
+                                  Array.from(
+                                    new Uint8Array(await file.arrayBuffer()),
+                                    (b) => String.fromCharCode(b),
+                                  ).join(""),
+                                )
+                              : await file.text();
+                          setField("credential", {
+                            ...form.credential,
+                            [field.key]: value,
+                          });
+                        }}
+                      />
+                    </label>
+                    <span className="text-xs text-muted-foreground">
+                      {loaded
+                        ? t("fileLoaded")
+                        : form.id
+                          ? t("tokenKeep")
+                          : field.optional
+                            ? t("fileNone")
+                            : ""}
+                    </span>
+                  </div>
+                </div>
+              );
+            }
             return (
               <div key={field.key} className="flex flex-col gap-1">
                 <label className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">

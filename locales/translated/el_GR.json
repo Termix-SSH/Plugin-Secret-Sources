@@ -20,7 +20,8 @@
     "no_source": "Δεν έχει οριστεί πηγή μυστικών για αυτόν τον τύπο αναφοράς.",
     "not_found": "Το {{source}} δεν έχει μυστικό σε αυτή την αναφορά.",
     "denied": "Το {{source}} αρνήθηκε την πρόσβαση σε αυτό το μυστικό. Ελέγξτε το token και τα δικαιώματά του.",
-    "connection": "Αδυναμία επικοινωνίας με το {{source}}."
+    "connection": "Αδυναμία επικοινωνίας με το {{source}}.",
+    "locked": "Το vault σας στο {{source}} είναι κλειδωμένο. Ξεκλειδώστε το πρώτα."
   },
   "required": "Το όνομα, η διεύθυνση URL του server και τα στοιχεία σύνδεσης είναι υποχρεωτικά",
   "saved": "Η πηγή μυστικών αποθηκεύτηκε",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Πηγές μυστικών",
-    "description": "Λάβετε κωδικούς πρόσβασης και κλειδιά hosts από το 1Password, Bitwarden, Infisical ή HashiCorp Vault κατά τη σύνδεση αντί να τα αποθηκεύετε στο Termix."
+    "description": "Εξαγάγετε κωδικούς πρόσβασης και κλειδιά hosts από 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure ή Google Cloud κατά τη σύνδεση, αντί να τα αποθηκεύετε στο Termix."
   },
   "deleteConfirm": "Διαγραφή της πηγής μυστικών {{name}};",
   "kindLabel": "Τύπος",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden ή Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden ή Vaultwarden (bw serve)",
+    "keepass": "KeePass (αρχείο .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden ή Vaultwarden (κάθε χρήστης συνδέεται)"
   },
   "fields": {
     "clientId": "Client ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (ή χρησιμοποιήστε AppRole παρακάτω)",
     "roleId": "Role ID AppRole",
     "secretId": "Secret ID AppRole",
-    "namespace": "Namespace (προαιρετικό)"
+    "namespace": "Namespace (προαιρετικό)",
+    "masterPassword": "Κύριος κωδικός πρόσβασης",
+    "keyFile": "Αρχείο κλειδιού (προαιρετικό)",
+    "httpUsername": "Χρήστης web σύνδεσης (προαιρετικό)",
+    "httpPassword": "Κωδικός πρόσβασης web σύνδεσης (προαιρετικό)",
+    "accessKeyId": "ID κλειδιού πρόσβασης",
+    "secretAccessKey": "Μυστικό κλειδί πρόσβασης",
+    "sessionToken": "Token συνεδρίας (προαιρετικό)",
+    "region": "Περιοχή (προαιρετικό, διαβάζεται από το endpoint)",
+    "tenantId": "ID ενοικιαστή",
+    "serviceAccountJson": "Κλειδί λογαριασμού υπηρεσίας (αρχείο JSON)",
+    "sessionHours": "Διάρκεια ξεκλειδώματος (ώρες)",
+    "ssoIdentifier": "Αναγνωριστικό SSO"
   },
   "kindHints": {
     "onepassword-connect": "Αναφορά:",
     "infisical": "Χρησιμοποιεί machine identity με Universal Auth. Αναφορά:",
     "bitwarden-sm": "Αφήστε τη διεύθυνση URL ως έχει για bitwarden.com, ή χρησιμοποιήστε τη διεύθυνση του δικού σας server. Αναφορά:",
     "hashicorp-vault": "Διαβάζει KV έκδοση 1 ή 2. Αναφορά:",
-    "bitwarden-cli": "Τρέξτε το bw serve όπου μπορεί να το φτάσει το Termix και κρατήστε το vault ξεκλειδωμένο. Το πεδίο είναι username, password, totp, notes, uri ή ένα προσαρμοσμένο όνομα πεδίου. Αναφορά:"
+    "bitwarden-cli": "Τρέξτε το bw serve όπου μπορεί να το φτάσει το Termix και κρατήστε το vault ξεκλειδωμένο. Το πεδίο είναι username, password, totp, notes, uri ή ένα προσαρμοσμένο όνομα πεδίου. Αναφορά:",
+    "keepass": "Το Termix κατεβάζει το αρχείο από αυτή τη διεύθυνση, όπως ένα σύνδεσμο WebDAV ή Nextcloud, και το ανοίγει με τον κύριο κωδικό πρόσβασης. Το πεδίο είναι Password εκτός αν προσθέσετε #UserName, #URL, #Notes ή ένα προσαρμοσμένο πεδίο. Αναφορά:",
+    "aws-secrets-manager": "Χρησιμοποιήστε ένα κλειδί πρόσβασης ενός χρήστη ή ρόλου IAM που επιτρέπεται secretsmanager:GetSecretValue και ListSecrets. Προσθέστε #key για να διαβάσετε ένα κλειδί ενός JSON secret. Αναφορά:",
+    "azure-key-vault": "Χρησιμοποιήστε μια εγγραφή εφαρμογής με ένα μυστικό πελάτη που μπορεί να λαμβάνει και να καταγράφει μυστικά σε αυτό το vault. Προσθέστε /version για να ορίσετε μια έκδοση. Αναφορά:",
+    "gcp-secret-manager": "Χρησιμοποιήστε ένα κλειδί λογαριασμού υπηρεσίας με τον ρόλο Secret Manager Secret Accessor. Προσθέστε /version για να ορίσετε μια έκδοση, αλλιώς η τελευταία. Αναφορά:",
+    "bitwarden-vault": "Κάθε χρήστης ξεκλειδώνει το δικό του vault με SSO, email ή προσωπικό κλειδί API, μαζί με τον κύριο κωδικό πρόσβασής του, και βλέπει μόνο ό,τι μπορεί ο λογαριασμός του. Η διάρκεια συνεδρίας είναι σε ώρες (8 αν είναι κενό). Το αναγνωριστικό SSO είναι το αναγνωριστικό του οργανισμού σας, αν ο διακομιστής σας ζητάει ένα. Το πεδίο είναι username, password, totp, notes, uri, privatekey ή ένα προσαρμοσμένο όνομα πεδίου. Αναφορά:"
+  },
+  "picker": {
+    "open": "Επιλογή από vault",
+    "search": "Αναζήτηση στοιχείων",
+    "close": "Κλείσιμο",
+    "loading": "Φόρτωση στοιχείων",
+    "empty": "Δεν βρέθηκαν στοιχεία",
+    "failed": "Αδυναμία λίσταρσης των στοιχείων. Ελέγξτε ότι το vault είναι ξεκλειδωμένο.",
+    "noSources": "Προσθέστε μια πηγή Bitwarden ή Vaultwarden (bw serve) για να επιλέξετε στοιχεία από αυτή."
+  },
+  "kdbxUrlLabel": "Διεύθυνση αρχείου",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "URL Vault",
+  "filePick": "Επιλογή αρχείου",
+  "fileLoaded": "Το αρχείο φορτώθηκε",
+  "fileNone": "Χωρίς αρχείο",
+  "unlock": {
+    "title": "Ξεκλείδωμα vault",
+    "toggle": "Ξεκλειδώστε το vault σας",
+    "intro": "Συνδεθείτε στον δικό σας λογαριασμό. Το vault σας παραμένει ξεκλειδωμένο μόνο για εσάς, μέχρι να λήξει η συνεδρία.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Κλειδί API"
+    },
+    "ssoOpen": "Άνοιγμα σύνδεσης",
+    "ssoHint": "Συνδεθείτε στο νέο παράθυρο.",
+    "ssoPaste": "Όταν το παράθυρο δείξει μια σελίδα που δεν μπορεί να φορτώσει, αντιγράψτε τη διεύθυνσή της και επικολλήστε την παρακάτω.",
+    "ssoAddress": "Διεύθυνση όπου έληξε το παράθυρο",
+    "email": "Email",
+    "clientId": "client_id κλειδιού API",
+    "clientSecret": "client_secret κλειδιού API",
+    "masterPassword": "Κύριος κωδικός πρόσβασης",
+    "code": "Κωδικός σύνδεσης δύο βημάτων",
+    "codeNeeded": "Εισάγετε τον κωδικό σύνδεσης δύο βημάτων σας.",
+    "submit": "Ξεκλείδωμα",
+    "done": "Το vault ξεκλειδώθηκε",
+    "lock": "Κλείδωμα",
+    "unlockedAs": "Ξεκλειδωμένο ως {{email}} μέχρι {{until}}",
+    "retry": "Ξεκλειδωμένο. Συνδεθείτε ξανά στον host.",
+    "none": "Δεν υπάρχει vault για ξεκλείδωμα",
+    "noneHint": "Ζητήστε από έναν διαχειριστή να προσθέσει μια πηγή Bitwarden ή Vaultwarden όπου κάθε χρήστης συνδέεται."
   }
 }

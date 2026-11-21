@@ -20,7 +20,8 @@
     "no_source": "لم يتم إعداد مصدر سري لهذا النوع من المراجع.",
     "not_found": "لا يحتوي {{source}} على أي سري عند هذا المرجع.",
     "denied": "رفض {{source}} الوصول إلى هذا السري. تحقق من الرمز وأذوناته.",
-    "connection": "تعذر الوصول إلى {{source}}."
+    "connection": "تعذر الوصول إلى {{source}}.",
+    "locked": "الخزنة في {{source}} مقفلة. قم بفك قفلها أولاً."
   },
   "required": "الاسم، وعنوان URL للخادم، وتفاصيل تسجيل الدخول مطلوبة",
   "saved": "تم حفظ مصدر الأسرار",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "مصادر الأسرار",
-    "description": "اسحب كلمات مرور المفاتيح والمضيفين من 1Password أو Bitwarden أو Infisical أو HashiCorp Vault عند الاتصال بدلاً من تخزينها في Termix."
+    "description": "استخراج كلمات مرور المفاتيح والمضيفين من 1Password وBitwarden وInfisical وHashiCorp Vault وKeePass وAWS وAzure أو Google Cloud عند الاتصال بدلاً من تخزينها في Termix."
   },
   "deleteConfirm": "هل تريد حذف مصدر الأسرار {{name}}؟",
   "kindLabel": "النوع",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden أو Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden أو Vaultwarden (bw serve)",
+    "keepass": "KeePass (ملف .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden أو Vaultwarden (يسجل كل مستخدم دخوله)"
   },
   "fields": {
     "clientId": "معرف العميل",
@@ -56,13 +62,72 @@
     "vaultToken": "الرمز (أو استخدم AppRole أدناه)",
     "roleId": "معرف دور AppRole",
     "secretId": "معرف سر AppRole",
-    "namespace": "مساحة الاسم (اختياري)"
+    "namespace": "مساحة الاسم (اختياري)",
+    "masterPassword": "كلمة المرور الرئيسية",
+    "keyFile": "ملف المفتاح (اختياري)",
+    "httpUsername": "مستخدم تسجيل الدخول عبر الويب (اختياري)",
+    "httpPassword": "كلمة مرور تسجيل الدخول عبر الويب (اختياري)",
+    "accessKeyId": "معرف مفتاح الوصول",
+    "secretAccessKey": "مفتاح الوصول السري",
+    "sessionToken": "رمز الجلسة (اختياري)",
+    "region": "المنطقة (اختياري، يُقرأ من نقطة النهاية)",
+    "tenantId": "معرف المستأجر",
+    "serviceAccountJson": "مفتاح حساب الخدمة (ملف JSON)",
+    "sessionHours": "مدة بقاء القفل مفتوحاً (ساعات)",
+    "ssoIdentifier": "معرف SSO"
   },
   "kindHints": {
     "onepassword-connect": "المرجع:",
     "infisical": "يستخدم هوية جهاز مع المصادقة العالمية. المرجع:",
     "bitwarden-sm": "اترك عنوان URL كما هو لـ bitwarden.com، أو استخدم عنوان خادمك الخاص. المرجع:",
     "hashicorp-vault": "يقرأ النسخة 1 أو 2 من KV. المرجع:",
-    "bitwarden-cli": "قم بتشغيل bw serve حيث يمكن لـ Termix الوصول إليه واحتفظ بالصندوق مفتوحاً. الحقل هو اسم المستخدم، كلمة المرور، totp، ملاحظات، uri أو اسم حقل مخصص. المرجع:"
+    "bitwarden-cli": "قم بتشغيل bw serve حيث يمكن لـ Termix الوصول إليه واحتفظ بالصندوق مفتوحاً. الحقل هو اسم المستخدم، كلمة المرور، totp، ملاحظات، uri أو اسم حقل مخصص. المرجع:",
+    "keepass": "يقوم Termix بتنزيل الملف من هذا العنوان، مثل رابط WebDAV أو Nextcloud، وفتحه باستخدام كلمة المرور الرئيسية. الحقل هو Password ما لم تقم بإضافة #UserName أو #URL أو #Notes أو حقل مخصص. مرجع:",
+    "aws-secrets-manager": "استخدم مفتاح وصول لمستخدم أو دور IAM مسموح له بـ secretsmanager:GetSecretValue وListSecrets. أضف #key لقراءة مفتاح واحد من سري JSON. مرجع:",
+    "azure-key-vault": "استخدم تسجيل تطبيق مع سر عميل يمكنه الحصول على الأسرار وعرضها في هذه الخزنة. أضف /version لتثبيت إصدار. مرجع:",
+    "gcp-secret-manager": "استخدم مفتاح حساب خدمة مع دور Secret Manager Secret Accessor. أضف /version لتثبيت إصدار، أو أحدث إصدار في حال عدم التحديد. مرجع:",
+    "bitwarden-vault": "يفك كل مستخدم قفل خزنته الخاصة باستخدام SSO أو البريد الإلكتروني أو مفتاح API شخصي، بالإضافة إلى كلمة المرور الرئيسية، ولا يرى إلا ما يمكن لحسابه الوصول إليه. مدة الجلسة بالساعات (8 إذا كان فارغاً). معرف SSO هو معرف مؤسستك، إذا طلب الخادم واحداً. الحقل هو username أو password أو totp أو notes أو uri أو privatekey أو اسم حقل مخصص. مرجع:"
+  },
+  "picker": {
+    "open": "اختر من خزنة",
+    "search": "البحث عن العناصر",
+    "close": "إغلاق",
+    "loading": "جارٍ تحميل العناصر",
+    "empty": "لم يتم العثور على عناصر",
+    "failed": "تعذر سرد العناصر. تحقق من أن الخزنة مفتوحة.",
+    "noSources": "أضف مصدر Bitwarden أو Vaultwarden (bw serve) لاختيار العناصر منه."
+  },
+  "kdbxUrlLabel": "عنوان الملف",
+  "awsEndpointLabel": "نقطة النهاية",
+  "vaultUrlLabel": "عنوان URL للخزنة",
+  "filePick": "اختر ملفاً",
+  "fileLoaded": "تم تحميل الملف",
+  "fileNone": "لا يوجد ملف",
+  "unlock": {
+    "title": "فك قفل الخزنة",
+    "toggle": "فك قفل خزنتك",
+    "intro": "سجل الدخول إلى حسابك الخاص. تبقى خزنتك مفتوحة لك فقط، حتى انتهاء الجلسة.",
+    "methods": {
+      "sso": "SSO",
+      "password": "البريد الإلكتروني",
+      "apikey": "مفتاح API"
+    },
+    "ssoOpen": "فتح تسجيل الدخول",
+    "ssoHint": "سجل الدخول في النافذة الجديدة.",
+    "ssoPaste": "عندما تظهر النافذة صفحة لا يمكن تحميلها، انسخ عنوانها والصقه أدناه.",
+    "ssoAddress": "العنوان الذي انتهت عنده النافذة",
+    "email": "البريد الإلكتروني",
+    "clientId": "client_id لمفتاح API",
+    "clientSecret": "client_secret لمفتاح API",
+    "masterPassword": "كلمة المرور الرئيسية",
+    "code": "رمز تسجيل الدخول بخطوتين",
+    "codeNeeded": "أدخل رمز تسجيل الدخول بخطوتين.",
+    "submit": "فك القفل",
+    "done": "تم فك قفل الخزنة",
+    "lock": "قفل",
+    "unlockedAs": "مفتوح باسم {{email}} حتى {{until}}",
+    "retry": "تم فك القفل. اتصل بالمضيف مرة أخرى.",
+    "none": "لا توجد خزنة لفك قفلها",
+    "noneHint": "اطلب من المسؤول إضافة مصدر Bitwarden أو Vaultwarden حيث يسجل كل مستخدم دخوله."
   }
 }

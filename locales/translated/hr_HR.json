@@ -20,7 +20,8 @@
     "no_source": "Nema postavljene izvora tajni za ovu vrstu reference.",
     "not_found": "{{source}} nema tajnu na ovoj referenci.",
     "denied": "{{source}} je odbio pristup ovoj tajni. Provjeri token i njegova dopuštenja.",
-    "connection": "Nije moguće doseći {{source}}."
+    "connection": "Nije moguće doseći {{source}}.",
+    "locked": "Vaš sigurnosni spremnik u {{source}} je zaključan. Prvo ga otključajte."
   },
   "required": "Naziv, URL poslužitelja i podaci za prijavu su obavezni",
   "saved": "Izvor tajnosti spremljen",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Izvori tajnosti",
-    "description": "Preuzmite lozinke i ključeve domaćina iz 1Passworda, Bitwardena, Infisicala ili HashiCorp Vaulta pri povezivanju umjesto da ih spremate u Termix."
+    "description": "Preuzmite lozinke i ključeve za hostove iz 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure ili Google Cloud prilikom povezivanja umjesto da ih spremate u Termix."
   },
   "deleteConfirm": "Izbrisati izvor tajnosti {{name}}?",
   "kindLabel": "Vrsta",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden ili Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden ili Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx datoteka)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden ili Vaultwarden (svaki korisnik se prijavuje)"
   },
   "fields": {
     "clientId": "ID klijenta",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (ili koristite AppRole ispod)",
     "roleId": "ID uloge AppRole",
     "secretId": "ID tajne AppRole",
-    "namespace": "Prostor imena (opcionalno)"
+    "namespace": "Prostor imena (opcionalno)",
+    "masterPassword": "Glavna lozinka",
+    "keyFile": "Datoteka ključa (opcionalno)",
+    "httpUsername": "Korisnik za web prijavu (opcionalno)",
+    "httpPassword": "Lozinka za web prijavu (opcionalno)",
+    "accessKeyId": "ID pristupnog ključa",
+    "secretAccessKey": "Tajni pristupni ključ",
+    "sessionToken": "Token sesije (opcionalno)",
+    "region": "Regija (opcionalno, čita se s krajnje točke)",
+    "tenantId": "ID najamnika",
+    "serviceAccountJson": "Ključ servisnog računa (JSON datoteka)",
+    "sessionHours": "Trajanje otključavanja (sati)",
+    "ssoIdentifier": "SSO identifikator"
   },
   "kindHints": {
     "onepassword-connect": "Referenca:",
     "infisical": "Koristi identitet stroja s Universal Authom. Referenca:",
     "bitwarden-sm": "Ostavite URL onakvim kakav jest za bitwarden.com ili koristite adresu vlastitog poslužitelja. Referenca:",
     "hashicorp-vault": "Čita KV verziju 1 ili 2. Referenca:",
-    "bitwarden-cli": "Pokrenite bw serve na mjestu gdje ga Termix može doseći i držite vault otključanim. Polje je korisničko ime, lozinka, totp, bilješke, uri ili naziv prilagođenog polja. Referenca:"
+    "bitwarden-cli": "Pokrenite bw serve na mjestu gdje ga Termix može doseći i držite vault otključanim. Polje je korisničko ime, lozinka, totp, bilješke, uri ili naziv prilagođenog polja. Referenca:",
+    "keepass": "Termix preuzima datoteku s ove adrese, poput WebDAV ili Nextcloud poveznice, i otvara je pomoću glavne lozinke. Polje je Lozinka osim ako ne dodate #UserName, #URL, #Notes ili prilagođeno polje. Referenca:",
+    "aws-secrets-manager": "Koristite pristupni ključ IAM korisnika ili uloge s dozvolama secretsmanager:GetSecretValue i ListSecrets. Dodajte #key za čitanje jednog ključa JSON tajne. Referenca:",
+    "azure-key-vault": "Koristite registraciju aplikacije s klijentskim tajnim koji može dohvatiti i popisuju tajne u ovom spremniku. Dodajte /version za fiksiranje verzije. Referenca:",
+    "gcp-secret-manager": "Koristite ključ servisnog računa s ulogom Secret Manager Secret Accessor. Dodajte /version za fiksiranje verzije, inače se koristi najnovija. Referenca:",
+    "bitwarden-vault": "Svaki korisnik otključava vlastiti sigurnosni spremnik putem SSO-a, e-pošte ili osobnog API ključa, uz glavnu lozinku, i vidi samo ono što njegov račun dopušta. Duljina sesije je u satima (8 ako je prazno). SSO identifikator je identifikator vaše organizacije, ako ga vaš poslužitelj traži. Polje je username, password, totp, notes, uri, privatekey ili naziv prilagođenog polja. Referenca:"
+  },
+  "picker": {
+    "open": "Odaberi iz sigurnosnog spremnika",
+    "search": "Pretraži stavke",
+    "close": "Zatvori",
+    "loading": "Učitavanje stavki",
+    "empty": "Nema pronađenih stavki",
+    "failed": "Nije moguće popisuju stavke. Provjerite je li sigurnosni spremnik otključan.",
+    "noSources": "Dodajte Bitwarden ili Vaultwarden (bw serve) izvor za odabir stavki iz njega."
+  },
+  "kdbxUrlLabel": "Adresa datoteke",
+  "awsEndpointLabel": "Krajnja točka",
+  "vaultUrlLabel": "URL sigurnosnog spremnika",
+  "filePick": "Odaberi datoteku",
+  "fileLoaded": "Datoteka učitana",
+  "fileNone": "Nema datoteke",
+  "unlock": {
+    "title": "Otključaj sigurnosni spremnik",
+    "toggle": "Otključajte svoj sigurnosni spremnik",
+    "intro": "Prijavite se na svoj vlastiti račun. Vaš sigurnosni spremnik ostaje otključan samo za vas, dok sesija traje.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-pošta",
+      "apikey": "API ključ"
+    },
+    "ssoOpen": "Otvori prijavu",
+    "ssoHint": "Prijavite se u novom prozoru.",
+    "ssoPaste": "Kada prozor prikaže stranicu koja se ne može učitati, kopirajte njegovu adresu i zalijepite je u nastavku.",
+    "ssoAddress": "Adresa na kojoj je prozor završio",
+    "email": "E-pošta",
+    "clientId": "API ključ client_id",
+    "clientSecret": "API ključ client_secret",
+    "masterPassword": "Glavna lozinka",
+    "code": "Kod za dvofaktorsku prijavu",
+    "codeNeeded": "Unesite svoj kod za dvofaktorsku prijavu.",
+    "submit": "Otključaj",
+    "done": "Sigurnosni spremnik otključan",
+    "lock": "Zaključaj",
+    "unlockedAs": "Otključano kao {{email}} do {{until}}",
+    "retry": "Otključano. Ponovno se povežite na host.",
+    "none": "Nema sigurnosnog spremnika za otključavanje",
+    "noneHint": "Zatražite od administratora da doda Bitwarden ili Vaultwarden izvor gdje se svaki korisnik prijavljuje."
   }
 }

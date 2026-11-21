@@ -20,7 +20,8 @@
     "no_source": "이 유형의 참조에 대한 비밀 소스가 설정되지 않았습니다.",
     "not_found": "{{source}}에 이 참조에 대한 비밀이 없습니다.",
     "denied": "{{source}}가 이 비밀에 대한 접근을 거부했습니다. 토큰과 권한을 확인하세요.",
-    "connection": "{{source}}에 연결할 수 없습니다."
+    "connection": "{{source}}에 연결할 수 없습니다.",
+    "locked": "Vault가 {{source}}에서 잠겨 있습니다. 먼저 잠금을 해제하세요."
   },
   "required": "이름, 서버 URL 및 로그인 정보가 필요합니다.",
   "saved": "비밀 저장소 저장됨",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "비밀 저장소",
-    "description": "Termix에 저장하는 대신 연결 시 1Password, Bitwarden, Infisical 또는 HashiCorp Vault에서 호스트 비밀번호와 키를 가져옵니다."
+    "description": "Termix에 저장하는 대신 연결할 때 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure 또는 Google Cloud에서 호스트 비밀번호와 키를 가져옵니다."
   },
   "deleteConfirm": "비밀 저장소 {{name}}을(를) 삭제하시겠습니까?",
   "kindLabel": "유형",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden 또는 Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden 또는 Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx 파일)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden 또는 Vaultwarden (각 사용자 로그인)"
   },
   "fields": {
     "clientId": "클라이언트 ID",
@@ -56,13 +62,72 @@
     "vaultToken": "토큰 (또는 아래 AppRole 사용)",
     "roleId": "AppRole 역할 ID",
     "secretId": "AppRole 비밀 ID",
-    "namespace": "네임스페이스 (선택사항)"
+    "namespace": "네임스페이스 (선택사항)",
+    "masterPassword": "마스터 비밀번호",
+    "keyFile": "키 파일 (선택사항)",
+    "httpUsername": "웹 로그인 사용자 (선택사항)",
+    "httpPassword": "웹 로그인 비밀번호 (선택사항)",
+    "accessKeyId": "액세스 키 ID",
+    "secretAccessKey": "비밀 액세스 키",
+    "sessionToken": "세션 토큰 (선택사항)",
+    "region": "리전 (선택사항, 엔드포인트에서 읽음)",
+    "tenantId": "테넌트 ID",
+    "serviceAccountJson": "서비스 계정 키 (JSON 파일)",
+    "sessionHours": "잠금 해제 유지 시간 (시간)",
+    "ssoIdentifier": "SSO 식별자"
   },
   "kindHints": {
     "onepassword-connect": "참조:",
     "infisical": "Universal Auth를 사용하는 머신 ID를 사용합니다. 참조:",
     "bitwarden-sm": "bitwarden.com의 경우 URL을 그대로 두거나 자체 서버 주소를 사용하세요. 참조:",
     "hashicorp-vault": "KV 버전 1 또는 2를 읽습니다. 참조:",
-    "bitwarden-cli": "Termix가 접근할 수 있는 곳에서 bw serve를 실행하고 Vault를 잠금 해제 상태로 유지하세요. 필드는 사용자 이름, 비밀번호, totp, 메모, uri 또는 사용자 정의 필드 이름입니다. 참조:"
+    "bitwarden-cli": "Termix가 접근할 수 있는 곳에서 bw serve를 실행하고 Vault를 잠금 해제 상태로 유지하세요. 필드는 사용자 이름, 비밀번호, totp, 메모, uri 또는 사용자 정의 필드 이름입니다. 참조:",
+    "keepass": "Termix는 이 주소(예: WebDAV 또는 Nextcloud 링크)에서 파일을 다운로드한 후 마스터 비밀번호로 엽니다. #UserName, #URL, #Notes 또는 사용자 정의 필드를 추가하지 않으면 기본 필드는 Password입니다. 참고:",
+    "aws-secrets-manager": "secretsmanager:GetSecretValue 및 ListSecrets 권한이 있는 IAM 사용자 또는 역할의 액세스 키를 사용하세요. JSON 비밀의 특정 키를 읽으려면 #key를 추가하세요. 참고:",
+    "azure-key-vault": "이 Vault에서 비밀을 가져오고 나열할 수 있는 클라이언트 시크릿이 있는 앱 등록을 사용하세요. 버전을 고정하려면 /version을 추가하세요. 참고:",
+    "gcp-secret-manager": "Secret Manager Secret Accessor 역할이 있는 서비스 계정 키를 사용하세요. 버전을 고정하려면 /version을 추가하고, 그렇지 않으면 최신 버전을 사용합니다. 참고:",
+    "bitwarden-vault": "각 사용자는 SSO, 이메일 또는 개인 API 키와 마스터 비밀번호로 자신의 Vault를 잠금 해제하며, 자신의 계정에서 접근 가능한 항목만 볼 수 있습니다. 세션 길이는 시간 단위이며(비어 있으면 8시간) SSO 식별자는 서버에서 요청하는 경우 조직 식별자입니다. 필드는 username, password, totp, notes, uri, privatekey 또는 사용자 정의 필드 이름입니다. 참고:"
+  },
+  "picker": {
+    "open": "Vault에서 선택",
+    "search": "항목 검색",
+    "close": "닫기",
+    "loading": "항목 로딩 중",
+    "empty": "항목을 찾을 수 없습니다",
+    "failed": "항목을 나열할 수 없습니다. Vault가 잠금 해제되었는지 확인하세요.",
+    "noSources": "항목을 선택하려면 Bitwarden 또는 Vaultwarden (bw serve) 소스를 추가하세요."
+  },
+  "kdbxUrlLabel": "파일 주소",
+  "awsEndpointLabel": "엔드포인트",
+  "vaultUrlLabel": "Vault URL",
+  "filePick": "파일 선택",
+  "fileLoaded": "파일 로드됨",
+  "fileNone": "파일 없음",
+  "unlock": {
+    "title": "Vault 잠금 해제",
+    "toggle": "Vault 잠금 해제",
+    "intro": "자신의 계정에 로그인하세요. 세션이 종료될 때까지 Vault는 오직 당신에게만 잠금 해제된 상태로 유지됩니다.",
+    "methods": {
+      "sso": "SSO",
+      "password": "이메일",
+      "apikey": "API 키"
+    },
+    "ssoOpen": "로그인 열기",
+    "ssoHint": "새 창에서 로그인하세요.",
+    "ssoPaste": "창에서 로드할 수 없는 페이지가 표시되면 해당 주소를 복사하여 아래에 붙여넣으세요.",
+    "ssoAddress": "창이 종료된 주소",
+    "email": "이메일",
+    "clientId": "API 키 client_id",
+    "clientSecret": "API 키 client_secret",
+    "masterPassword": "마스터 비밀번호",
+    "code": "2단계 로그인 코드",
+    "codeNeeded": "2단계 로그인 코드를 입력하세요.",
+    "submit": "잠금 해제",
+    "done": "Vault 잠금 해제됨",
+    "lock": "잠금",
+    "unlockedAs": "{{email}}(으)로 잠금 해제됨, {{until}}까지",
+    "retry": "잠금 해제됨. 호스트에 다시 연결하세요.",
+    "none": "잠금 해제할 Vault가 없습니다",
+    "noneHint": "관리자에게 각 사용자가 로그인하는 Bitwarden 또는 Vaultwarden 소스를 추가하도록 요청하세요."
   }
 }

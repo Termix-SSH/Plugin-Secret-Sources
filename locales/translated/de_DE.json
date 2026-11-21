@@ -20,7 +20,8 @@
     "no_source": "Für diesen Referenztyp ist keine Geheimnisquelle konfiguriert.",
     "not_found": "{{source}} enthält an dieser Referenz kein Geheimnis.",
     "denied": "{{source}} hat den Zugriff auf dieses Geheimnis verweigert. Überprüfen Sie das Token und dessen Berechtigungen.",
-    "connection": "{{source}} konnte nicht erreicht werden."
+    "connection": "{{source}} konnte nicht erreicht werden.",
+    "locked": "Ihr Vault in {{source}} ist gesperrt. Entsperren Sie ihn zuerst."
   },
   "required": "Name, Server-URL und die Anmeldeinformationen sind erforderlich",
   "saved": "Geheimnisquelle gespeichert",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Geheimnisquellen",
-    "description": "Ziehen Sie Host-Passwörter und Schlüssel von 1Password, Bitwarden, Infisical oder HashiCorp Vault beim Verbinden, anstatt sie in Termix zu speichern."
+    "description": "Rufen Sie Host-Passwörter und Schlüssel von 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure oder Google Cloud beim Verbinden ab, anstatt sie in Termix zu speichern."
   },
   "deleteConfirm": "Geheimnisquelle {{name}} löschen?",
   "kindLabel": "Typ",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden oder Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden oder Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx-Datei)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden oder Vaultwarden (jeder Benutzer meldet sich einzeln an)"
   },
   "fields": {
     "clientId": "Client-ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (oder AppRole unten verwenden)",
     "roleId": "AppRole-Rollen-ID",
     "secretId": "AppRole-Geheimnis-ID",
-    "namespace": "Namespace (optional)"
+    "namespace": "Namespace (optional)",
+    "masterPassword": "Master-Passwort",
+    "keyFile": "Schlüsseldatei (optional)",
+    "httpUsername": "Web-Login-Benutzer (optional)",
+    "httpPassword": "Web-Login-Passwort (optional)",
+    "accessKeyId": "Access Key ID",
+    "secretAccessKey": "Geheimer Zugriffschlüssel",
+    "sessionToken": "Sitzungstoken (optional)",
+    "region": "Region (optional, wird vom Endpunkt gelesen)",
+    "tenantId": "Tenant-ID",
+    "serviceAccountJson": "Serviceaccount-Schlüssel (JSON-Datei)",
+    "sessionHours": "Entsperrung dauert (Stunden)",
+    "ssoIdentifier": "SSO-Bezeichner"
   },
   "kindHints": {
     "onepassword-connect": "Referenz:",
     "infisical": "Verwendet eine Maschinenidentität mit Universal Auth. Referenz:",
     "bitwarden-sm": "URL unverändert lassen für bitwarden.com oder die Adresse Ihres eigenen Servers verwenden. Referenz:",
     "hashicorp-vault": "Liest KV Version 1 oder 2. Referenz:",
-    "bitwarden-cli": "Führen Sie bw serve aus, wo Termix darauf zugreifen kann, und halten Sie den Vault entsperrt. Das Feld ist Benutzername, Passwort, TOTP, Notizen, URI oder ein benutzerdefinierter Feldname. Referenz:"
+    "bitwarden-cli": "Führen Sie bw serve aus, wo Termix darauf zugreifen kann, und halten Sie den Vault entsperrt. Das Feld ist Benutzername, Passwort, TOTP, Notizen, URI oder ein benutzerdefinierter Feldname. Referenz:",
+    "keepass": "Termix lädt die Datei von dieser Adresse herunter, z. B. einen WebDAV- oder Nextcloud-Link, und öffnet sie mit dem Master-Passwort. Das Feld ist Passwort, es sei denn, Sie fügen #UserName, #URL, #Notes oder ein benutzerdefiniertes Feld hinzu. Referenz:",
+    "aws-secrets-manager": "Verwenden Sie einen Access Key eines IAM-Benutzers oder einer Rolle mit den Berechtigungen secretsmanager:GetSecretValue und ListSecrets. Fügen Sie #key hinzu, um einen bestimmten Schlüssel eines JSON-Geheimnisses zu lesen. Referenz:",
+    "azure-key-vault": "Verwenden Sie eine App-Registrierung mit einem Client-Geheimnis, das Geheimnisse in diesem Vault abrufen und auflisten darf. Fügen Sie /version hinzu, um eine Version zu fixieren. Referenz:",
+    "gcp-secret-manager": "Verwenden Sie einen Serviceaccount-Schlüssel mit der Rolle Secret Manager Secret Accessor. Fügen Sie /version hinzu, um eine Version zu fixieren, andernfalls wird die neueste verwendet. Referenz:",
+    "bitwarden-vault": "Jeder Benutzer entsperrt seinen eigenen Vault mit SSO, E-Mail oder einem persönlichen API-Schlüssel sowie seinem Master-Passwort und sieht nur das, was sein Konto erlaubt. Die Sitzungslänge ist in Stunden angegeben (8, wenn leer). Der SSO-Bezeichner ist Ihre Organisations-ID, falls Ihr Server danach fragt. Das Feld ist Benutzername, Passwort, totp, Notizen, uri, privatekey oder ein benutzerdefinierter Feldname. Referenz:"
+  },
+  "picker": {
+    "open": "Aus einem Vault auswählen",
+    "search": "Elemente durchsuchen",
+    "close": "Schließen",
+    "loading": "Elemente werden geladen",
+    "empty": "Keine Elemente gefunden",
+    "failed": "Elemente konnten nicht aufgelistet werden. Stellen Sie sicher, dass der Vault entsperrt ist.",
+    "noSources": "Fügen Sie eine Bitwarden- oder Vaultwarden-Quelle (bw serve) hinzu, um Elemente daraus auszuwählen."
+  },
+  "kdbxUrlLabel": "Dateiadresse",
+  "awsEndpointLabel": "Endpunkt",
+  "vaultUrlLabel": "Vault-URL",
+  "filePick": "Datei auswählen",
+  "fileLoaded": "Datei geladen",
+  "fileNone": "Keine Datei",
+  "unlock": {
+    "title": "Vault entsperren",
+    "toggle": "Entsperren Sie Ihren Vault",
+    "intro": "Melden Sie sich in Ihrem eigenen Konto an. Ihr Vault bleibt nur für Sie entsperrt, bis die Sitzung endet.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-Mail",
+      "apikey": "API-Schlüssel"
+    },
+    "ssoOpen": "Anmeldung öffnen",
+    "ssoHint": "Melden Sie sich im neuen Fenster an.",
+    "ssoPaste": "Wenn das Fenster eine Seite anzeigt, die nicht geladen werden kann, kopieren Sie deren Adresse und fügen Sie sie unten ein.",
+    "ssoAddress": "Adresse, auf der das Fenster endete",
+    "email": "E-Mail",
+    "clientId": "API-Schlüssel client_id",
+    "clientSecret": "API-Schlüssel client_secret",
+    "masterPassword": "Master-Passwort",
+    "code": "Code für die Zwei-Faktor-Authentifizierung",
+    "codeNeeded": "Geben Sie Ihren Code für die Zwei-Faktor-Authentifizierung ein.",
+    "submit": "Entsperren",
+    "done": "Vault entsperrt",
+    "lock": "Sperren",
+    "unlockedAs": "Entsperrt als {{email}} bis {{until}}",
+    "retry": "Entsperrt. Verbinden Sie sich erneut mit dem Host.",
+    "none": "Kein Vault zum Entsperren",
+    "noneHint": "Bitten Sie einen Administrator, eine Bitwarden- oder Vaultwarden-Quelle hinzuzufügen, bei der sich jeder Benutzer einzeln anmeldet."
   }
 }

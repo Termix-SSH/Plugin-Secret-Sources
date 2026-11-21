@@ -20,7 +20,8 @@
     "no_source": "Nie skonfigurowano źródła tajnych dla tego typu odwołania.",
     "not_found": "{{source}} nie zawiera tajnej pod tym odwołaniem.",
     "denied": "{{source}} odmówił dostępu do tej tajnej. Sprawdź token i jego uprawnienia.",
-    "connection": "Nie udało się połączyć z {{source}}."
+    "connection": "Nie udało się połączyć z {{source}}.",
+    "locked": "Twój Vault w {{source}} jest zablokowany. Najpierw go odblokuj."
   },
   "required": "Nazwa, adres URL serwera oraz dane logowania są wymagane",
   "saved": "Źródło haseł zostało zapisane",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Źródła haseł",
-    "description": "Pobieraj hasła i klucze hostów z 1Password, Bitwarden, Infisical lub HashiCorp Vault podczas łączenia się, zamiast przechowywać je w Termix."
+    "description": "Pobieraj hasła i klucze hostów z 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure lub Google Cloud podczas łączenia się, zamiast przechowywać je w Termix."
   },
   "deleteConfirm": "Usunąć źródło haseł {{name}}?",
   "kindLabel": "Typ",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden lub Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden lub Vaultwarden (bw serve)",
+    "keepass": "KeePass (plik .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden lub Vaultwarden (każdy użytkownik loguje się indywidualnie)"
   },
   "fields": {
     "clientId": "ID klienta",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (lub użyj AppRole poniżej)",
     "roleId": "ID roli AppRole",
     "secretId": "Tajny ID AppRole",
-    "namespace": "Przestrzeń nazw (opcjonalnie)"
+    "namespace": "Przestrzeń nazw (opcjonalnie)",
+    "masterPassword": "Hasło główne",
+    "keyFile": "Plik klucza (opcjonalnie)",
+    "httpUsername": "Użytkownik logowania webowego (opcjonalnie)",
+    "httpPassword": "Hasło logowania webowego (opcjonalnie)",
+    "accessKeyId": "ID klucza dostępu",
+    "secretAccessKey": "Tajny klucz dostępu",
+    "sessionToken": "Token sesji (opcjonalnie)",
+    "region": "Region (opcjonalnie, odczytywany z punktu końcowego)",
+    "tenantId": "ID najemcy",
+    "serviceAccountJson": "Klucz konta usługi (plik JSON)",
+    "sessionHours": "Czas trwania odblokowania (godziny)",
+    "ssoIdentifier": "Identyfikator SSO"
   },
   "kindHints": {
     "onepassword-connect": "Odwołanie:",
     "infisical": "Używa tożsamości maszynowej z Universal Auth. Odwołanie:",
     "bitwarden-sm": "Pozostaw URL bez zmian dla bitwarden.com lub użyj adresu własnego serwera. Odwołanie:",
     "hashicorp-vault": "Odczytuje dane z KV wersji 1 lub 2. Odwołanie:",
-    "bitwarden-cli": "Uruchom bw serve w miejscu dostępnym dla Termix i utrzymuj vault odblokowany. Pole to może być nazwa użytkownika, hasło, totp, notatki, uri lub nazwa niestandardowego pola. Odwołanie:"
+    "bitwarden-cli": "Uruchom bw serve w miejscu dostępnym dla Termix i utrzymuj vault odblokowany. Pole to może być nazwa użytkownika, hasło, totp, notatki, uri lub nazwa niestandardowego pola. Odwołanie:",
+    "keepass": "Termix pobiera plik z tego adresu, np. z linku WebDAV lub Nextcloud, i otwiera go przy użyciu hasła głównego. Domyślnie pole to jest Hasło, chyba że dodasz #UserName, #URL, #Notes lub niestandardowe pole. Dokumentacja:",
+    "aws-secrets-manager": "Użyj klucza dostępu użytkownika lub roli IAM z uprawnieniami secretsmanager:GetSecretValue i ListSecrets. Dodaj #key, aby odczytać pojedynczy klucz z tajności w formacie JSON. Dokumentacja:",
+    "azure-key-vault": "Użyj rejestracji aplikacji z tajnym kluczem klienta, który może pobierać i listować tajności w tym Vault. Dodaj /version, aby przypisać konkretną wersję. Dokumentacja:",
+    "gcp-secret-manager": "Użyj klucza konta usługi z rolą Secret Manager Secret Accessor. Dodaj /version, aby przypisać konkretną wersję; w przeciwnym razie używana jest najnowsza. Dokumentacja:",
+    "bitwarden-vault": "Każdy użytkownik odblokowuje własny Vault za pomocą SSO, e-maila lub osobistego klucza API oraz hasła głównego i widzi tylko to, na co pozwala jego konto. Długość sesji podaje się w godzinach (8, jeśli puste). Identyfikator SSO to identyfikator Twojej organizacji, jeśli serwer o niego prosi. Pole to może być nazwa użytkownika, hasło, totp, notatki, uri, privatekey lub nazwa niestandardowego pola. Dokumentacja:"
+  },
+  "picker": {
+    "open": "Wybierz z Vault",
+    "search": "Szukaj elementów",
+    "close": "Zamknij",
+    "loading": "Ładowanie elementów",
+    "empty": "Nie znaleziono elementów",
+    "failed": "Nie udało się wyświetlić listy elementów. Sprawdź, czy Vault jest odblokowany.",
+    "noSources": "Dodaj źródło Bitwarden lub Vaultwarden (bw serve), aby wybierać z niego elementy."
+  },
+  "kdbxUrlLabel": "Adres pliku",
+  "awsEndpointLabel": "Punkt końcowy",
+  "vaultUrlLabel": "URL Vault",
+  "filePick": "Wybierz plik",
+  "fileLoaded": "Plik załadowany",
+  "fileNone": "Brak pliku",
+  "unlock": {
+    "title": "Odblokuj Vault",
+    "toggle": "Odblokuj swój Vault",
+    "intro": "Zaloguj się na własne konto. Twój Vault pozostanie odblokowany tylko dla Ciebie do końca sesji.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mail",
+      "apikey": "Klucz API"
+    },
+    "ssoOpen": "Otwórz logowanie",
+    "ssoHint": "Zaloguj się w nowym oknie.",
+    "ssoPaste": "Gdy okno wyświetli stronę, której nie można załadować, skopiuj jej adres i wklej go poniżej.",
+    "ssoAddress": "Adres, na którym skończyło się okno",
+    "email": "E-mail",
+    "clientId": "client_id klucza API",
+    "clientSecret": "client_secret klucza API",
+    "masterPassword": "Hasło główne",
+    "code": "Kod logowania dwuetapowego",
+    "codeNeeded": "Wprowadź kod logowania dwuetapowego.",
+    "submit": "Odblokuj",
+    "done": "Vault odblokowany",
+    "lock": "Zablokuj",
+    "unlockedAs": "Odblokowano jako {{email}} do {{until}}",
+    "retry": "Odblokowano. Połącz się ponownie z hostem.",
+    "none": "Brak Vault do odblokowania",
+    "noneHint": "Poproś administratora o dodanie źródła Bitwarden lub Vaultwarden, w którym każdy użytkownik loguje się indywidualnie."
   }
 }

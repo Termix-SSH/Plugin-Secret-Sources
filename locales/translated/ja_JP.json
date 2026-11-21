@@ -20,7 +20,8 @@
     "no_source": "この種類の参照には、シークレットソースが設定されていません。",
     "not_found": "{{source}} には、この参照に対応するシークレットがありません。",
     "denied": "{{source}} がこのシークレットへのアクセスを拒否しました。トークンとその権限を確認してください。",
-    "connection": "{{source}} に接続できませんでした。"
+    "connection": "{{source}} に接続できませんでした。",
+    "locked": "Your vault in {{source}} is locked. Unlock it first."
   },
   "required": "名前、サーバー URL、ログイン情報は必須です",
   "saved": "シークレットソースを保存しました",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "シークレットソース",
-    "description": "Termix に保存する代わりに、接続時に 1Password、Bitwarden、Infisical、または HashiCorp Vault からホストのパスワードや鍵を取得します。"
+    "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure or Google Cloud when you connect instead of storing them in Termix."
   },
   "deleteConfirm": "シークレットソース「{{name}}」を削除しますか？",
   "kindLabel": "種類",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden または Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden または Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx file)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden or Vaultwarden (each user signs in)"
   },
   "fields": {
     "clientId": "クライアント ID",
@@ -56,13 +62,72 @@
     "vaultToken": "トークン（または下の AppRole を使用）",
     "roleId": "AppRole ロール ID",
     "secretId": "AppRole シークレット ID",
-    "namespace": "ネームスペース（オプション）"
+    "namespace": "ネームスペース（オプション）",
+    "masterPassword": "Master password",
+    "keyFile": "Key file (optional)",
+    "httpUsername": "Web login user (optional)",
+    "httpPassword": "Web ログインパスワード（オプション）",
+    "accessKeyId": "アクセスキー ID",
+    "secretAccessKey": "シークレットアクセスキー",
+    "sessionToken": "セッショントークン（オプション）",
+    "region": "リージョン（オプション、エンドポイントから読み取り）",
+    "tenantId": "テナント ID",
+    "serviceAccountJson": "サービスアカウントキー（JSON ファイル）",
+    "sessionHours": "ロック解除の有効期間（時間）",
+    "ssoIdentifier": "SSO 識別子"
   },
   "kindHints": {
     "onepassword-connect": "参照：",
     "infisical": "ユニバーサル認証によるマシンアイデンティティを使用します。参照：",
     "bitwarden-sm": "bitwarden.com の場合は URL をそのままにし、独自のサーバーのアドレスを使用することもできます。参照：",
     "hashicorp-vault": "KV バージョン 1 または 2 を読み取ります。参照：",
-    "bitwarden-cli": "Termix からアクセスできる場所で bw serve を実行し、Vault をアンロックしたままにしてください。フィールドは username、password、totp、notes、uri、またはカスタムフィールド名です。参照："
+    "bitwarden-cli": "Termix からアクセスできる場所で bw serve を実行し、Vault をアンロックしたままにしてください。フィールドは username、password、totp、notes、uri、またはカスタムフィールド名です。参照：",
+    "keepass": "Termix はこのアドレス（WebDAV や Nextcloud のリンクなど）からファイルをダウンロードし、マスターパスワードで開きます。フィールドはパスワードですが、#UserName、#URL、#Notes、またはカスタムフィールドを追加すると変更されます。参照:",
+    "aws-secrets-manager": "secretsmanager:GetSecretValue および ListSecrets の権限を持つ IAM ユーザーまたはロールのアクセスキーを使用します。JSON シークレットの特定のキーを読み取るには #key を追加します。参考:",
+    "azure-key-vault": "この Vault 内のシークレットの取得と一覧表示が可能なクライアントシークレットを持つアプリ登録を使用します。バージョンを固定するには /version を追加します。参考:",
+    "gcp-secret-manager": "Secret Manager Secret Accessor ロールを持つサービスアカウントキーを使用します。バージョンを固定するには /version を追加します。指定しない場合は最新バージョンが使用されます。参考:",
+    "bitwarden-vault": "各ユーザーは SSO、メール、または個人用 API キーとマスターパスワードを使用して自身の Vault をロック解除し、アカウントがアクセス可能な情報のみを表示します。セッションの有効期間は時間単位です（空欄の場合は8時間）。SSO 識別子は、サーバーが要求する場合の組織識別子です。フィールドは username、password、totp、notes、uri、privatekey、またはカスタムフィールド名です。参考:"
+  },
+  "picker": {
+    "open": "Vault から選択",
+    "search": "アイテムを検索",
+    "close": "閉じる",
+    "loading": "アイテムを読み込み中",
+    "empty": "アイテムが見つかりません",
+    "failed": "アイテムの一覧表示に失敗しました。Vault がロック解除されていることを確認してください。",
+    "noSources": "Bitwarden または Vaultwarden (bw serve) ソースを追加して、そこからアイテムを選択できるようにします。"
+  },
+  "kdbxUrlLabel": "ファイルのアドレス",
+  "awsEndpointLabel": "エンドポイント",
+  "vaultUrlLabel": "Vault URL",
+  "filePick": "ファイルを選択",
+  "fileLoaded": "ファイルが読み込まれました",
+  "fileNone": "ファイルなし",
+  "unlock": {
+    "title": "Vault をアンロック",
+    "toggle": "Vault をアンロック",
+    "intro": "自分のアカウントにサインインしてください。Vault はセッション終了まで、あなたのみがアンロックされた状態になります。",
+    "methods": {
+      "sso": "SSO",
+      "password": "メール",
+      "apikey": "API キー"
+    },
+    "ssoOpen": "サインイン画面を開く",
+    "ssoHint": "新しいウィンドウでサインインしてください。",
+    "ssoPaste": "ウィンドウでページが読み込めない場合、そのアドレスをコピーして以下に貼り付けてください。",
+    "ssoAddress": "ウィンドウで表示された最終アドレス",
+    "email": "メール",
+    "clientId": "API キーの client_id",
+    "clientSecret": "API キーの client_secret",
+    "masterPassword": "マスターパスワード",
+    "code": "二段階認証コード",
+    "codeNeeded": "二段階認証コードを入力してください。",
+    "submit": "ロック解除",
+    "done": "Vault のロックが解除されました",
+    "lock": "ロック",
+    "unlockedAs": "{{email}} として {{until}} までロック解除済み",
+    "retry": "ロック解除済み。ホストに再接続してください。",
+    "none": "ロック解除する Vault が見つかりません",
+    "noneHint": "管理者に連絡して、各ユーザーがサインインする Bitwarden または Vaultwarden ソースを追加してください。"
   }
 }

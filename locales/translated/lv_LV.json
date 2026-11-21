@@ -20,7 +20,8 @@
     "no_source": "Šāda veida atsaucei nav iestatīts noslēpumu avots.",
     "not_found": "Avotā {{source}} šajā atsauce nav noslēpuma.",
     "denied": "Avots {{source}} atteicās piekļūt šim noslēpumam. Pārbaudiet žetona un tā atļauju derīgumu.",
-    "connection": "Nevarēja sasniegt avotu {{source}}."
+    "connection": "Nevarēja sasniegt avotu {{source}}.",
+    "locked": "Jūsu karte ir aizslēgta {{source}}. Vispirms atslēdziet to."
   },
   "required": "Ir nepieciešams nosaukums, servera URL un pieteikšanās dati",
   "saved": "Noslēpumu avots saglabāts",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Noslēpumu avoti",
-    "description": "Iegūstiet mezglu paroles un atslēgas no 1Password, Bitwarden, Infisical vai HashiCorp Vault, kad izveidojat savienojumu, nevis glabājiet tās Termix."
+    "description": "Iegūstiet serveru paroles un atslēgas no 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure vai Google Cloud, kad pieslēdzaties, nevis glabājiet tās Termix."
   },
   "deleteConfirm": "Dzēst noslēpumu avotu {{name}}?",
   "kindLabel": "Tips",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden vai Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden vai Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx fails)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden vai Vaultwarden (katrs lietotājs pieteicas)"
   },
   "fields": {
     "clientId": "Klienta ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Tokens (vai izmantojiet AppRole zemāk)",
     "roleId": "AppRole lomas ID",
     "secretId": "AppRole noslēpuma ID",
-    "namespace": "Vārdtelpa (neobligāts)"
+    "namespace": "Vārdtelpa (neobligāts)",
+    "masterPassword": "Galvenā parole",
+    "keyFile": "Atslēgu fails (neobligāts)",
+    "httpUsername": "Tīmekļa pieteikšanās lietotājs (neobligāts)",
+    "httpPassword": "Tīmekļa pieteikšanās parole (neobligāts)",
+    "accessKeyId": "Piekļuves atslēgas ID",
+    "secretAccessKey": "Slēptā piekļuves atslēga",
+    "sessionToken": "Sesijas marķieris (neobligāts)",
+    "region": "Reģions (neobligāts, lasīts no galapunkta)",
+    "tenantId": "Nomnieka ID",
+    "serviceAccountJson": "Pakalpojumu konta atslēga (JSON fails)",
+    "sessionHours": "Atslēgšanas ilgums (stundas)",
+    "ssoIdentifier": "SSO identifikators"
   },
   "kindHints": {
     "onepassword-connect": "Atsauce:",
     "infisical": "Izmanto mašīnas identitāti ar Universal Auth. Atsauce:",
     "bitwarden-sm": "Atstājiet URL nemainītu, ja izmantojat bitwarden.com, vai izmantojiet sava servera adresi. Atsauce:",
     "hashicorp-vault": "Lasāms KV versija 1 vai 2. Atsauce:",
-    "bitwarden-cli": "Palaidiet bw serve vietā, kur Termix to var sasniegt, un turiet vault atbloķētu. Lauks ir lietotājvārds, parole, totp, piezīmes, uri vai pielāgots lauka nosaukums. Atsauce:"
+    "bitwarden-cli": "Palaidiet bw serve vietā, kur Termix to var sasniegt, un turiet vault atbloķētu. Lauks ir lietotājvārds, parole, totp, piezīmes, uri vai pielāgots lauka nosaukums. Atsauce:",
+    "keepass": "Termix lejupielādē failu no šīs adreses, piemēram, WebDAV vai Nextcloud saites, un atver to ar galveno paroli. Lauks ir Parole, ja vien nepievienojat #UserName, #URL, #Notes vai pielāgotu lauku. Atsauce:",
+    "aws-secrets-manager": "Izmantojiet IAM lietotāja vai lomas piekļuves atslēgu, kurai ir atļauts secretsmanager:GetSecretValue un ListSecrets. Pievienojiet #key, lai izlasītu vienu JSON noslēpuma atslēgu. Atsauce:",
+    "azure-key-vault": "Izmantojiet lietotnes reģistrāciju ar klienta noslēpumu, kas var iegūt un uzskaitīt noslēpumus šajā kartē. Pievienojiet /version, lai fiksētu versiju. Atsauce:",
+    "gcp-secret-manager": "Izmantojiet pakalpojumu konta atslēgu ar Secret Manager Secret Accessor lomu. Pievienojiet /version, lai fiksētu versiju, citādi jaunākā. Atsauce:",
+    "bitwarden-vault": "Katrs lietotājs atslēdz savu karti ar SSO, e-pastu vai personīgo API atslēgu, kā arī savu galveno paroli, un redz tikai to, ko viņa konts var. Sesijas ilgums ir stundās (8, ja tukšs). SSO identifikators ir jūsu organizācijas identifikators, ja jūsu serveris to pieprasa. Lauks ir lietotājvārds, parole, totp, piezīmes, uri, privatekey vai pielāgots lauka nosaukums. Atsauce:"
+  },
+  "picker": {
+    "open": "Izvēlieties no kartes",
+    "search": "Meklēt vienumus",
+    "close": "Aizvērt",
+    "loading": "Vienumu ielāde",
+    "empty": "Vienumi nav atrasti",
+    "failed": "Neizdevās uzskaitīt vienumus. Pārbaudiet, vai karte ir atslēgta.",
+    "noSources": "Pievienojiet Bitwarden vai Vaultwarden (bw serve) avotu, lai izvēlētos vienumus no tā."
+  },
+  "kdbxUrlLabel": "Faila adrese",
+  "awsEndpointLabel": "Galapunkts",
+  "vaultUrlLabel": "Kartes URL",
+  "filePick": "Izvēlieties failu",
+  "fileLoaded": "Fails ielādēts",
+  "fileNone": "Nav faila",
+  "unlock": {
+    "title": "Atslēgt karti",
+    "toggle": "Atslēdziet savu karti",
+    "intro": "Pierakstieties savā kontā. Jūsu karte paliks atslēgta tikai jums, līdz sesija beidzas.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-pasts",
+      "apikey": "API atslēga"
+    },
+    "ssoOpen": "Atvērt pieteikšanos",
+    "ssoHint": "Pierakstieties jaunajā logā.",
+    "ssoPaste": "Kad logs parāda lapu, kuru nevar ielādēt, nokopējiet tās adresi un ielīmējiet to zemāk.",
+    "ssoAddress": "Adrese, uz kuru logs beidzās",
+    "email": "E-pasts",
+    "clientId": "API atslēgas client_id",
+    "clientSecret": "API atslēgas client_secret",
+    "masterPassword": "Galvenā parole",
+    "code": "Divu soļu pieteikšanās kods",
+    "codeNeeded": "Ievadiet savu divu soļu pieteikšanās kodu.",
+    "submit": "Atslēgt",
+    "done": "Karte atslēgta",
+    "lock": "Aizslēgt",
+    "unlockedAs": "Atslēgts kā {{email}} līdz {{until}}",
+    "retry": "Atslēgts. Pieslēdzieties serverim vēlreiz.",
+    "none": "Nav kartes, ko atslēgt",
+    "noneHint": "Lūdziet administratoru pievienot Bitwarden vai Vaultwarden avotu, kur katrs lietotājs pieteicas."
   }
 }

@@ -20,7 +20,8 @@
     "no_source": "Chưa cấu hình nguồn bí mật nào cho loại tham chiếu này.",
     "not_found": "{{source}} không có bí mật tại tham chiếu này.",
     "denied": "{{source}} từ chối truy cập vào bí mật này. Vui lòng kiểm tra token và quyền của nó.",
-    "connection": "Không thể kết nối đến {{source}}."
+    "connection": "Không thể kết nối đến {{source}}.",
+    "locked": "Kho mật khẩu của bạn trong {{source}} đang bị khóa. Hãy mở khóa trước."
   },
   "required": "Tên, URL máy chủ và thông tin đăng nhập là bắt buộc",
   "saved": "Đã lưu nguồn mật khẩu",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Nguồn mật khẩu",
-    "description": "Lấy mật khẩu và khóa của máy chủ từ 1Password, Bitwarden, Infisical hoặc HashiCorp Vault khi bạn kết nối thay vì lưu trữ chúng trong Termix."
+    "description": "Lấy mật khẩu và khóa của máy chủ từ 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure hoặc Google Cloud khi kết nối thay vì lưu trữ chúng trong Termix."
   },
   "deleteConfirm": "Xóa nguồn mật khẩu {{name}}?",
   "kindLabel": "Loại",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden hoặc Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden hoặc Vaultwarden (bw serve)",
+    "keepass": "KeePass (tệp .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden hoặc Vaultwarden (mỗi người dùng đăng nhập riêng)"
   },
   "fields": {
     "clientId": "ID khách hàng",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (hoặc sử dụng AppRole bên dưới)",
     "roleId": "ID vai trò AppRole",
     "secretId": "ID bí mật AppRole",
-    "namespace": "Không gian tên (tùy chọn)"
+    "namespace": "Không gian tên (tùy chọn)",
+    "masterPassword": "Mật khẩu chính",
+    "keyFile": "Tệp khóa (tùy chọn)",
+    "httpUsername": "Người dùng đăng nhập web (tùy chọn)",
+    "httpPassword": "Mật khẩu đăng nhập web (tùy chọn)",
+    "accessKeyId": "ID khóa truy cập",
+    "secretAccessKey": "Khóa truy cập bí mật",
+    "sessionToken": "Token phiên (tùy chọn)",
+    "region": "Khu vực (tùy chọn, đọc từ điểm cuối)",
+    "tenantId": "ID Tenant",
+    "serviceAccountJson": "Khóa tài khoản dịch vụ (tệp JSON)",
+    "sessionHours": "Thời gian mở khóa (giờ)",
+    "ssoIdentifier": "Định danh SSO"
   },
   "kindHints": {
     "onepassword-connect": "Tham chiếu:",
     "infisical": "Sử dụng danh tính máy với Universal Auth. Tham chiếu:",
     "bitwarden-sm": "Để URL như hiện tại cho bitwarden.com, hoặc sử dụng địa chỉ máy chủ của riêng bạn. Tham chiếu:",
     "hashicorp-vault": "Đọc KV phiên bản 1 hoặc 2. Tham chiếu:",
-    "bitwarden-cli": "Chạy bw serve ở nơi Termix có thể truy cập và giữ vault mở khóa. Trường là tên người dùng, mật khẩu, totp, ghi chú, uri hoặc tên trường tùy chỉnh. Tham chiếu:"
+    "bitwarden-cli": "Chạy bw serve ở nơi Termix có thể truy cập và giữ vault mở khóa. Trường là tên người dùng, mật khẩu, totp, ghi chú, uri hoặc tên trường tùy chỉnh. Tham chiếu:",
+    "keepass": "Termix tải tệp từ địa chỉ này, như liên kết WebDAV hoặc Nextcloud, và mở nó bằng mật khẩu chính. Trường mặc định là Password trừ khi bạn thêm #UserName, #URL, #Notes hoặc một trường tùy chỉnh. Tham khảo:",
+    "aws-secrets-manager": "Sử dụng khóa truy cập của người dùng hoặc vai trò IAM được phép secretsmanager:GetSecretValue và ListSecrets. Thêm #key để đọc một khóa cụ thể của bí mật JSON. Tham khảo:",
+    "azure-key-vault": "Sử dụng đăng ký ứng dụng với bí mật client có thể lấy và liệt kê các bí mật trong kho này. Thêm /version để cố định một phiên bản. Tham khảo:",
+    "gcp-secret-manager": "Sử dụng khóa tài khoản dịch vụ với vai trò Secret Manager Secret Accessor. Thêm /version để cố định một phiên bản, nếu không sẽ dùng phiên bản mới nhất. Tham khảo:",
+    "bitwarden-vault": "Mỗi người dùng mở khóa kho của riêng họ bằng SSO, email hoặc khóa API cá nhân, cùng với mật khẩu chính, và chỉ xem những gì tài khoản của họ được phép. Độ dài phiên tính bằng giờ (8 nếu để trống). Định danh SSO là định danh tổ chức của bạn, nếu máy chủ yêu cầu. Trường là username, password, totp, notes, uri, privatekey hoặc tên trường tùy chỉnh. Tham khảo:"
+  },
+  "picker": {
+    "open": "Chọn từ kho mật khẩu",
+    "search": "Tìm kiếm mục",
+    "close": "Đóng",
+    "loading": "Đang tải mục",
+    "empty": "Không tìm thấy mục nào",
+    "failed": "Không thể liệt kê các mục. Hãy kiểm tra xem kho mật khẩu đã được mở khóa chưa.",
+    "noSources": "Thêm nguồn Bitwarden hoặc Vaultwarden (bw serve) để chọn mục từ đó."
+  },
+  "kdbxUrlLabel": "Địa chỉ tệp",
+  "awsEndpointLabel": "Điểm cuối",
+  "vaultUrlLabel": "URL kho mật khẩu",
+  "filePick": "Chọn tệp",
+  "fileLoaded": "Tệp đã tải",
+  "fileNone": "Không có tệp",
+  "unlock": {
+    "title": "Mở khóa kho mật khẩu",
+    "toggle": "Mở khóa kho mật khẩu của bạn",
+    "intro": "Đăng nhập vào tài khoản của riêng bạn. Kho mật khẩu của bạn sẽ giữ trạng thái mở khóa chỉ dành cho bạn, cho đến khi phiên kết thúc.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Khóa API"
+    },
+    "ssoOpen": "Mở đăng nhập",
+    "ssoHint": "Đăng nhập trong cửa sổ mới.",
+    "ssoPaste": "Khi cửa sổ hiển thị trang không thể tải, hãy sao chép địa chỉ của nó và dán vào bên dưới.",
+    "ssoAddress": "Địa chỉ cửa sổ kết thúc ở",
+    "email": "Email",
+    "clientId": "client_id của khóa API",
+    "clientSecret": "client_secret của khóa API",
+    "masterPassword": "Mật khẩu chính",
+    "code": "Mã đăng nhập hai bước",
+    "codeNeeded": "Nhập mã đăng nhập hai bước của bạn.",
+    "submit": "Mở khóa",
+    "done": "Kho mật khẩu đã mở khóa",
+    "lock": "Khóa",
+    "unlockedAs": "Đã mở khóa với {{email}} cho đến {{until}}",
+    "retry": "Đã mở khóa. Kết nối lại với máy chủ.",
+    "none": "Không có kho mật khẩu nào để mở khóa",
+    "noneHint": "Yêu cầu quản trị viên thêm nguồn Bitwarden hoặc Vaultwarden nơi mỗi người dùng đăng nhập riêng."
   }
 }

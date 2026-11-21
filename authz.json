@@ -14,16 +14,22 @@
       "capture": {
         "secret-sources.item": "source.id"
       }
+    },
+    {
+      "as": "owner",
+      "method": "POST",
+      "path": "/plugin-api/secret-sources",
+      "body": {
+        "name": "authz-vault-source",
+        "kind": "bitwarden-vault",
+        "baseUrl": "https://127.0.0.1:9"
+      },
+      "capture": {
+        "secret-sources.vault": "source.id"
+      }
     }
   ],
   "routes": {
-    "GET /plugin-api/secret-sources": {
-      "access": "user",
-      "permission": "credentials.view"
-    },
-    "POST /plugin-api/secret-sources": {
-      "access": "user"
-    },
     "DELETE /plugin-api/secret-sources/:id": {
       "access": "user",
       "resource": {
@@ -35,7 +41,21 @@
       },
       "destructive": true
     },
-    "PUT /plugin-api/secret-sources/:id": {
+    "DELETE /plugin-api/secret-sources/:id/session": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.vault"
+      },
+      "params": {
+        "id": "secret-sources.vault"
+      }
+    },
+    "GET /plugin-api/secret-sources": {
+      "access": "user",
+      "permission": "credentials.view"
+    },
+    "GET /plugin-api/secret-sources/:id/items": {
       "access": "user",
       "resource": {
         "kind": "own",
@@ -43,6 +63,43 @@
       },
       "params": {
         "id": "secret-sources.item"
+      },
+      "allowed": "any",
+      "note": "Needs a reachable bw serve"
+    },
+    "GET /plugin-api/secret-sources/:id/session": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.vault"
+      },
+      "params": {
+        "id": "secret-sources.vault"
+      }
+    },
+    "POST /plugin-api/secret-sources": {
+      "access": "user"
+    },
+    "POST /plugin-api/secret-sources/:id/session": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.vault"
+      },
+      "params": {
+        "id": "secret-sources.vault"
+      },
+      "allowed": "any",
+      "note": "An empty body is refused before any sign in"
+    },
+    "POST /plugin-api/secret-sources/:id/session/sso": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.vault"
+      },
+      "params": {
+        "id": "secret-sources.vault"
       }
     },
     "POST /plugin-api/secret-sources/:id/test": {
@@ -57,6 +114,16 @@
     },
     "POST /plugin-api/secret-sources/test-reference": {
       "access": "user"
+    },
+    "PUT /plugin-api/secret-sources/:id": {
+      "access": "user",
+      "resource": {
+        "kind": "own",
+        "fixture": "secret-sources.item"
+      },
+      "params": {
+        "id": "secret-sources.item"
+      }
     }
   }
 }

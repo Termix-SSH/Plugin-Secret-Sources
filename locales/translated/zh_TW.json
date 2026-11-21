@@ -20,7 +20,8 @@
     "no_source": "此類型的參照未設定任何密碼來源。",
     "not_found": "{{source}} 在此參照中沒有密碼。",
     "denied": "{{source}} 拒絕存取此密碼。請檢查權杖及其權限。",
-    "connection": "無法連線至 {{source}}。"
+    "connection": "無法連線至 {{source}}。",
+    "locked": "您在 {{source}} 中的金鑰庫已鎖定。請先解鎖。"
   },
   "required": "名稱、伺服器 URL 與登入資訊為必填欄位",
   "saved": "機密來源已儲存",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "機密來源",
-    "description": "連線時從 1Password、Bitwarden、Infisical 或 HashiCorp Vault 擷取主機密碼與金鑰，而非將其儲存於 Termix 中。"
+    "description": "連接時從 1Password、Bitwarden、Infisical、HashiCorp Vault、KeePass、AWS、Azure 或 Google Cloud 拉取主機密碼與金鑰，而非將其儲存在 Termix 中。"
   },
   "deleteConfirm": "確定要刪除機密來源 {{name}} 嗎？",
   "kindLabel": "類型",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden 或 Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden 或 Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx 檔案)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden 或 Vaultwarden（每位使用者個別登入）"
   },
   "fields": {
     "clientId": "用戶端 ID",
@@ -56,13 +62,72 @@
     "vaultToken": "權杖（或於下方使用 AppRole）",
     "roleId": "AppRole 角色 ID",
     "secretId": "AppRole 機密 ID",
-    "namespace": "命名空間（選填）"
+    "namespace": "命名空間（選填）",
+    "masterPassword": "主密碼",
+    "keyFile": "金鑰檔案（選填）",
+    "httpUsername": "網頁登入使用者（選填）",
+    "httpPassword": "網頁登入密碼（選填）",
+    "accessKeyId": "存取金鑰 ID",
+    "secretAccessKey": "秘密存取金鑰",
+    "sessionToken": "工作階段權杖（選填）",
+    "region": "區域（選填，將從端點讀取）",
+    "tenantId": "租用戶 ID",
+    "serviceAccountJson": "服務帳戶金鑰（JSON 檔案）",
+    "sessionHours": "解鎖持續時間（小時）",
+    "ssoIdentifier": "SSO 識別碼"
   },
   "kindHints": {
     "onepassword-connect": "參考路徑：",
     "infisical": "使用具備 Universal Auth 的機器身分。參考路徑：",
     "bitwarden-sm": "若使用 bitwarden.com 請保留預設 URL，或改用您自有伺服器的位址。參考路徑：",
     "hashicorp-vault": "讀取 KV 版本 1 或 2。參考路徑：",
-    "bitwarden-cli": "在 Termix 可存取的環境中執行 bw serve，並保持金庫解鎖狀態。欄位可為 username、password、totp、notes、uri 或自訂欄位名稱。參考路徑："
+    "bitwarden-cli": "在 Termix 可存取的環境中執行 bw serve，並保持金庫解鎖狀態。欄位可為 username、password、totp、notes、uri 或自訂欄位名稱。參考路徑：",
+    "keepass": "Termix 會從此位址（例如 WebDAV 或 Nextcloud 連結）下載檔案，並使用主密碼開啟。欄位預設為 Password，除非您新增 #UserName、#URL、#Notes 或自訂欄位。參考：",
+    "aws-secrets-manager": "使用具有 secretsmanager:GetSecretValue 和 ListSecrets 權限的 IAM 使用者或角色的存取金鑰。新增 #key 以讀取 JSON 秘密中的單一鍵值。參考：",
+    "azure-key-vault": "使用具有客戶端密碼的應用程式註冊，該密碼可在此金鑰庫中取得並列出秘密。新增 /version 以固定版本。參考：",
+    "gcp-secret-manager": "使用具有 Secret Manager Secret Accessor 角色的服務帳戶金鑰。新增 /version 以固定版本，否則為最新版本。參考：",
+    "bitwarden-vault": "每位使用者透過 SSO、電子郵件或個人 API 金鑰，加上主密碼來解鎖自己的金鑰庫，且僅能看到其帳戶允許的內容。工作階段長度以小時為單位（若為空則為 8 小時）。SSO 識別碼是您的組織識別碼（若您的伺服器要求）。欄位為 username、password、totp、notes、uri、privatekey 或自訂欄位名稱。參考："
+  },
+  "picker": {
+    "open": "從金鑰庫選取",
+    "search": "搜尋項目",
+    "close": "關閉",
+    "loading": "正在載入項目",
+    "empty": "找不到項目",
+    "failed": "無法列出項目。請確認金鑰庫已解鎖。",
+    "noSources": "新增 Bitwarden 或 Vaultwarden (bw serve) 來源，以便從中選取項目。"
+  },
+  "kdbxUrlLabel": "檔案位址",
+  "awsEndpointLabel": "端點",
+  "vaultUrlLabel": "金鑰庫 URL",
+  "filePick": "選取檔案",
+  "fileLoaded": "檔案已載入",
+  "fileNone": "無檔案",
+  "unlock": {
+    "title": "解鎖金鑰庫",
+    "toggle": "解鎖您的金鑰庫",
+    "intro": "登入您自己的帳戶。您的金鑰庫僅對您保持解鎖狀態，直到工作階段結束。",
+    "methods": {
+      "sso": "SSO",
+      "password": "電子郵件",
+      "apikey": "API 金鑰"
+    },
+    "ssoOpen": "開啟登入",
+    "ssoHint": "在新視窗中登入。",
+    "ssoPaste": "當視窗顯示無法載入的頁面時，複製其位址並貼到下方。",
+    "ssoAddress": "視窗最終停留的位址",
+    "email": "電子郵件",
+    "clientId": "API 金鑰 client_id",
+    "clientSecret": "API 金鑰 client_secret",
+    "masterPassword": "主密碼",
+    "code": "兩步驟登入代碼",
+    "codeNeeded": "請輸入您的兩步驟登入代碼。",
+    "submit": "解鎖",
+    "done": "金鑰庫已解鎖",
+    "lock": "鎖定",
+    "unlockedAs": "已以 {{email}} 身分解鎖，直至 {{until}}",
+    "retry": "已解鎖。請重新連接至主機。",
+    "none": "無金鑰庫可解鎖",
+    "noneHint": "請管理員新增每位使用者個別登入的 Bitwarden 或 Vaultwarden 來源。"
   }
 }

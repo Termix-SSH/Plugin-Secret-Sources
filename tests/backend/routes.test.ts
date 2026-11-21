@@ -175,6 +175,64 @@ describe("secret-sources routes", () => {
     );
   });
 
+  describe("items", () => {
+    it("lists a bw serve source's items as references", async () => {
+      await server.close();
+      server = await startServer({
+        fetch: vi.fn(async (url: string) =>
+          jsonResponse({
+            success: true,
+            data: {
+              data: url.includes("folders")
+                ? []
+                : [
+                    {
+                      id: "11111111-1111-4111-8111-111111111111",
+                      name: "web",
+                      login: { username: "u", password: "p" },
+                    },
+                  ],
+            },
+          }),
+        ),
+      });
+      const created = await server.request("POST", "/", {
+        body: {
+          name: "Vault",
+          kind: "bitwarden-cli",
+          baseUrl: "http://localhost:8087",
+          token: "",
+        },
+      });
+      expect(created.status).toBe(200);
+      const res = await server.request(
+        "GET",
+        `/${created.body.source.id}/items?search=web`,
+      );
+      expect(res.status).toBe(200);
+      expect(res.body.items[0]).toMatchObject({
+        name: "web",
+        password: "bw://11111111-1111-4111-8111-111111111111/password",
+      });
+    });
+
+    it("refuses kinds that can't list and unknown sources", async () => {
+      const created = await server.request("POST", "/", {
+        body: {
+          name: "Team",
+          baseUrl: "https://connect.internal",
+          token: "secret-token",
+        },
+      });
+      const res = await server.request(
+        "GET",
+        `/${created.body.source.id}/items`,
+      );
+      expect(res.status).toBe(400);
+      expect((await server.request("GET", "/nope/items")).status).toBe(404);
+    });
+  });
+
   describe("test-reference", () => {
     const add = () =>
       server.request("POST", "/", {

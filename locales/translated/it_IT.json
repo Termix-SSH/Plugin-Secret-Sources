@@ -20,7 +20,8 @@
     "no_source": "Nessuna origine dei segreti è configurata per questo tipo di riferimento.",
     "not_found": "{{source}} non contiene segreti a questo riferimento.",
     "denied": "{{source}} ha negato l'accesso a questo segreto. Controlla il token e i suoi permessi.",
-    "connection": "Impossibile raggiungere {{source}}."
+    "connection": "Impossibile raggiungere {{source}}.",
+    "locked": "Il tuo vault in {{source}} è bloccato. Sbloccalo prima."
   },
   "required": "Nome, URL del server e le credenziali di accesso sono obbligatori",
   "saved": "Origine dei segreti salvata",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Origini dei segreti",
-    "description": "Recupera password e chiavi degli host da 1Password, Bitwarden, Infisical o HashiCorp Vault durante la connessione invece di memorizzarli in Termix."
+    "description": "Recupera password e chiavi degli host da 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure o Google Cloud durante la connessione, invece di memorizzarli in Termix."
   },
   "deleteConfirm": "Eliminare l'origine dei segreti {{name}}?",
   "kindLabel": "Tipo",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)",
+    "keepass": "KeePass (file .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden o Vaultwarden (ogni utente effettua l'accesso)"
   },
   "fields": {
     "clientId": "ID client",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (oppure usa AppRole di seguito)",
     "roleId": "ID ruolo AppRole",
     "secretId": "ID segreto AppRole",
-    "namespace": "Namespace (opzionale)"
+    "namespace": "Namespace (opzionale)",
+    "masterPassword": "Password principale",
+    "keyFile": "File chiave (opzionale)",
+    "httpUsername": "Utente accesso web (opzionale)",
+    "httpPassword": "Password accesso web (opzionale)",
+    "accessKeyId": "ID chiave di accesso",
+    "secretAccessKey": "Chiave di accesso segreta",
+    "sessionToken": "Token di sessione (opzionale)",
+    "region": "Regione (opzionale, letta dall'endpoint)",
+    "tenantId": "ID tenant",
+    "serviceAccountJson": "Chiave account di servizio (file JSON)",
+    "sessionHours": "Durata sblocco (ore)",
+    "ssoIdentifier": "Identificatore SSO"
   },
   "kindHints": {
     "onepassword-connect": "Riferimento:",
     "infisical": "Utilizza un'identità macchina con Universal Auth. Riferimento:",
     "bitwarden-sm": "Lascia l'URL così com'è per bitwarden.com, oppure usa l'indirizzo del tuo server. Riferimento:",
     "hashicorp-vault": "Legge KV versione 1 o 2. Riferimento:",
-    "bitwarden-cli": "Esegui bw serve in un punto raggiungibile da Termix e mantieni il vault sbloccato. Il campo è username, password, totp, notes, uri o un nome di campo personalizzato. Riferimento:"
+    "bitwarden-cli": "Esegui bw serve in un punto raggiungibile da Termix e mantieni il vault sbloccato. Il campo è username, password, totp, notes, uri o un nome di campo personalizzato. Riferimento:",
+    "keepass": "Termix scarica il file da questo indirizzo, come un link WebDAV o Nextcloud, e lo apre con la password principale. Il campo è Password a meno che non aggiungi #UserName, #URL, #Notes o un campo personalizzato. Riferimento:",
+    "aws-secrets-manager": "Usa una chiave di accesso di un utente o ruolo IAM autorizzato a secretsmanager:GetSecretValue e ListSecrets. Aggiungi #key per leggere una singola chiave di un segreto JSON. Riferimento:",
+    "azure-key-vault": "Usa una registrazione app con un client secret che può ottenere ed elencare i segreti in questo vault. Aggiungi /version per fissare una versione. Riferimento:",
+    "gcp-secret-manager": "Usa una chiave account di servizio con il ruolo Secret Manager Secret Accessor. Aggiungi /version per fissare una versione, altrimenti usa l'ultima. Riferimento:",
+    "bitwarden-vault": "Ogni utente sblocca il proprio vault con SSO, email o una chiave API personale, più la password principale, e vede solo ciò che il proprio account può accedere. La durata della sessione è in ore (8 se vuoto). L'identificatore SSO è l'identificatore della tua organizzazione, se il server lo richiede. Il campo è username, password, totp, notes, uri, privatekey o un nome di campo personalizzato. Riferimento:"
+  },
+  "picker": {
+    "open": "Scegli da un vault",
+    "search": "Cerca elementi",
+    "close": "Chiudi",
+    "loading": "Caricamento elementi",
+    "empty": "Nessun elemento trovato",
+    "failed": "Impossibile elencare gli elementi. Verifica che il vault sia sbloccato.",
+    "noSources": "Aggiungi una sorgente Bitwarden o Vaultwarden (bw serve) per scegliere elementi da essa."
+  },
+  "kdbxUrlLabel": "Indirizzo file",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "URL vault",
+  "filePick": "Scegli file",
+  "fileLoaded": "File caricato",
+  "fileNone": "Nessun file",
+  "unlock": {
+    "title": "Sblocca vault",
+    "toggle": "Sblocca il tuo vault",
+    "intro": "Effettua l'accesso al tuo account personale. Il tuo vault rimane sbloccato solo per te, fino alla fine della sessione.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Chiave API"
+    },
+    "ssoOpen": "Apri accesso",
+    "ssoHint": "Effettua l'accesso nella nuova finestra.",
+    "ssoPaste": "Quando la finestra mostra una pagina che non può essere caricata, copia il suo indirizzo e incollalo qui sotto.",
+    "ssoAddress": "Indirizzo su cui la finestra si è arrestata",
+    "email": "Email",
+    "clientId": "client_id chiave API",
+    "clientSecret": "client_secret chiave API",
+    "masterPassword": "Password principale",
+    "code": "Codice accesso a due fattori",
+    "codeNeeded": "Inserisci il tuo codice di accesso a due fattori.",
+    "submit": "Sblocca",
+    "done": "Vault sbloccato",
+    "lock": "Blocca",
+    "unlockedAs": "Sbloccato come {{email}} fino a {{until}}",
+    "retry": "Sbloccato. Connettiti nuovamente all'host.",
+    "none": "Nessun vault da sbloccare",
+    "noneHint": "Chiedi a un amministratore di aggiungere una sorgente Bitwarden o Vaultwarden dove ogni utente effettua l'accesso."
   }
 }

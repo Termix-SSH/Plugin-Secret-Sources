@@ -20,7 +20,8 @@
     "no_source": "Не е конфигуриран източник на тайни за този тип препратка.",
     "not_found": "{{source}} няма тайна по тази препратка.",
     "denied": "{{source}} отказа достъп до тази тайна. Проверете токена и неговите права.",
-    "connection": "Не може да се свърже с {{source}}."
+    "connection": "Не може да се свърже с {{source}}.",
+    "locked": "Вашият Vault в {{source}} е заключен. Първо го отключете."
   },
   "required": "Името, URL адресът на сървъра и данните за вход са задължителни",
   "saved": "Източникът на тайни е запазен",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Източници на тайни",
-    "description": "Извличане на пароли и ключове за хостове от 1Password, Bitwarden, Infisical или HashiCorp Vault при свързване, вместо да ги съхранявате в Termix."
+    "description": "Извличайте пароли и ключове за хостове от 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure или Google Cloud при свързване, вместо да ги съхранявате в Termix."
   },
   "deleteConfirm": "Да се изтрие ли източникът на тайни {{name}}?",
   "kindLabel": "Тип",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden или Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx файл)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden или Vaultwarden (всеки потребител влиза поотделно)"
   },
   "fields": {
     "clientId": "Client ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Токен (или използвайте AppRole по-долу)",
     "roleId": "AppRole role ID",
     "secretId": "AppRole secret ID",
-    "namespace": "Namespace (по избор)"
+    "namespace": "Namespace (по избор)",
+    "masterPassword": "Майстър парола",
+    "keyFile": "Ключов файл (по избор)",
+    "httpUsername": "Потребител за уеб вход (по избор)",
+    "httpPassword": "Парола за уеб вход (по избор)",
+    "accessKeyId": "ID на достъпен ключ",
+    "secretAccessKey": "Секретен достъпен ключ",
+    "sessionToken": "Токен за сесия (по избор)",
+    "region": "Регион (по избор, четен от крайната точка)",
+    "tenantId": "ID на наемател",
+    "serviceAccountJson": "Ключ за службен акаунт (JSON файл)",
+    "sessionHours": "Продължителност на отключването (часове)",
+    "ssoIdentifier": "SSO идентификатор"
   },
   "kindHints": {
     "onepassword-connect": "Референция:",
     "infisical": "Използва машинна идентичност с Universal Auth. Референция:",
     "bitwarden-sm": "Оставете URL адреса както е за bitwarden.com, или използвайте адреса на вашия собствен сървър. Референция:",
     "hashicorp-vault": "Чете KV версия 1 или 2. Референция:",
-    "bitwarden-cli": "Стартирайте bw serve на място, до което Termix може да се свърже, и поддържайте vault отключен. Полето е username, password, totp, notes, uri или име на персонализирано поле. Референция:"
+    "bitwarden-cli": "Стартирайте bw serve на място, до което Termix може да се свърже, и поддържайте vault отключен. Полето е username, password, totp, notes, uri или име на персонализирано поле. Референция:",
+    "keepass": "Termix изтегля файла от този адрес, като връзка към WebDAV или Nextcloud, и го отваря с майстър паролата. Полето е Password, освен ако не добавите #UserName, #URL, #Notes или персонализирано поле. Референция:",
+    "aws-secrets-manager": "Използвайте достъпен ключ на IAM потребител или роля с права за secretsmanager:GetSecretValue и ListSecrets. Добавете #key, за да прочетете конкретен ключ от JSON тайна. Референция:",
+    "azure-key-vault": "Използвайте регистрация на приложение с клиентски секрет, който може да получава и изброява тайни в този Vault. Добавете /version, за да фиксирате версия. Референция:",
+    "gcp-secret-manager": "Използвайте ключ за службен акаунт с роля Secret Manager Secret Accessor. Добавете /version, за да фиксирате версия, иначе се използва най-новата. Референция:",
+    "bitwarden-vault": "Всеки потребител отключва своя Vault чрез SSO, имейл или личен API ключ, плюс майстър паролата, и вижда само това, което му е разрешено. Продължителността на сесията е в часове (8, ако е празно). SSO идентификаторът е идентификаторът на вашата организация, ако сървърът изисква такъв. Полето е username, password, totp, notes, uri, privatekey или име на персонализирано поле. Референция:"
+  },
+  "picker": {
+    "open": "Изберете от Vault",
+    "search": "Търсене на елементи",
+    "close": "Затвори",
+    "loading": "Зареждане на елементи",
+    "empty": "Няма намерени елементи",
+    "failed": "Не може да се изброят елементите. Проверете дали Vault е отключен.",
+    "noSources": "Добавете източник Bitwarden или Vaultwarden (bw serve), за да избирате елементи от него."
+  },
+  "kdbxUrlLabel": "Адрес на файл",
+  "awsEndpointLabel": "Крайна точка",
+  "vaultUrlLabel": "URL на Vault",
+  "filePick": "Избор на файл",
+  "fileLoaded": "Файлът е зареден",
+  "fileNone": "Няма файл",
+  "unlock": {
+    "title": "Отключване на Vault",
+    "toggle": "Отключете вашия Vault",
+    "intro": "Влезте във вашия собствен акаунт. Вашият Vault остава отключен само за вас, докато сесията приключи.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Имейл",
+      "apikey": "API ключ"
+    },
+    "ssoOpen": "Отвори вход",
+    "ssoHint": "Влезте в новия прозорец.",
+    "ssoPaste": "Когато прозорецът покаже страница, която не може да се зареди, копирайте адреса ѝ и го поставете по-долу.",
+    "ssoAddress": "Адрес, на който е спрял прозорецът",
+    "email": "Имейл",
+    "clientId": "client_id на API ключ",
+    "clientSecret": "client_secret на API ключ",
+    "masterPassword": "Майстър парола",
+    "code": "Код за двустепенен вход",
+    "codeNeeded": "Въведете кода си за двустепенен вход.",
+    "submit": "Отключи",
+    "done": "Vault е отключен",
+    "lock": "Заключи",
+    "unlockedAs": "Отключен като {{email}} до {{until}}",
+    "retry": "Отключен. Свържете се отново с хоста.",
+    "none": "Няма Vault за отключване",
+    "noneHint": "Попитайте администратор да добави източник Bitwarden или Vaultwarden, където всеки потребител влиза поотделно."
   }
 }

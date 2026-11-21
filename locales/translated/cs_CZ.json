@@ -20,7 +20,8 @@
     "no_source": "Pro tento typ odkazu není nastaven žádný zdroj tajných údajů.",
     "not_found": "Zdroj {{source}} neobsahuje žádný tajný údaj na tomto odkazu.",
     "denied": "Zdroj {{source}} zamítl přístup k tomuto tajnému údaji. Zkontrolujte token a jeho oprávnění.",
-    "connection": "Nelze se připojit k {{source}}."
+    "connection": "Nelze se připojit k {{source}}.",
+    "locked": "Váš trezor v {{source}} je uzamčen. Nejprve jej odemkněte."
   },
   "required": "Název, adresa serveru a přihlašovací údaje jsou povinné",
   "saved": "Zdroj tajných klíčů uložen",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Zdroje tajných klíčů",
-    "description": "Při připojení načítá hesla a klíče hostitelů ze 1Password, Bitwarden, Infisical nebo HashiCorp Vault místo jejich ukládání v Termix."
+    "description": "Při připojení načítejte hesla a klíče hostitelů z 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure nebo Google Cloud místo jejich ukládání v Termix."
   },
   "deleteConfirm": "Smazat zdroj tajných klíčů {{name}}?",
   "kindLabel": "Typ",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden nebo Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden nebo Vaultwarden (bw serve)",
+    "keepass": "KeePass (soubor .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden nebo Vaultwarden (každý uživatel se přihlásí)"
   },
   "fields": {
     "clientId": "ID klienta",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (nebo použijte níže AppRole)",
     "roleId": "ID role AppRole",
     "secretId": "Tajné ID AppRole",
-    "namespace": "Prostor jmen (volitelné)"
+    "namespace": "Prostor jmen (volitelné)",
+    "masterPassword": "Hlavní heslo",
+    "keyFile": "Soubor s klíčem (volitelné)",
+    "httpUsername": "Uživatel webového přihlášení (volitelné)",
+    "httpPassword": "Heslo webového přihlášení (volitelné)",
+    "accessKeyId": "ID přístupového klíče",
+    "secretAccessKey": "Tajný přístupový klíč",
+    "sessionToken": "Token relace (volitelné)",
+    "region": "Region (volitelné, načteno z koncového bodu)",
+    "tenantId": "ID pronajímatele",
+    "serviceAccountJson": "Klíč služby (soubor JSON)",
+    "sessionHours": "Doba odemknutí (hodiny)",
+    "ssoIdentifier": "Identifikátor SSO"
   },
   "kindHints": {
     "onepassword-connect": "Odkaz:",
     "infisical": "Používá strojovou identitu s Universal Auth. Odkaz:",
     "bitwarden-sm": "Pro bitwarden.com nechte adresu tak, jak je, nebo použijte adresu vlastního serveru. Odkaz:",
     "hashicorp-vault": "Čte verzi KV 1 nebo 2. Odkaz:",
-    "bitwarden-cli": "Spusťte bw serve na místě, kde k němu Termix má přístup, a nechte trezor odemčený. Pole je uživatelské jméno, heslo, totp, poznámky, uri nebo název vlastního pole. Odkaz:"
+    "bitwarden-cli": "Spusťte bw serve na místě, kde k němu Termix má přístup, a nechte trezor odemčený. Pole je uživatelské jméno, heslo, totp, poznámky, uri nebo název vlastního pole. Odkaz:",
+    "keepass": "Termix stáhne soubor z této adresy, například z odkazu WebDAV nebo Nextcloud, a otevře jej pomocí hlavního hesla. Pole je Heslo, pokud nepřidáte #UserName, #URL, #Notes nebo vlastní pole. Reference:",
+    "aws-secrets-manager": "Použijte přístupový klíč uživatele nebo role IAM s oprávněním secretsmanager:GetSecretValue a ListSecrets. Přidejte #key pro čtení jednoho klíče z tajného JSON. Reference:",
+    "azure-key-vault": "Použijte registraci aplikace s tajným klíčem klienta, který může získávat a vypisovat tajné informace v tomto trezoru. Přidejte /version pro pevnou verzi. Reference:",
+    "gcp-secret-manager": "Použijte klíč služby s rolí Secret Manager Secret Accessor. Přidejte /version pro pevnou verzi, jinak se použije nejnovější. Reference:",
+    "bitwarden-vault": "Každý uživatel odemkne svůj vlastní trezor pomocí SSO, e-mailu nebo osobního API klíče spolu se svým hlavním heslem a vidí pouze to, co jeho účet umožňuje. Délka relace je v hodinách (8 pokud je prázdné). Identifikátor SSO je identifikátor vaší organizace, pokud o něj váš server žádá. Pole je username, password, totp, notes, uri, privatekey nebo název vlastního pole. Reference:"
+  },
+  "picker": {
+    "open": "Vybrat z trezoru",
+    "search": "Hledat položky",
+    "close": "Zavřít",
+    "loading": "Načítání položek",
+    "empty": "Nebyly nalezeny žádné položky",
+    "failed": "Nelze vypsat položky. Zkontrolujte, zda je trezor odemčen.",
+    "noSources": "Přidejte zdroj Bitwarden nebo Vaultwarden (bw serve) pro výběr položek z něj."
+  },
+  "kdbxUrlLabel": "Adresa souboru",
+  "awsEndpointLabel": "Koncový bod",
+  "vaultUrlLabel": "URL trezoru",
+  "filePick": "Vybrat soubor",
+  "fileLoaded": "Soubor načten",
+  "fileNone": "Žádný soubor",
+  "unlock": {
+    "title": "Odemknout trezor",
+    "toggle": "Odemkněte svůj trezor",
+    "intro": "Přihlaste se ke svému vlastnímu účtu. Váš trezor zůstane odemčen pouze pro vás, dokud relace neskončí.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mail",
+      "apikey": "API klíč"
+    },
+    "ssoOpen": "Otevřít přihlášení",
+    "ssoHint": "Přihlaste se v novém okně.",
+    "ssoPaste": "Když okno zobrazí stránku, kterou nelze načíst, zkopírujte její adresu a vložte ji níže.",
+    "ssoAddress": "Adresa, na které okno skončilo",
+    "email": "E-mail",
+    "clientId": "client_id API klíče",
+    "clientSecret": "client_secret API klíče",
+    "masterPassword": "Hlavní heslo",
+    "code": "Kód dvoufázového přihlášení",
+    "codeNeeded": "Zadejte svůj kód dvoufázového přihlášení.",
+    "submit": "Odemknout",
+    "done": "Trezor odemčen",
+    "lock": "Uzamknout",
+    "unlockedAs": "Odemčeno jako {{email}} do {{until}}",
+    "retry": "Odemčeno. Připojte se k hostiteli znovu.",
+    "none": "Žádný trezor k odemknutí",
+    "noneHint": "Požádejte správce, aby přidal zdroj Bitwarden nebo Vaultwarden, kde se každý uživatel přihlašuje."
   }
 }

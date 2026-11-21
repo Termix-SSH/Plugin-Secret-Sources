@@ -20,7 +20,8 @@
     "no_source": "ไม่ได้ตั้งค่าแหล่งที่มาของค่าความลับสำหรับประเภทการอ้างอิงนี้",
     "not_found": "{{source}} ไม่มีค่าความลับที่การอ้างอิงนี้",
     "denied": "{{source}} ปฏิเสธการเข้าถึงค่าความลับนี้ ตรวจสอบโทเค็นและสิทธิ์การเข้าถึง",
-    "connection": "ไม่สามารถเชื่อมต่อกับ {{source}} ได้"
+    "connection": "ไม่สามารถเชื่อมต่อกับ {{source}} ได้",
+    "locked": "Vault ของคุณใน {{source}} ถูกปิดล็อก กรุณาปลดล็อกก่อน"
   },
   "required": "จำเป็นต้องระบุชื่อ URL ของเซิร์ฟเวอร์ และข้อมูลการเข้าสู่ระบบ",
   "saved": "บันทึกแหล่งความลับแล้ว",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "แหล่งความลับ",
-    "description": "ดึงรหัสผ่านและคีย์ของโฮสต์จาก 1Password, Bitwarden, Infisical หรือ HashiCorp Vault เมื่อคุณเชื่อมต่อ แทนที่จะเก็บไว้ใน Termix"
+    "description": "ดึงรหัสผ่านและคีย์ของโฮสต์จาก 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure หรือ Google Cloud เมื่อเชื่อมต่อ แทนที่จะเก็บไว้ใน Termix"
   },
   "deleteConfirm": "ลบแหล่งความลับ {{name}} หรือไม่?",
   "kindLabel": "ประเภท",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden หรือ Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden หรือ Vaultwarden (bw serve)",
+    "keepass": "KeePass (ไฟล์ .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden หรือ Vaultwarden (ผู้ใช้แต่ละคนเข้าสู่ระบบ)"
   },
   "fields": {
     "clientId": "Client ID",
@@ -56,13 +62,72 @@
     "vaultToken": "โทเค็น (หรือใช้ AppRole ด้านล่าง)",
     "roleId": "ID บทบาทของ AppRole",
     "secretId": "ID รหัสลับของ AppRole",
-    "namespace": "Namespace (ไม่บังคับ)"
+    "namespace": "Namespace (ไม่บังคับ)",
+    "masterPassword": "รหัสผ่านหลัก",
+    "keyFile": "ไฟล์คีย์ (ไม่บังคับ)",
+    "httpUsername": "ผู้ใช้สำหรับเข้าสู่ระบบเว็บ (ไม่บังคับ)",
+    "httpPassword": "รหัสผ่านสำหรับเข้าสู่ระบบเว็บ (ไม่บังคับ)",
+    "accessKeyId": "Access key ID",
+    "secretAccessKey": "Secret access key",
+    "sessionToken": "Session token (ไม่บังคับ)",
+    "region": "ภูมิภาค (ไม่บังคับ, อ่านจาก endpoint)",
+    "tenantId": "Tenant ID",
+    "serviceAccountJson": "คีย์บัญชีบริการ (ไฟล์ JSON)",
+    "sessionHours": "ระยะเวลาปลดล็อก (ชั่วโมง)",
+    "ssoIdentifier": "ตัวระบุ SSO"
   },
   "kindHints": {
     "onepassword-connect": "การอ้างอิง:",
     "infisical": "ใช้ตัวตนของเครื่องกับ Universal Auth การอ้างอิง:",
     "bitwarden-sm": "ปล่อย URL ไว้ตามเดิมสำหรับ bitwarden.com หรือใช้ที่อยู่ของเซิร์ฟเวอร์ของคุณเอง การอ้างอิง:",
     "hashicorp-vault": "อ่าน KV เวอร์ชัน 1 หรือ 2 การอ้างอิง:",
-    "bitwarden-cli": "รัน bw serve ที่ Termix สามารถเข้าถึงได้และรักษาการปลดล็อก vault ไว้ ฟิลด์คือ username, password, totp, notes, uri หรือชื่อฟิลด์ที่กำหนดเอง การอ้างอิง:"
+    "bitwarden-cli": "รัน bw serve ที่ Termix สามารถเข้าถึงได้และรักษาการปลดล็อก vault ไว้ ฟิลด์คือ username, password, totp, notes, uri หรือชื่อฟิลด์ที่กำหนดเอง การอ้างอิง:",
+    "keepass": "Termix จะดาวน์โหลดไฟล์จากที่อยู่นี้ เช่น ลิงก์ WebDAV หรือ Nextcloud แล้วเปิดด้วยรหัสผ่านหลัก ฟิลด์จะเป็น Password เว้นแต่คุณจะเพิ่ม #UserName, #URL, #Notes หรือฟิลด์ที่กำหนดเอง อ้างอิง:",
+    "aws-secrets-manager": "ใช้ access key ของผู้ใช้หรือบทบาท IAM ที่ได้รับอนุญาต secretsmanager:GetSecretValue และ ListSecrets เพิ่ม #key เพื่ออ่านคีย์เดียวจาก secret แบบ JSON อ้างอิง:",
+    "azure-key-vault": "ใช้การลงทะเบียนแอปพร้อม client secret ที่สามารถดึงและแสดงรายการ secrets ใน vault นี้ได้ เพิ่ม /version เพื่อกำหนดเวอร์ชันเฉพาะ อ้างอิง:",
+    "gcp-secret-manager": "ใช้คีย์บัญชีบริการที่มีบทบาท Secret Manager Secret Accessor เพิ่ม /version เพื่อกำหนดเวอร์ชันเฉพาะ หากไม่ระบุจะใช้เวอร์ชันล่าสุด อ้างอิง:",
+    "bitwarden-vault": "ผู้ใช้แต่ละคนจะปลดล็อก vault ของตัวเองด้วย SSO, อีเมล หรือคีย์ API ส่วนตัว พร้อมรหัสผ่านหลัก และจะเห็นเฉพาะสิ่งที่บัญชีของตนมีสิทธิ์เข้าถึง ระยะเวลาเซสชันระบุเป็นชั่วโมง (8 หากเว้นว่าง) ตัวระบุ SSO คือตัวระบุองค์กรของคุณ หากเซิร์ฟเวอร์ขอ ฟิลด์จะเป็น username, password, totp, notes, uri, privatekey หรือชื่อฟิลด์ที่กำหนดเอง อ้างอิง:"
+  },
+  "picker": {
+    "open": "เลือกจาก vault",
+    "search": "ค้นหารายการ",
+    "close": "ปิด",
+    "loading": "กำลังโหลดรายการ",
+    "empty": "ไม่พบรายการ",
+    "failed": "ไม่สามารถแสดงรายการได้ ตรวจสอบว่า vault ถูกปลดล็อกแล้ว",
+    "noSources": "เพิ่มแหล่งข้อมูล Bitwarden หรือ Vaultwarden (bw serve) เพื่อเลือกรายการจากนั้น"
+  },
+  "kdbxUrlLabel": "ที่อยู่ไฟล์",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "URL ของ Vault",
+  "filePick": "เลือกไฟล์",
+  "fileLoaded": "โหลดไฟล์แล้ว",
+  "fileNone": "ไม่มีไฟล์",
+  "unlock": {
+    "title": "ปลดล็อก vault",
+    "toggle": "ปลดล็อก vault ของคุณ",
+    "intro": "เข้าสู่ระบบบัญชีของคุณเอง Vault ของคุณจะยังคงปลดล็อกเฉพาะสำหรับคุณ จนกว่าเซสชันจะสิ้นสุด",
+    "methods": {
+      "sso": "SSO",
+      "password": "อีเมล",
+      "apikey": "คีย์ API"
+    },
+    "ssoOpen": "เปิดหน้าเข้าสู่ระบบ",
+    "ssoHint": "เข้าสู่ระบบในหน้าต่างใหม่",
+    "ssoPaste": "เมื่อหน้าต่างแสดงหน้าที่โหลดไม่ได้ ให้คัดลอกที่อยู่ของมันแล้ววางด้านล่าง",
+    "ssoAddress": "ที่อยู่ที่หน้าต่างสิ้นสุดลง",
+    "email": "อีเมล",
+    "clientId": "client_id ของคีย์ API",
+    "clientSecret": "client_secret ของคีย์ API",
+    "masterPassword": "รหัสผ่านหลัก",
+    "code": "รหัสเข้าสู่ระบบสองขั้นตอน",
+    "codeNeeded": "กรอกรหัสเข้าสู่ระบบสองขั้นตอนของคุณ",
+    "submit": "ปลดล็อก",
+    "done": "ปลดล็อก vault แล้ว",
+    "lock": "ล็อก",
+    "unlockedAs": "ปลดล็อกเป็น {{email}} จนกว่าจะถึง {{until}}",
+    "retry": "ปลดล็อกแล้ว เชื่อมต่อโฮสต์อีกครั้ง",
+    "none": "ไม่มี vault ให้ปลดล็อก",
+    "noneHint": "ติดต่อผู้ดูแลระบบเพื่อเพิ่มแหล่งข้อมูล Bitwarden หรือ Vaultwarden ที่ผู้ใช้แต่ละคนเข้าสู่ระบบ"
   }
 }

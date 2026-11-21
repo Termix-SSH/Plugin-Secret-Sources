@@ -20,7 +20,8 @@
     "no_source": "इस प्रकार के संदर्भ के लिए कोई गुप्त स्रोत सेट अप नहीं है।",
     "not_found": "{{source}} के पास इस संदर्भ पर कोई गुप्त कोड नहीं है।",
     "denied": "{{source}} ने इस गुप्त कोड तक पहुंच अस्वीकार कर दी। टोकन और इसके अनुमतियों की जांच करें।",
-    "connection": "{{source}} तक पहुंच नहीं पाए।"
+    "connection": "{{source}} तक पहुंच नहीं पाए।",
+    "locked": "आपका {{source}} में वॉल्ट लॉक है। पहले इसे अनलॉक करें।"
   },
   "required": "नाम, सर्वर URL और लॉगिन विवरण आवश्यक हैं",
   "saved": "रहस्य स्रोत सहेजा गया",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "रहस्य स्रोत",
-    "description": "Termix में उन्हें संग्रहीत करने के बजाय कनेक्ट करते समय 1Password, Bitwarden, Infisical या HashiCorp Vault से होस्ट पासवर्ड और कुंजी खींचें।"
+    "description": "Termix में उन्हें स्टोर करने के बजाय, कनेक्ट करते समय 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure या Google Cloud से होस्ट पासवर्ड और कीज़ खींचें।"
   },
   "deleteConfirm": "क्या आप रहस्य स्रोत {{name}} को हटाना चाहते हैं?",
   "kindLabel": "प्रकार",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden या Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden या Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx फ़ाइल)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden या Vaultwarden (प्रत्येक उपयोगकर्ता साइन इन करता है)"
   },
   "fields": {
     "clientId": "क्लाइंट ID",
@@ -56,13 +62,72 @@
     "vaultToken": "टोकन (या नीचे AppRole का उपयोग करें)",
     "roleId": "AppRole रोल ID",
     "secretId": "AppRole रहस्य ID",
-    "namespace": "नेमस्पेस (वैकल्पिक)"
+    "namespace": "नेमस्पेस (वैकल्पिक)",
+    "masterPassword": "मास्टर पासवर्ड",
+    "keyFile": "की फ़ाइल (वैकल्पिक)",
+    "httpUsername": "वेब लॉगिन उपयोगकर्ता (वैकल्पिक)",
+    "httpPassword": "वेब लॉगिन पासवर्ड (वैकल्पिक)",
+    "accessKeyId": "एक्सेस की आईडी",
+    "secretAccessKey": "गुप्त एक्सेस की",
+    "sessionToken": "सत्र टोकन (वैकल्पिक)",
+    "region": "क्षेत्र (वैकल्पिक, एंडपॉइंट से पढ़ें)",
+    "tenantId": "टेनेंट आईडी",
+    "serviceAccountJson": "सर्विस अकाउंट की (JSON फ़ाइल)",
+    "sessionHours": "अनलॉक रहता है (घंटे)",
+    "ssoIdentifier": "SSO पहचानकर्ता"
   },
   "kindHints": {
     "onepassword-connect": "संदर्भ:",
     "infisical": "यूनिवर्सल ऑथ के साथ मशीन पहचान का उपयोग करता है। संदर्भ:",
     "bitwarden-sm": "bitwarden.com के लिए URL को वैसा ही छोड़ दें, या अपने सर्वर के पते का उपयोग करें। संदर्भ:",
     "hashicorp-vault": "KV संस्करण 1 या 2 पढ़ता है। संदर्भ:",
-    "bitwarden-cli": "bw serve को उस जगह चलाएं जहां Termix इसे पहुंच सकता है और वॉल्ट अनलॉक रखें। फ़ील्ड उपयोगकर्ता नाम, पासवर्ड, totp, नोट्स, uri या एक कस्टम फ़ील्ड नाम है। संदर्भ:"
+    "bitwarden-cli": "bw serve को उस जगह चलाएं जहां Termix इसे पहुंच सकता है और वॉल्ट अनलॉक रखें। फ़ील्ड उपयोगकर्ता नाम, पासवर्ड, totp, नोट्स, uri या एक कस्टम फ़ील्ड नाम है। संदर्भ:",
+    "keepass": "Termix इस पते से फ़ाइल डाउनलोड करता है, जैसे कि WebDAV या Nextcloud लिंक, और इसे मास्टर पासवर्ड के साथ खोलता है। फ़ील्ड पासवर्ड है जब तक आप #UserName, #URL, #Notes या एक कस्टम फ़ील्ड न जोड़ें। संदर्भ:",
+    "aws-secrets-manager": "एक IAM उपयोगकर्ता या भूमिका की एक्सेस की का उपयोग करें जिसके पास secretsmanager:GetSecretValue और ListSecrets की अनुमति हो। JSON सीक्रेट की एक की पढ़ने के लिए #key जोड़ें। संदर्भ:",
+    "azure-key-vault": "एप्लिकेशन रजिस्ट्रेशन का उपयोग करें जिसमें क्लाइंट सीक्रेट हो जो इस वॉल्ट में सीक्रेट प्राप्त और सूचीबद्ध कर सके। संस्करण को फिक्स करने के लिए /version जोड़ें। संदर्भ:",
+    "gcp-secret-manager": "Secret Manager Secret Accessor भूमिका वाली सर्विस अकाउंट की का उपयोग करें। संस्करण को फिक्स करने के लिए /version जोड़ें, अन्यथा नवीनतम। संदर्भ:",
+    "bitwarden-vault": "प्रत्येक उपयोगकर्ता SSO, ईमेल या व्यक्तिगत API की, और अपने मास्टर पासवर्ड के साथ अपना वॉल्ट अनलॉक करता है, और केवल वही देखता है जो उसके खाते को दिखाई देता है। सत्र की लंबाई घंटों में है (खाली होने पर 8)। SSO पहचानकर्ता आपका संगठन पहचानकर्ता है, यदि आपका सर्वर एक मांगता है। फ़ील्ड उपयोगकर्ता नाम, पासवर्ड, totp, नोट्स, uri, privatekey या कस्टम फ़ील्ड नाम है। संदर्भ:"
+  },
+  "picker": {
+    "open": "वॉल्ट से चुनें",
+    "search": "आइटम खोजें",
+    "close": "बंद करें",
+    "loading": "आइटम लोड हो रहे हैं",
+    "empty": "कोई आइटम नहीं मिला",
+    "failed": "आइटम सूचीबद्ध नहीं कर सके। जांचें कि वॉल्ट अनलॉक है।",
+    "noSources": "इससे आइटम चुनने के लिए Bitwarden या Vaultwarden (bw serve) स्रोत जोड़ें।"
+  },
+  "kdbxUrlLabel": "फ़ाइल पता",
+  "awsEndpointLabel": "एंडपॉइंट",
+  "vaultUrlLabel": "वॉल्ट URL",
+  "filePick": "फ़ाइल चुनें",
+  "fileLoaded": "फ़ाइल लोड हो गई",
+  "fileNone": "कोई फ़ाइल नहीं",
+  "unlock": {
+    "title": "वॉल्ट अनलॉक करें",
+    "toggle": "अपना वॉल्ट अनलॉक करें",
+    "intro": "अपने खाते में साइन इन करें। आपका वॉल्ट केवल आपके लिए अनलॉक रहता है, जब तक सत्र समाप्त नहीं हो जाता।",
+    "methods": {
+      "sso": "SSO",
+      "password": "ईमेल",
+      "apikey": "API की"
+    },
+    "ssoOpen": "साइन इन खोलें",
+    "ssoHint": "नई विंडो में साइन इन करें।",
+    "ssoPaste": "जब विंडो एक ऐसी पेज दिखाए जो लोड नहीं हो सकती, तो उसका पता कॉपी करें और नीचे पेस्ट करें।",
+    "ssoAddress": "विंडो जिस पते पर समाप्त हुई",
+    "email": "ईमेल",
+    "clientId": "API की client_id",
+    "clientSecret": "API की client_secret",
+    "masterPassword": "मास्टर पासवर्ड",
+    "code": "दो-चरणीय लॉगिन कोड",
+    "codeNeeded": "अपना दो-चरणीय लॉगिन कोड दर्ज करें।",
+    "submit": "अनलॉक करें",
+    "done": "वॉल्ट अनलॉक हो गया",
+    "lock": "लॉक करें",
+    "unlockedAs": "{{email}} के रूप में अनलॉक, {{until}} तक",
+    "retry": "अनलॉक हो गया। होस्ट से फिर से कनेक्ट करें।",
+    "none": "अनलॉक करने के लिए कोई वॉल्ट नहीं",
+    "noneHint": "एक एडमिन से कहें कि वे Bitwarden या Vaultwarden स्रोत जोड़ें जहां प्रत्येक उपयोगकर्ता साइन इन करता है।"
   }
 }

@@ -20,7 +20,8 @@
     "no_source": "এই ধরনের রেফারেন্সের জন্য কোনো সিক্রেট সোর্স সেটআপ করা নেই।",
     "not_found": "{{source}}-এ এই রেফারেন্সে কোনো সিক্রেট নেই।",
     "denied": "{{source}} এই সিক্রেটে অ্যাক্সেস অস্বীকার করেছে। টোকেন এবং এর অনুমতিগুলো পরীক্ষা করুন।",
-    "connection": "{{source}}-এ পৌঁছানো যাচ্ছে না।"
+    "connection": "{{source}}-এ পৌঁছানো যাচ্ছে না।",
+    "locked": "আপনার {{source}} ভল্ট লক করা আছে। প্রথমে এটি আনলক করুন।"
   },
   "required": "Name, server URL and the login details are required",
   "saved": "Secret source saved",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Secret Sources",
-    "description": "Pull host passwords and keys from 1Password, Bitwarden, Infisical or HashiCorp Vault when you connect instead of storing them in Termix."
+    "description": "টার্মিক্সে সংরক্ষণ না করে সংযোগ করার সময় 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure বা Google Cloud থেকে হোস্টের পাসওয়ার্ড এবং কী টেনে আনুন।"
   },
   "deleteConfirm": "Delete the secret source {{name}}?",
   "kindLabel": "Type",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden or Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden or Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx ফাইল)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden বা Vaultwarden (প্রতিটি ব্যবহারকারী সাইন ইন করে)"
   },
   "fields": {
     "clientId": "Client ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (or use AppRole below)",
     "roleId": "AppRole role ID",
     "secretId": "AppRole secret ID",
-    "namespace": "Namespace (optional)"
+    "namespace": "Namespace (optional)",
+    "masterPassword": "মাস্টার পাসওয়ার্ড",
+    "keyFile": "কী ফাইল (ঐচ্ছিক)",
+    "httpUsername": "ওয়েব লগইন ব্যবহারকারী (ঐচ্ছিক)",
+    "httpPassword": "ওয়েব লগইন পাসওয়ার্ড (ঐচ্ছিক)",
+    "accessKeyId": "অ্যাক্সেস কী আইডি",
+    "secretAccessKey": "গোপন অ্যাক্সেস কী",
+    "sessionToken": "সেশন টোকেন (ঐচ্ছিক)",
+    "region": "অঞ্চল (ঐচ্ছিক, এন্ডপয়েন্ট থেকে পড়া হয়)",
+    "tenantId": "টেন্যান্ট আইডি",
+    "serviceAccountJson": "সার্ভিস অ্যাকাউন্ট কী (JSON ফাইল)",
+    "sessionHours": "আনলক স্থায়ী হবে (ঘণ্টা)",
+    "ssoIdentifier": "SSO শনাক্তকারী"
   },
   "kindHints": {
     "onepassword-connect": "Reference:",
     "infisical": "Uses a machine identity with Universal Auth. Reference:",
     "bitwarden-sm": "Leave the URL as is for bitwarden.com, or use your own server's address. Reference:",
     "hashicorp-vault": "Reads KV version 1 or 2. Reference:",
-    "bitwarden-cli": "Run bw serve where Termix can reach it and keep the vault unlocked. Field is username, password, totp, notes, uri or a custom field name. Reference:"
+    "bitwarden-cli": "Run bw serve where Termix can reach it and keep the vault unlocked. Field is username, password, totp, notes, uri or a custom field name. Reference:",
+    "keepass": "টার্মিক্স এই ঠিকানা থেকে ফাইলটি ডাউনলোড করে, যেমন WebDAV বা Nextcloud লিঙ্ক, এবং মাস্টার পাসওয়ার্ড দিয়ে এটি খোলে। ক্ষেত্রটি Password, যদি না আপনি #UserName, #URL, #Notes বা একটি কাস্টম ক্ষেত্র যোগ করেন। রেফারেন্স:",
+    "aws-secrets-manager": "একটি IAM ব্যবহারকারী বা ভূমিকার অ্যাক্সেস কী ব্যবহার করুন যা secretsmanager:GetSecretValue এবং ListSecrets অনুমতি দেয়। JSON গোপন কীটির একটি কী পড়তে #key যোগ করুন। রেফারেন্স:",
+    "azure-key-vault": "একটি অ্যাপ রেজিস্ট্রেশন ব্যবহার করুন যার ক্লায়েন্ট সিক্রেট রয়েছে যা এই ভল্টে গোপন কী পেতে এবং তালিকাভুক্ত করতে পারে। একটি সংস্করণ স্থির করতে /version যোগ করুন। রেফারেন্স:",
+    "gcp-secret-manager": "Secret Manager Secret Accessor ভূমিকার সাথে একটি সার্ভিস অ্যাকাউন্ট কী ব্যবহার করুন। একটি সংস্করণ স্থির করতে /version যোগ করুন, অন্যথায় সর্বশেষ। রেফারেন্স:",
+    "bitwarden-vault": "প্রতিটি ব্যবহারকারী SSO, ইমেইল বা ব্যক্তিগত API কী এবং তাদের মাস্টার পাসওয়ার্ড দিয়ে তাদের নিজস্ব ভল্ট আনলক করে এবং শুধুমাত্র তাদের অ্যাকাউন্ট যা দেখতে পারে তা দেখে। সেশনের দৈর্ঘ্য ঘণ্টায় (খালি থাকলে ৮)। SSO শনাক্তকারী হলো আপনার সংস্থার শনাক্তকারী, যদি আপনার সার্ভার একটি চায়। ক্ষেত্রটি username, password, totp, notes, uri, privatekey বা একটি কাস্টম ক্ষেত্রের নাম। রেফারেন্স:"
+  },
+  "picker": {
+    "open": "একটি ভল্ট থেকে নির্বাচন করুন",
+    "search": "আইটেম খুঁজুন",
+    "close": "বন্ধ করুন",
+    "loading": "আইটেম লোড হচ্ছে",
+    "empty": "কোনো আইটেম পাওয়া যায়নি",
+    "failed": "আইটেমগুলোর তালিকা দেখা যায়নি। ভল্টটি আনলক করা আছে কিনা তা পরীক্ষা করুন।",
+    "noSources": "এখান থেকে আইটেম নির্বাচন করতে একটি Bitwarden বা Vaultwarden (bw serve) উৎস যোগ করুন।"
+  },
+  "kdbxUrlLabel": "ফাইলের ঠিকানা",
+  "awsEndpointLabel": "এন্ডপয়েন্ট",
+  "vaultUrlLabel": "ভল্ট URL",
+  "filePick": "ফাইল নির্বাচন করুন",
+  "fileLoaded": "ফাইল লোড হয়েছে",
+  "fileNone": "কোনো ফাইল নেই",
+  "unlock": {
+    "title": "ভল্ট আনলক করুন",
+    "toggle": "আপনার ভল্ট আনলক করুন",
+    "intro": "আপনার নিজস্ব অ্যাকাউন্টে সাইন ইন করুন। সেশন শেষ না হওয়া পর্যন্ত আপনার ভল্ট শুধুমাত্র আপনার জন্য আনলক থাকবে।",
+    "methods": {
+      "sso": "SSO",
+      "password": "ইমেইল",
+      "apikey": "API কী"
+    },
+    "ssoOpen": "সাইন ইন খুলুন",
+    "ssoHint": "নতুন উইন্ডোতে সাইন ইন করুন।",
+    "ssoPaste": "যখন উইন্ডোটি এমন একটি পৃষ্ঠা দেখায় যা লোড হতে পারে না, তখন এর ঠিকানা কপি করে নিচে পেস্ট করুন।",
+    "ssoAddress": "উইন্ডোটি যে ঠিকানায় শেষ হয়েছে",
+    "email": "ইমেইল",
+    "clientId": "API কী client_id",
+    "clientSecret": "API কী client_secret",
+    "masterPassword": "মাস্টার পাসওয়ার্ড",
+    "code": "দুই ধাপের লগইন কোড",
+    "codeNeeded": "আপনার দুই ধাপের লগইন কোড লিখুন।",
+    "submit": "আনলক করুন",
+    "done": "ভল্ট আনলক হয়েছে",
+    "lock": "লক করুন",
+    "unlockedAs": "{{email}} হিসেবে আনলক করা হয়েছে {{until}} পর্যন্ত",
+    "retry": "আনলক হয়েছে। হোস্টের সাথে আবার সংযোগ করুন।",
+    "none": "আনলক করার মতো কোনো ভল্ট নেই",
+    "noneHint": "একটি প্রশাসককে এমন একটি Bitwarden বা Vaultwarden উৎস যোগ করতে বলুন যেখানে প্রতিটি ব্যবহারকারী সাইন ইন করে।"
   }
 }

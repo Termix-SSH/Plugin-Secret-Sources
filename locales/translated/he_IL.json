@@ -20,7 +20,8 @@
     "no_source": "לא הוגדר מקור לסיסמאות עבור סוג הפניה זה.",
     "not_found": "ב-{{source}} אין סיסמה בהפניה זו.",
     "denied": "{{source}} דחה גישה לסיסמה זו. בדוק את האסימון ואת הרשאותיו.",
-    "connection": "לא ניתן להגיע ל-{{source}}."
+    "connection": "לא ניתן להגיע ל-{{source}}.",
+    "locked": "הארון שלך ב-{{source}} נעול. פתח אותו תחילה."
   },
   "required": "שם, כתובת השרת ופרטי ההתחברות הם חובה",
   "saved": "מקור הסודות נשמר",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "מקורות סודות",
-    "description": "משוך סיסמאות ומפתחות של מארחים מ-1Password, Bitwarden, Infisical או HashiCorp Vault בעת החיבור במקום לאחסן אותם ב-Termix."
+    "description": "משוך סיסמאות ומפתחות של מארחים מ-1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure או Google Cloud בעת החיבור במקום לאחסן אותם ב-Termix."
   },
   "deleteConfirm": "למחוק את מקור הסודות {{name}}?",
   "kindLabel": "סוג",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden או Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden או Vaultwarden (bw serve)",
+    "keepass": "KeePass (קובץ .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden או Vaultwarden (כל משתמש נכנס לחשבון)"
   },
   "fields": {
     "clientId": "מזהה לקוח",
@@ -56,13 +62,72 @@
     "vaultToken": "אסימון (או השתמש ב-AppRole למטה)",
     "roleId": "מזהה תפקיד AppRole",
     "secretId": "מזהה סוד AppRole",
-    "namespace": "מרחב שמות (אופציונלי)"
+    "namespace": "מרחב שמות (אופציונלי)",
+    "masterPassword": "סיסמה ראשית",
+    "keyFile": "קובץ מפתח (אופציונלי)",
+    "httpUsername": "משתמש להתחברות דרך האינטרנט (אופציונלי)",
+    "httpPassword": "סיסמה להתחברות דרך האינטרנט (אופציונלי)",
+    "accessKeyId": "מזהה מפתח גישה",
+    "secretAccessKey": "מפתח גישה סודי",
+    "sessionToken": "אסימון סשן (אופציונלי)",
+    "region": "אזור (אופציונלי, נקרא מהנקודה הקצה)",
+    "tenantId": "מזהה שוכר",
+    "serviceAccountJson": "מפתח חשבון שירות (קובץ JSON)",
+    "sessionHours": "משך פתיחת הנעילה (שעות)",
+    "ssoIdentifier": "מזהה SSO"
   },
   "kindHints": {
     "onepassword-connect": "הפניה:",
     "infisical": "משתמש בזהות מכונה עם Universal Auth. הפניה:",
     "bitwarden-sm": "השאר את הכתובת כמו שהיא עבור bitwarden.com, או השתמש בכתובת השרת שלך. הפניה:",
     "hashicorp-vault": "קורא KV גרסה 1 או 2. הפניה:",
-    "bitwarden-cli": "הפעל bw serve במקום ש-Termix יכול להגיע אליו ושמור על הארון פתוח. השדה הוא שם משתמש, סיסמה, totp, הערות, uri או שם שדה מותאם אישית. הפניה:"
+    "bitwarden-cli": "הפעל bw serve במקום ש-Termix יכול להגיע אליו ושמור על הארון פתוח. השדה הוא שם משתמש, סיסמה, totp, הערות, uri או שם שדה מותאם אישית. הפניה:",
+    "keepass": "Termix מוריד את הקובץ מהכתובת הזו, כמו קישור WebDAV או Nextcloud, ופותח אותו עם הסיסמה הראשית. השדה הוא סיסמה אלא אם תוסיף #UserName, #URL, #Notes או שדה מותאם אישית. הפניה:",
+    "aws-secrets-manager": "השתמש במפתח גישה של משתמש או תפקיד IAM עם הרשאות secretsmanager:GetSecretValue ו-ListSecrets. הוסף #key כדי לקרוא מפתח אחד מסוד JSON. הפניה:",
+    "azure-key-vault": "השתמש בהרשמת אפליקציה עם סוד לקוח שיכול לקרוא ולרשום סודות בארון הזה. הוסף /version כדי לקבוע גרסה ספציפית. הפניה:",
+    "gcp-secret-manager": "השתמש במפתח חשבון שירות עם תפקיד Secret Manager Secret Accessor. הוסף /version כדי לקבוע גרסה, אחרת ייבחר האחרון. הפניה:",
+    "bitwarden-vault": "כל משתמש פותח את הארון שלו באמצעות SSO, דוא״ל או מפתח API אישי, יחד עם הסיסמה הראשית שלו, ורואה רק מה שהחשבון שלו מורשה לראות. אורך הסשן הוא בשעות (8 אם ריק). מזהה ה-SSO הוא מזהה הארגון שלך, אם השרת דורש אחד. השדה הוא שם משתמש, סיסמה, totp, הערות, uri, מפתח פרטי או שם שדה מותאם אישית. הפניה:"
+  },
+  "picker": {
+    "open": "בחר מארון",
+    "search": "חפש פריטים",
+    "close": "סגור",
+    "loading": "טוען פריטים",
+    "empty": "לא נמצאו פריטים",
+    "failed": "לא ניתן לרשום את הפריטים. וודא שהארון פתוח.",
+    "noSources": "הוסף מקור Bitwarden או Vaultwarden (bw serve) כדי לבחור פריטים ממנו."
+  },
+  "kdbxUrlLabel": "כתובת קובץ",
+  "awsEndpointLabel": "נקודת קצה",
+  "vaultUrlLabel": "כתובת הארון",
+  "filePick": "בחר קובץ",
+  "fileLoaded": "הקובץ נטען",
+  "fileNone": "אין קובץ",
+  "unlock": {
+    "title": "פתח נעילת ארון",
+    "toggle": "פתח את נעילת הארון שלך",
+    "intro": "התחבר לחשבון שלך. הארון שלך יישאר פתוח עבורך בלבד, עד לסיום הסשן.",
+    "methods": {
+      "sso": "SSO",
+      "password": "דוא״ל",
+      "apikey": "מפתח API"
+    },
+    "ssoOpen": "פתח התחברות",
+    "ssoHint": "התחבר בחלון החדש.",
+    "ssoPaste": "כשהחלון מציג דף שלא ניתן לטעון, העתק את הכתובת שלו והדבק אותה למטה.",
+    "ssoAddress": "הכתובת שהחלון הסתיים בה",
+    "email": "דוא״ל",
+    "clientId": "client_id של מפתח API",
+    "clientSecret": "client_secret של מפתח API",
+    "masterPassword": "סיסמה ראשית",
+    "code": "קוד התחברות דו-שלבי",
+    "codeNeeded": "הזן את קוד ההתחברות הדו-שלבי שלך.",
+    "submit": "פתח נעילה",
+    "done": "הארון פתוח",
+    "lock": "נעל",
+    "unlockedAs": "פתוח כ-{{email}} עד {{until}}",
+    "retry": "פתוח. התחבר למארח שוב.",
+    "none": "אין ארון לפתיחה",
+    "noneHint": "בקש ממנהל להוסיף מקור Bitwarden או Vaultwarden שבו כל משתמש נכנס לחשבון."
   }
 }

@@ -20,7 +20,8 @@
     "no_source": "Der er ikke konfigureret nogen hemmelighedskilde for denne type reference.",
     "not_found": "{{source}} har ingen hemmelighed ved denne reference.",
     "denied": "{{source}} nægtede adgang til denne hemmelighed. Tjek tokenet og dets tilladelser.",
-    "connection": "Kunne ikke nå {{source}}."
+    "connection": "Kunne ikke nå {{source}}.",
+    "locked": "Din vault i {{source}} er låst. Lås den op først."
   },
   "required": "Navn, server-URL og loginoplysninger er påkrævet",
   "saved": "Hemmelighedskilde gemt",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Hemmelighedskilder",
-    "description": "Hent vært-adgangskoder og nøgler fra 1Password, Bitwarden, Infisical eller HashiCorp Vault, når du opretter forbindelse, i stedet for at gemme dem i Termix."
+    "description": "Hent værtsadgangskoder og nøgler fra 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure eller Google Cloud, når du opretter forbindelse, i stedet for at gemme dem i Termix."
   },
   "deleteConfirm": "Slet hemmelighedskilden {{name}}?",
   "kindLabel": "Type",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden eller Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden eller Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx-fil)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden eller Vaultwarden (hver bruger logger ind)"
   },
   "fields": {
     "clientId": "Klient-ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (eller brug AppRole nedenfor)",
     "roleId": "AppRole-roll-ID",
     "secretId": "AppRole-hemmeligheds-ID",
-    "namespace": "Namespace (valgfrit)"
+    "namespace": "Namespace (valgfrit)",
+    "masterPassword": "Master password",
+    "keyFile": "Nøglefil (valgfrit)",
+    "httpUsername": "Brugernavn til weblogin (valgfrit)",
+    "httpPassword": "Adgangskode til weblogin (valgfrit)",
+    "accessKeyId": "Access key ID",
+    "secretAccessKey": "Secret access key",
+    "sessionToken": "Sessionstoken (valgfrit)",
+    "region": "Region (valgfrit, læses fra endpoint)",
+    "tenantId": "Tenant ID",
+    "serviceAccountJson": "Service account-nøgle (JSON-fil)",
+    "sessionHours": "Låses op i (timer)",
+    "ssoIdentifier": "SSO-identifikator"
   },
   "kindHints": {
     "onepassword-connect": "Reference:",
     "infisical": "Bruger en maskineidentitet med Universal Auth. Reference:",
     "bitwarden-sm": "Lad URL'en være som den er for bitwarden.com, eller brug din egen servers adresse. Reference:",
     "hashicorp-vault": "Læser KV-version 1 eller 2. Reference:",
-    "bitwarden-cli": "Kør bw serve, hvor Termix kan nå det, og hold vaultet ulåst. Feltet er username, password, totp, notes, uri eller et brugerdefineret feltnavn. Reference:"
+    "bitwarden-cli": "Kør bw serve, hvor Termix kan nå det, og hold vaultet ulåst. Feltet er username, password, totp, notes, uri eller et brugerdefineret feltnavn. Reference:",
+    "keepass": "Termix downloader filen fra denne adresse, f.eks. et WebDAV- eller Nextcloud-link, og åbner den med master password. Feltet er Password, medmindre du tilføjer #UserName, #URL, #Notes eller et brugerdefineret felt. Reference:",
+    "aws-secrets-manager": "Brug en access key for en IAM-bruger eller -rolle med tilladelse til secretsmanager:GetSecretValue og ListSecrets. Tilføj #key for at læse én nøgle fra et JSON-secret. Reference:",
+    "azure-key-vault": "Brug en app-registrering med en client secret, der kan hente og liste secrets i denne vault. Tilføj /version for at fastlåse en version. Reference:",
+    "gcp-secret-manager": "Brug en service account-nøgle med rollen Secret Manager Secret Accessor. Tilføj /version for at fastlåse en version, ellers bruges den seneste. Reference:",
+    "bitwarden-vault": "Hver bruger låser sin egen vault op med SSO, e-mail eller en personlig API-nøgle samt sit master password og ser kun det, som deres konto har adgang til. Sessionens længde angives i timer (8 hvis tomt). SSO-identifikatoren er din organisationsidentifikator, hvis din server beder om en. Feltet er username, password, totp, notes, uri, privatekey eller et brugerdefineret feltnavn. Reference:"
+  },
+  "picker": {
+    "open": "Vælg fra en vault",
+    "search": "Søg i elementer",
+    "close": "Luk",
+    "loading": "Indlæser elementer",
+    "empty": "Ingen elementer fundet",
+    "failed": "Kunne ikke liste elementer. Tjek, at vault er låst op.",
+    "noSources": "Tilføj en Bitwarden- eller Vaultwarden-kilde (bw serve) for at kunne vælge elementer fra den."
+  },
+  "kdbxUrlLabel": "Filadresse",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "Vault-URL",
+  "filePick": "Vælg fil",
+  "fileLoaded": "Fil indlæst",
+  "fileNone": "Ingen fil",
+  "unlock": {
+    "title": "Lås vault op",
+    "toggle": "Lås din vault op",
+    "intro": "Log ind på din egen konto. Din vault forbliver låst op kun for dig, indtil sessionen udløber.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mail",
+      "apikey": "API-nøgle"
+    },
+    "ssoOpen": "Åbn login",
+    "ssoHint": "Log ind i det nye vindue.",
+    "ssoPaste": "Når vinduet viser en side, der ikke kan indlæses, skal du kopiere adressen og indsætte den nedenfor.",
+    "ssoAddress": "Adressen, vinduet sluttede på",
+    "email": "E-mail",
+    "clientId": "API-nøgle client_id",
+    "clientSecret": "API-nøgle client_secret",
+    "masterPassword": "Master password",
+    "code": "Kode til to-faktor-login",
+    "codeNeeded": "Indtast din kode til to-faktor-login.",
+    "submit": "Lås op",
+    "done": "Vault låst op",
+    "lock": "Lås",
+    "unlockedAs": "Låst op som {{email}} indtil {{until}}",
+    "retry": "Låst op. Opret forbindelse til værten igen.",
+    "none": "Ingen vault at låse op",
+    "noneHint": "Bed en administrator om at tilføje en Bitwarden- eller Vaultwarden-kilde, hvor hver bruger logger ind."
   }
 }

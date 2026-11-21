@@ -20,7 +20,8 @@
     "no_source": "Geen geheime bron is vir hierdie tipe verwysing opgestel nie.",
     "not_found": "{{source}} het geen geheim by hierdie verwysing nie.",
     "denied": "{{source}} het toegang tot hierdie geheim geweier. Kontroleer die token en sy toestemmings.",
-    "connection": "{{source}} kon nie bereik word nie."
+    "connection": "{{source}} kon nie bereik word nie.",
+    "locked": "Jou kluis in {{source}} is gesluit. Ontsluit dit eers."
   },
   "required": "Naam, bediener-URL en die aanmeldbesonderhede is verpligtend",
   "saved": "Geheimebron gestoor",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Geheimebronne",
-    "description": "Haal bediener-wagwoorde en sleutels van 1Password, Bitwarden, Infisical of HashiCorp Vault wanneer u verbind, in plaas daarvan om dit in Termix te stoor."
+    "description": "Haal gasheerwagwoorde en sleutels uit 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure of Google Cloud wanneer jy verbind, in plaas daarvan om dit in Termix te stoor."
   },
   "deleteConfirm": "Verwyder die geheimebron {{name}}?",
   "kindLabel": "Tipe",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden of Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden of Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx-lêer)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden of Vaultwarden (elke gebruiker meld aan)"
   },
   "fields": {
     "clientId": "Kliënt-ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (of gebruik AppRole hieronder)",
     "roleId": "AppRole rol-ID",
     "secretId": "AppRole geheim-ID",
-    "namespace": "Naamruimte (opsioneel)"
+    "namespace": "Naamruimte (opsioneel)",
+    "masterPassword": "Hoofwagwoord",
+    "keyFile": "Sleutellêer (opsioneel)",
+    "httpUsername": "Web-aanmeldingsgebruiker (opsioneel)",
+    "httpPassword": "Web-aanmeldingswagwoord (opsioneel)",
+    "accessKeyId": "Toegangssleutel-ID",
+    "secretAccessKey": "Geheime toegangssleutel",
+    "sessionToken": "Sessietoken (opsioneel)",
+    "region": "Streek (opsioneel, gelees van die eindpunt)",
+    "tenantId": "Huurder-ID",
+    "serviceAccountJson": "Diensrekening-sleutel (JSON-lêer)",
+    "sessionHours": "Ontsluiting duur (ure)",
+    "ssoIdentifier": "SSO-identifiseerder"
   },
   "kindHints": {
     "onepassword-connect": "Verwysing:",
     "infisical": "Gebruik 'n masjienidentiteit met Universele Auth. Verwysing:",
     "bitwarden-sm": "Laat die URL soos dit is vir bitwarden.com, of gebruik u eie bediener se adres. Verwysing:",
     "hashicorp-vault": "Lees KV weergawe 1 of 2. Verwysing:",
-    "bitwarden-cli": "Voer bw serve uit waar Termix dit kan bereik en hou die kluis ontgrendel. Veld is gebruikersnaam, wagwoord, totp, notas, uri of 'n aangepaste veldnaam. Verwysing:"
+    "bitwarden-cli": "Voer bw serve uit waar Termix dit kan bereik en hou die kluis ontgrendel. Veld is gebruikersnaam, wagwoord, totp, notas, uri of 'n aangepaste veldnaam. Verwysing:",
+    "keepass": "Termix laai die lêer af van hierdie adres, soos 'n WebDAV- of Nextcloud-skakel, en open dit met die hoofwagwoord. Veld is Wagwoord tensy jy #UserName, #URL, #Notes of 'n aangepaste veld byvoeg. Verwysing:",
+    "aws-secrets-manager": "Gebruik 'n toegangssleutel van 'n IAM-gebruiker of rol wat secretsmanager:GetSecretValue en ListSecrets toegelaat word. Voeg #key by om een sleutel van 'n JSON-geheim te lees. Verwysing:",
+    "azure-key-vault": "Gebruik 'n app-registrasie met 'n kliëntgeheim wat geheime in hierdie kluis kan kry en lys. Voeg /version by om 'n weergawe vas te pen. Verwysing:",
+    "gcp-secret-manager": "Gebruik 'n diensrekening-sleutel met die Secret Manager Secret Accessor-rool. Voeg /version by om 'n weergawe vas te pen, andersins die nuutste. Verwysing:",
+    "bitwarden-vault": "Elke gebruiker ontsluit hul eie kluis met SSO, e-pos of 'n persoonlike API-sleutel, plus hul hoofwagwoord, en sien slegs wat hul rekening kan. Sessieduur is in ure (8 as leeg). Die SSO-identifiseerder is jou organisasie-identifiseerder, as jou bediener daarvoor vra. Veld is gebruikersnaam, wagwoord, totp, notas, uri, privatekey of 'n aangepaste veldnaam. Verwysing:"
+  },
+  "picker": {
+    "open": "Kies uit 'n kluis",
+    "search": "Soek items",
+    "close": "Maak toe",
+    "loading": "Laai items",
+    "empty": "Geen items gevind nie",
+    "failed": "Kon nie die items lys nie. Kontroleer dat die kluis ontsluit is.",
+    "noSources": "Voeg 'n Bitwarden- of Vaultwarden (bw serve)-bron by om items daaruit te kies."
+  },
+  "kdbxUrlLabel": "Lêeradres",
+  "awsEndpointLabel": "Eindpunt",
+  "vaultUrlLabel": "Kluis-URL",
+  "filePick": "Kies lêer",
+  "fileLoaded": "Lêer gelaai",
+  "fileNone": "Geen lêer nie",
+  "unlock": {
+    "title": "Ontsluit kluis",
+    "toggle": "Ontsluit jou kluis",
+    "intro": "Meld aan by jou eie rekening. Jou kluis bly vir jou alleen ontsluit, tot die sessie eindig.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-pos",
+      "apikey": "API-sleutel"
+    },
+    "ssoOpen": "Open aanmelding",
+    "ssoHint": "Meld aan in die nuwe venster.",
+    "ssoPaste": "Wanneer die venster 'n bladsy wys wat nie kan laai nie, kopieer die adres en plak dit hieronder.",
+    "ssoAddress": "Adres waar die venster geëindig het",
+    "email": "E-pos",
+    "clientId": "API-sleutel client_id",
+    "clientSecret": "API-sleutel client_secret",
+    "masterPassword": "Hoofwagwoord",
+    "code": "Twee-staps aanmeldingskode",
+    "codeNeeded": "Voer jou twee-staps aanmeldingskode in.",
+    "submit": "Ontsluit",
+    "done": "Kluis ontsluit",
+    "lock": "Sluit",
+    "unlockedAs": "Ontsluit as {{email}} tot {{until}}",
+    "retry": "Ontsluit. Verbind weer met die gasheer.",
+    "none": "Geen kluis om te ontsluit nie",
+    "noneHint": "Vra 'n admin om 'n Bitwarden- of Vaultwarden-bron by te voeg waar elke gebruiker aanmeld."
   }
 }

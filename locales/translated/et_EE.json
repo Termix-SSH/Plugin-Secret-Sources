@@ -20,7 +20,8 @@
     "no_source": "Selle tüüpi viite jaoks ei ole saladuse allikat seadistatud.",
     "not_found": "Allikas {{source}} ei sisalda sellel viitel saladust.",
     "denied": "Allikas {{source}} keeldus sellele saladusele juurdepääsu andmast. Kontrolli tokenit ja selle õigusi.",
-    "connection": "Allikasse {{source}} ei õnnestunud ühendust saada."
+    "connection": "Allikasse {{source}} ei õnnestunud ühendust saada.",
+    "locked": "Teie Vault {{source}} on lukus. Lukke see esmalt lahti."
   },
   "required": "Nimi, serveri URL ja sisselogimise andmed on kohustuslikud",
   "saved": "Salaja allikas salvestatud",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Salajased allikad",
-    "description": "Tõmmake hostide paroolid ja võtmed 1Passwordist, Bitwardenist, Infisicalist või HashiCorp Vaultist ühenduse loomisel, mitte salvestage neid Termixi."
+    "description": "Hõlma hostide paroolid ja võtmed 1Passwordist, Bitwardenist, Infisicalist, HashiCorp Vaultist, KeePassist, AWS-ist, Azure'ist või Google Cloudist, kui ühendate, mitte salvesta neid Termixi."
   },
   "deleteConfirm": "Kustutada salaja allikas {{name}}?",
   "kindLabel": "Tüüp",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden või Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden või Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx fail)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden või Vaultwarden (iga kasutaja logib sisse)"
   },
   "fields": {
     "clientId": "Kliendi ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (või kasutage allolevat AppRole)",
     "roleId": "AppRole'i rolli ID",
     "secretId": "AppRole'i saladuse ID",
-    "namespace": "Nimeruum (valikuline)"
+    "namespace": "Nimeruum (valikuline)",
+    "masterPassword": "Põhisalasona",
+    "keyFile": "Võtmefail (valikuline)",
+    "httpUsername": "Veebisisselogimise kasutaja (valikuline)",
+    "httpPassword": "Veebisisselogimise parool (valikuline)",
+    "accessKeyId": "Juurdepääsupiirde ID",
+    "secretAccessKey": "Salajane juurdepäävivi",
+    "sessionToken": "Seansi token (valikuline)",
+    "region": "Piirkond (valikuline, loetakse lõpp-punktist)",
+    "tenantId": "Müüri ID",
+    "serviceAccountJson": "Teenuse konto võti (JSON-fail)",
+    "sessionHours": "Lukustuse kehtivusaeg (tundides)",
+    "ssoIdentifier": "SSO-tunnus"
   },
   "kindHints": {
     "onepassword-connect": "Viide:",
     "infisical": "Kasutab masina identiteeti Universal Authiga. Viide:",
     "bitwarden-sm": "Jätke URL muutumatuna bitwarden.com jaoks või kasutage oma serveri aadressi. Viide:",
     "hashicorp-vault": "Loeb KV versiooni 1 või 2. Viide:",
-    "bitwarden-cli": "Käivitage bw serve kohas, kuhu Termix saab ligi, ja hoidke vault avatuna. Välja on kasutajanimi, parool, totp, märkmed, uri või kohandatud välja nimi. Viide:"
+    "bitwarden-cli": "Käivitage bw serve kohas, kuhu Termix saab ligi, ja hoidke vault avatuna. Välja on kasutajanimi, parool, totp, märkmed, uri või kohandatud välja nimi. Viide:",
+    "keepass": "Termix laadib faili selle aadressilt (näiteks WebDAV või Nextcloud link) ja avab selle peaparooliga. Väli on Parool, välja arvatud juhul, kui lisate #UserName, #URL, #Notes või kohandatud väli. Viide:",
+    "aws-secrets-manager": "Kasuta IAM-kasutaja või -rolli ligipääsuvõtit, millel on lubatud tegevused secretsmanager:GetSecretValue ja ListSecrets. Lisa #key, et lugeda JSON- saladuse üks võti. Viide:",
+    "azure-key-vault": "Kasuta rakenduse registreerimist kliendisaladusega, mis saab sellel hoidlas salajasi lugeda ja loetleda. Lisa /version, et fikseerida versioon. Viide:",
+    "gcp-secret-manager": "Kasuta teenuskontovõtit koos rolliga Secret Manager Secret Accessor. Lisa /version, et fikseerida versioon, muidu kasutatakse uusimat. Viide:",
+    "bitwarden-vault": "Iga kasutaja avab oma hoidla lukustuse SSO, e-posti või isiku API-võtme ning oma peasaladuse abil ja näeb ainult seda, mida tema konto lubab. Seansi pikkus on tundides (8, kui tühi). SSO-tunnus on sinu organisatsiooni tunnustaja, kui sinu server seda küsib. Välja nimi on username, password, totp, notes, uri, privatekey või kohandatud välja nimi. Viide:"
+  },
+  "picker": {
+    "open": "Vali hoidlast",
+    "search": "Otsi kirjeid",
+    "close": "Sulge",
+    "loading": "Laadin kirjeid",
+    "empty": "Ühtegi kirjet ei leitud",
+    "failed": "Kirjeid ei õnnestunud loetleda. Veendu, et hoidla on avatud.",
+    "noSources": "Lisa Bitwardeni või Vaultwardeni (bw serve) allikas, et valida sellest kirjeid."
+  },
+  "kdbxUrlLabel": "Faili aadress",
+  "awsEndpointLabel": "Lõpp-punkt",
+  "vaultUrlLabel": "Vaulti URL",
+  "filePick": "Vali fail",
+  "fileLoaded": "Fail laaditud",
+  "fileNone": "Fail puudub",
+  "unlock": {
+    "title": "Lukusta vault lahti",
+    "toggle": "Lukusta oma vault lahti",
+    "intro": "Logi sisse oma kontole. Sinu vault jääb lahti ainult sinu jaoks, kuni sessioon lõppeb.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-post",
+      "apikey": "API- võti"
+    },
+    "ssoOpen": "Ava sisselogimine",
+    "ssoHint": "Logi sisse uues aknas.",
+    "ssoPaste": "Kui aken kuvab lehe, mida ei saa laadida, kopeeri selle aadress ja kleepi see alla.",
+    "ssoAddress": "Aadress, millel aken lõpetas",
+    "email": "E-post",
+    "clientId": "API- võti client_id",
+    "clientSecret": "API- võti client_secret",
+    "masterPassword": "Põhisalasona",
+    "code": "Kaheastmeline sisselogimiskood",
+    "codeNeeded": "Sisestage oma kaheastmeline sisselogimiskood.",
+    "submit": "Lukustuse avamine",
+    "done": "Salvestusruum avatud",
+    "lock": "Lukustamine",
+    "unlockedAs": "Avatud kasutajana {{email}} kuni {{until}}",
+    "retry": "Lukustuse avamine õnnestus. Ühenduge hostiga uuesti.",
+    "none": "Avatavat salvestusruumi pole",
+    "noneHint": "Paluge administraatoril lisada Bitwardeni või Vaultwardeni allikas, kuhu iga kasutaja sisselogib."
   }
 }

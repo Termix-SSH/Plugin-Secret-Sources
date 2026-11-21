@@ -20,7 +20,8 @@
     "no_source": "Er is geen geheime bron ingesteld voor dit type referentie.",
     "not_found": "{{source}} heeft geen geheim op deze referentie.",
     "denied": "{{source}} heeft toegang tot dit geheim geweigerd. Controleer het token en de machtigingen.",
-    "connection": "{{source}} is niet bereikbaar."
+    "connection": "{{source}} is niet bereikbaar.",
+    "locked": "Je vault in {{source}} is vergrendeld. Ontgrendel het eerst."
   },
   "required": "Naam, server-URL en inloggegevens zijn verplicht",
   "saved": "Geheimebron opgeslagen",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Geheimebronnen",
-    "description": "Haal hostwachtwoorden en -sleutels op uit 1Password, Bitwarden, Infisical of HashiCorp Vault bij het verbinden in plaats van ze in Termix op te slaan."
+    "description": "Haal hostwachtwoorden en sleutels op uit 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure of Google Cloud bij het verbinden, in plaats van ze in Termix op te slaan."
   },
   "deleteConfirm": "Geheimebron {{name}} verwijderen?",
   "kindLabel": "Type",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden of Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden of Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx-bestand)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden of Vaultwarden (elke gebruiker meldt zich aan)"
   },
   "fields": {
     "clientId": "Client-ID",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (of gebruik AppRole hieronder)",
     "roleId": "AppRole-rollen-ID",
     "secretId": "AppRole-geheim-ID",
-    "namespace": "Namespace (optioneel)"
+    "namespace": "Namespace (optioneel)",
+    "masterPassword": "Hoofdwachtwoord",
+    "keyFile": "Sleutelbestand (optioneel)",
+    "httpUsername": "Webaanmeldingsgebruiker (optioneel)",
+    "httpPassword": "Webaanmeldingswachtwoord (optioneel)",
+    "accessKeyId": "Toegangssleutel-ID",
+    "secretAccessKey": "Geheime toegangssleutel",
+    "sessionToken": "Sessietoken (optioneel)",
+    "region": "Regio (optioneel, wordt gelezen van het eindpunt)",
+    "tenantId": "Tenant-ID",
+    "serviceAccountJson": "Serviceaccount-sleutel (JSON-bestand)",
+    "sessionHours": "Ontgrendelduur (uren)",
+    "ssoIdentifier": "SSO-identificatie"
   },
   "kindHints": {
     "onepassword-connect": "Referentie:",
     "infisical": "Gebruikt een machine-identiteit met Universal Auth. Referentie:",
     "bitwarden-sm": "Laat de URL zoals hij is voor bitwarden.com, of gebruik het adres van je eigen server. Referentie:",
     "hashicorp-vault": "Leest KV-versie 1 of 2. Referentie:",
-    "bitwarden-cli": "Voer bw serve uit waar Termix het kan bereiken en houd de vault ontgrendeld. Veld is gebruikersnaam, wachtwoord, totp, notities, uri of een aangepaste veldnaam. Referentie:"
+    "bitwarden-cli": "Voer bw serve uit waar Termix het kan bereiken en houd de vault ontgrendeld. Veld is gebruikersnaam, wachtwoord, totp, notities, uri of een aangepaste veldnaam. Referentie:",
+    "keepass": "Termix downloadt het bestand van dit adres, zoals een WebDAV- of Nextcloud-link, en opent het met het hoofdwachtwoord. Het veld is Wachtwoord, tenzij je #UserName, #URL, #Notes of een aangepast veld toevoegt. Referentie:",
+    "aws-secrets-manager": "Gebruik een toegangssleutel van een IAM-gebruiker of -rol met machtiging voor secretsmanager:GetSecretValue en ListSecrets. Voeg #key toe om één sleutel van een JSON-geheim te lezen. Referentie:",
+    "azure-key-vault": "Gebruik een app-registratie met een clientgeheim dat geheimen in deze vault kan ophalen en tonen. Voeg /version toe om een versie te fixeren. Referentie:",
+    "gcp-secret-manager": "Gebruik een serviceaccount-sleutel met de rol Secret Manager Secret Accessor. Voeg /version toe om een versie te fixeren, anders wordt de nieuwste gebruikt. Referentie:",
+    "bitwarden-vault": "Elke gebruiker ontgrendelt zijn eigen vault met SSO, e-mail of een persoonlijke API-sleutel, plus het hoofdwachtwoord, en ziet alleen wat zijn account toestaat. De sessieduur is in uren (8 indien leeg). De SSO-identificatie is je organisatie-identificatie, als je server daar om vraagt. Het veld is gebruikersnaam, wachtwoord, totp, notities, uri, privatekey of een aangepaste veldnaam. Referentie:"
+  },
+  "picker": {
+    "open": "Kies uit een vault",
+    "search": "Items zoeken",
+    "close": "Sluiten",
+    "loading": "Items laden",
+    "empty": "Geen items gevonden",
+    "failed": "Kon de items niet tonen. Controleer of de vault is ontgrendeld.",
+    "noSources": "Voeg een Bitwarden- of Vaultwarden-bron (bw serve) toe om items uit te kiezen."
+  },
+  "kdbxUrlLabel": "Bestandsadres",
+  "awsEndpointLabel": "Eindpunt",
+  "vaultUrlLabel": "Vault-URL",
+  "filePick": "Bestand kiezen",
+  "fileLoaded": "Bestand geladen",
+  "fileNone": "Geen bestand",
+  "unlock": {
+    "title": "Vault ontgrendelen",
+    "toggle": "Ontgrendel je vault",
+    "intro": "Meld je aan bij je eigen account. Je vault blijft alleen voor jou ontgrendeld, tot de sessie eindigt.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mail",
+      "apikey": "API-sleutel"
+    },
+    "ssoOpen": "Aanmelding openen",
+    "ssoHint": "Meld je aan in het nieuwe venster.",
+    "ssoPaste": "Wanneer het venster een pagina toont die niet kan laden, kopieer dan het adres en plak het hieronder.",
+    "ssoAddress": "Adres waarop het venster eindigde",
+    "email": "E-mail",
+    "clientId": "API-sleutel client_id",
+    "clientSecret": "API-sleutel client_secret",
+    "masterPassword": "Hoofdwachtwoord",
+    "code": "Tweestapsaanmeldingscode",
+    "codeNeeded": "Voer je tweestapsaanmeldingscode in.",
+    "submit": "Ontgrendelen",
+    "done": "Vault ontgrendeld",
+    "lock": "Vergrendelen",
+    "unlockedAs": "Ontgrendeld als {{email}} tot {{until}}",
+    "retry": "Ontgrendeld. Verbind opnieuw met de host.",
+    "none": "Geen vault om te ontgrendelen",
+    "noneHint": "Vraag een beheerder om een Bitwarden- of Vaultwarden-bron toe te voegen waar elke gebruiker zich aanmeldt."
   }
 }

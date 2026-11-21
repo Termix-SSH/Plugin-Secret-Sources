@@ -20,7 +20,8 @@
     "no_source": "Aucune source de secret n'est configurée pour ce type de référence.",
     "not_found": "{{source}} ne contient aucun secret à cette référence.",
     "denied": "{{source}} a refusé l'accès à ce secret. Vérifiez le jeton et ses autorisations.",
-    "connection": "Impossible d'atteindre {{source}}."
+    "connection": "Impossible d'atteindre {{source}}.",
+    "locked": "Votre coffre-fort dans {{source}} est verrouillé. Déverrouillez-le d'abord."
   },
   "required": "Le nom, l'URL du serveur et les informations de connexion sont requis",
   "saved": "Source de secrets enregistrée",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Sources de secrets",
-    "description": "Récupérez les mots de passe et clés des hôtes depuis 1Password, Bitwarden, Infisical ou HashiCorp Vault lors de la connexion au lieu de les stocker dans Termix."
+    "description": "Récupérez les mots de passe et clés des hôtes depuis 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure ou Google Cloud lors de la connexion, au lieu de les stocker dans Termix."
   },
   "deleteConfirm": "Supprimer la source de secrets {{name}} ?",
   "kindLabel": "Type",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden ou Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden ou Vaultwarden (bw serve)",
+    "keepass": "KeePass (fichier .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden ou Vaultwarden (chaque utilisateur se connecte)"
   },
   "fields": {
     "clientId": "ID client",
@@ -56,13 +62,72 @@
     "vaultToken": "Jeton (ou utilisez AppRole ci-dessous)",
     "roleId": "ID de rôle AppRole",
     "secretId": "ID de secret AppRole",
-    "namespace": "Espace de noms (facultatif)"
+    "namespace": "Espace de noms (facultatif)",
+    "masterPassword": "Mot de passe maître",
+    "keyFile": "Fichier clé (facultatif)",
+    "httpUsername": "Utilisateur de connexion web (facultatif)",
+    "httpPassword": "Mot de passe de connexion web (facultatif)",
+    "accessKeyId": "ID de clé d'accès",
+    "secretAccessKey": "Clé d'accès secrète",
+    "sessionToken": "Jeton de session (facultatif)",
+    "region": "Région (facultatif, lu depuis le point de terminaison)",
+    "tenantId": "ID du locataire",
+    "serviceAccountJson": "Clé de compte de service (fichier JSON)",
+    "sessionHours": "Durée du déverrouillage (heures)",
+    "ssoIdentifier": "Identifiant SSO"
   },
   "kindHints": {
     "onepassword-connect": "Référence :",
     "infisical": "Utilise une identité machine avec l'authentification universelle. Référence :",
     "bitwarden-sm": "Laissez l'URL telle quelle pour bitwarden.com, ou utilisez l'adresse de votre propre serveur. Référence :",
     "hashicorp-vault": "Lit les versions KV 1 ou 2. Référence :",
-    "bitwarden-cli": "Exécutez bw serve là où Termix peut l'atteindre et gardez le coffre déverrouillé. Le champ est le nom d'utilisateur, le mot de passe, le TOTP, les notes, l'URI ou un nom de champ personnalisé. Référence :"
+    "bitwarden-cli": "Exécutez bw serve là où Termix peut l'atteindre et gardez le coffre déverrouillé. Le champ est le nom d'utilisateur, le mot de passe, le TOTP, les notes, l'URI ou un nom de champ personnalisé. Référence :",
+    "keepass": "Termix télécharge le fichier depuis cette adresse, comme un lien WebDAV ou Nextcloud, et l'ouvre avec le mot de passe maître. Le champ est Password sauf si vous ajoutez #UserName, #URL, #Notes ou un champ personnalisé. Référence :",
+    "aws-secrets-manager": "Utilisez une clé d'accès d'un utilisateur ou rôle IAM autorisé à secretsmanager:GetSecretValue et ListSecrets. Ajoutez #key pour lire une clé spécifique d'un secret JSON. Référence :",
+    "azure-key-vault": "Utilisez une inscription d'application avec un secret client autorisé à récupérer et lister les secrets dans ce coffre-fort. Ajoutez /version pour fixer une version. Référence :",
+    "gcp-secret-manager": "Utilisez une clé de compte de service avec le rôle Secret Manager Secret Accessor. Ajoutez /version pour fixer une version, sinon la plus récente est utilisée. Référence :",
+    "bitwarden-vault": "Chaque utilisateur déverrouille son propre coffre-fort via SSO, email ou une clé API personnelle, ainsi que son mot de passe maître, et ne voit que ce que son compte lui permet. La durée de session est en heures (8 si vide). L'identifiant SSO est l'identifiant de votre organisation, si votre serveur en demande un. Le champ est username, password, totp, notes, uri, privatekey ou un nom de champ personnalisé. Référence :"
+  },
+  "picker": {
+    "open": "Choisir depuis un coffre-fort",
+    "search": "Rechercher des éléments",
+    "close": "Fermer",
+    "loading": "Chargement des éléments",
+    "empty": "Aucun élément trouvé",
+    "failed": "Impossible de lister les éléments. Vérifiez que le coffre-fort est déverrouillé.",
+    "noSources": "Ajoutez une source Bitwarden ou Vaultwarden (bw serve) pour en sélectionner des éléments."
+  },
+  "kdbxUrlLabel": "Adresse du fichier",
+  "awsEndpointLabel": "Point de terminaison",
+  "vaultUrlLabel": "URL du coffre-fort",
+  "filePick": "Sélectionner un fichier",
+  "fileLoaded": "Fichier chargé",
+  "fileNone": "Aucun fichier",
+  "unlock": {
+    "title": "Déverrouiller le coffre-fort",
+    "toggle": "Déverrouiller votre coffre-fort",
+    "intro": "Connectez-vous à votre propre compte. Votre coffre-fort reste déverrouillé pour vous uniquement, jusqu'à la fin de la session.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Clé API"
+    },
+    "ssoOpen": "Ouvrir la connexion",
+    "ssoHint": "Connectez-vous dans la nouvelle fenêtre.",
+    "ssoPaste": "Lorsque la fenêtre affiche une page qui ne peut pas charger, copiez son adresse et collez-la ci-dessous.",
+    "ssoAddress": "Adresse sur laquelle la fenêtre s'est arrêtée",
+    "email": "Email",
+    "clientId": "client_id de la clé API",
+    "clientSecret": "client_secret de la clé API",
+    "masterPassword": "Mot de passe maître",
+    "code": "Code de connexion à deux étapes",
+    "codeNeeded": "Entrez votre code de connexion à deux étapes.",
+    "submit": "Déverrouiller",
+    "done": "Coffre-fort déverrouillé",
+    "lock": "Verrouiller",
+    "unlockedAs": "Déverrouillé en tant que {{email}} jusqu'à {{until}}",
+    "retry": "Déverrouillé. Connectez-vous à nouveau à l'hôte.",
+    "none": "Aucun coffre-fort à déverrouiller",
+    "noneHint": "Demandez à un administrateur d'ajouter une source Bitwarden ou Vaultwarden où chaque utilisateur se connecte."
   }
 }

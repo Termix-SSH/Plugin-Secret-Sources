@@ -20,7 +20,8 @@
     "no_source": "Tiada sumber rahsia ditetapkan untuk jenis rujukan ini.",
     "not_found": "{{source}} tiada rahsia pada rujukan ini.",
     "denied": "{{source}} menolak akses ke rahsia ini. Semak token dan keizinan.",
-    "connection": "Tidak dapat menghubungi {{source}}."
+    "connection": "Tidak dapat menghubungi {{source}}.",
+    "locked": "Bekas anda di {{source}} dikunci. Buka kuncinya terlebih dahulu."
   },
   "required": "Nama, URL pelayan, dan butiran log masuk diperlukan",
   "saved": "Sumber rahsia disimpan",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Sumber Rahsia",
-    "description": "Ambil kata laluan dan kunci hos dari 1Password, Bitwarden, Infisical, atau HashiCorp Vault semasa anda menyambung sebagai ganti menyimpannya dalam Termix."
+    "description": "Ambil kata laluan dan kunci hos dari 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure atau Google Cloud semasa anda menyambung, berbanding menyimpannya dalam Termix."
   },
   "deleteConfirm": "Padam sumber rahsia {{name}}?",
   "kindLabel": "Jenis",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden atau Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden atau Vaultwarden (bw serve)",
+    "keepass": "KeePass (fail .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden atau Vaultwarden (setiap pengguna log masuk)"
   },
   "fields": {
     "clientId": "ID Pelanggan",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (atau gunakan AppRole di bawah)",
     "roleId": "ID peranan AppRole",
     "secretId": "ID rahsia AppRole",
-    "namespace": "Ruang nama (pilihan)"
+    "namespace": "Ruang nama (pilihan)",
+    "masterPassword": "Kata laluan utama",
+    "keyFile": "Fail kunci (pilihan)",
+    "httpUsername": "Pengguna log masuk web (pilihan)",
+    "httpPassword": "Kata laluan log masuk web (pilihan)",
+    "accessKeyId": "ID kunci akses",
+    "secretAccessKey": "Kunci akses rahsia",
+    "sessionToken": "Token sesi (pilihan)",
+    "region": "Kawasan (pilihan, dibaca dari hujung)",
+    "tenantId": "ID penyewa",
+    "serviceAccountJson": "Kunci akaun perkhidmatan (fail JSON)",
+    "sessionHours": "Tempoh buka kunci (jam)",
+    "ssoIdentifier": "Pengecam SSO"
   },
   "kindHints": {
     "onepassword-connect": "Rujukan:",
     "infisical": "Menggunakan identiti mesin dengan Universal Auth. Rujukan:",
     "bitwarden-sm": "Biarkan URL seperti sedia ada untuk bitwarden.com, atau gunakan alamat pelayan anda sendiri. Rujukan:",
     "hashicorp-vault": "Membaca KV versi 1 atau 2. Rujukan:",
-    "bitwarden-cli": "Jalankan bw serve di mana Termix boleh mencapainya dan pastikan vault tidak dikunci. Medan adalah nama pengguna, kata laluan, totp, nota, uri, atau nama medan tersuai. Rujukan:"
+    "bitwarden-cli": "Jalankan bw serve di mana Termix boleh mencapainya dan pastikan vault tidak dikunci. Medan adalah nama pengguna, kata laluan, totp, nota, uri, atau nama medan tersuai. Rujukan:",
+    "keepass": "Termix memuat turun fail dari alamat ini, seperti pautan WebDAV atau Nextcloud, dan membukanya dengan kata laluan utama. Medan adalah Password melainkan anda menambah #UserName, #URL, #Notes atau medan tersuai. Rujukan:",
+    "aws-secrets-manager": "Gunakan kunci akses pengguna atau peranan IAM yang dibenarkan secretsmanager:GetSecretValue dan ListSecrets. Tambah #key untuk membaca satu kunci rahsia JSON. Rujukan:",
+    "azure-key-vault": "Gunakan pendaftaran aplikasi dengan rahsia klien yang boleh mendapatkan dan menyenaraikan rahsia dalam bekas ini. Tambah /version untuk menetapkan versi. Rujukan:",
+    "gcp-secret-manager": "Gunakan kunci akaun perkhidmatan dengan peranan Secret Manager Secret Accessor. Tambah /version untuk menetapkan versi, terkini jika tidak. Rujukan:",
+    "bitwarden-vault": "Setiap pengguna membuka kunci bekas mereka sendiri dengan SSO, e-mel atau kunci API peribadi, ditambah kata laluan utama mereka, dan hanya melihat apa yang akaun mereka boleh. Panjang sesi dalam jam (8 jika kosong). Pengecam SSO adalah pengecam organisasi anda, jika pelayan anda memintanya. Medan adalah username, password, totp, notes, uri, privatekey atau nama medan tersuai. Rujukan:"
+  },
+  "picker": {
+    "open": "Pilih dari bekas",
+    "search": "Cari item",
+    "close": "Tutup",
+    "loading": "Memuatkan item",
+    "empty": "Tiada item ditemui",
+    "failed": "Tidak dapat menyenaraikan item. Semak bahawa bekas dibuka kunci.",
+    "noSources": "Tambah sumber Bitwarden atau Vaultwarden (bw serve) untuk memilih item darinya."
+  },
+  "kdbxUrlLabel": "Alamat fail",
+  "awsEndpointLabel": "Hujung",
+  "vaultUrlLabel": "URL bekas",
+  "filePick": "Pilih fail",
+  "fileLoaded": "Fail dimuatkan",
+  "fileNone": "Tiada fail",
+  "unlock": {
+    "title": "Buka kunci bekas",
+    "toggle": "Buka kunci bekas anda",
+    "intro": "Log masuk ke akaun anda sendiri. Bekas anda kekal dibuka kunci untuk anda sahaja, sehingga sesi tamat.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mel",
+      "apikey": "Kunci API"
+    },
+    "ssoOpen": "Buka log masuk",
+    "ssoHint": "Log masuk di tetingkap baru.",
+    "ssoPaste": "Apabila tetingkap menunjukkan halaman yang tidak boleh dimuatkan, salin alamatnya dan tampal di bawah.",
+    "ssoAddress": "Alamat di mana tetingkap berakhir",
+    "email": "E-mel",
+    "clientId": "client_id kunci API",
+    "clientSecret": "client_secret kunci API",
+    "masterPassword": "Kata laluan utama",
+    "code": "Kod log masuk dua langkah",
+    "codeNeeded": "Masukkan kod log masuk dua langkah anda.",
+    "submit": "Buka kunci",
+    "done": "Bekas dibuka kunci",
+    "lock": "Kunci",
+    "unlockedAs": "Dibuka kunci sebagai {{email}} sehingga {{until}}",
+    "retry": "Dibuka kunci. Sambung ke hos sekali lagi.",
+    "none": "Tiada bekas untuk dibuka kunci",
+    "noneHint": "Minta pentadbir menambah sumber Bitwarden atau Vaultwarden di mana setiap pengguna log masuk."
   }
 }

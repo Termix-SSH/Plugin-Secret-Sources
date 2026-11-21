@@ -20,7 +20,8 @@
     "no_source": "Tälle viitetyypille ei ole määritetty salaisuuksien lähdettä.",
     "not_found": "Kohteessa {{source}} ei ole salaisuutta tällä viitteellä.",
     "denied": "Kohde {{source}} kieltäytyi sallimasta pääsyä tähän salaisuuteen. Tarkista tunnus ja sen oikeudet.",
-    "connection": "Kohteeseen {{source}} ei saatu yhteyttä."
+    "connection": "Kohteeseen {{source}} ei saatu yhteyttä.",
+    "locked": "Salvasi on lukittu kohteessa {{source}}. Avaa se lukitus ensin."
   },
   "required": "Nimi, palvelimen URL-osoite ja kirjautumistiedot ovat pakollisia",
   "saved": "Salasanahallinta tallennettu",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Salasanahallinnat",
-    "description": "Hae isäntien salasanat ja avaimet 1Passwordista, Bitwardenista, Infisicalista tai HashiCorp Vaultista yhdistettäessä sen sijaan, että tallentaisit ne Termixiin."
+    "description": "Hae isäntien salasanat ja avaimet 1Passwordista, Bitwardenista, Infisicalista, HashiCorp Vaultista, KeePassista, AWS:stä, Azuresta tai Google Cloudista yhdistäessäsi sen sijaan, että tallentaisit ne Termixiin."
   },
   "deleteConfirm": "Haluatko poistaa salasanahallinnan {{name}}?",
   "kindLabel": "Tyyppi",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden tai Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden tai Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx-tiedosto)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden tai Vaultwarden (jokainen käyttäjä kirjautuu sisään)"
   },
   "fields": {
     "clientId": "Asiakastunnus",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (tai käytä alla olevaa AppRolea)",
     "roleId": "AppRole-roolin ID",
     "secretId": "AppRole-salaisuuden ID",
-    "namespace": "Nimetila (valinnainen)"
+    "namespace": "Nimetila (valinnainen)",
+    "masterPassword": "Pääsalasana",
+    "keyFile": "Avaintiedosto (valinnainen)",
+    "httpUsername": "Verkkokirjautumisen käyttäjätunnus (valinnainen)",
+    "httpPassword": "Verkkokirjautumisen salasana (valinnainen)",
+    "accessKeyId": "Pääsyavaimen tunnus",
+    "secretAccessKey": "Salainen pääsyavain",
+    "sessionToken": "Istunto-token (valinnainen)",
+    "region": "Alue (valinnainen, luetaan päätepisteestä)",
+    "tenantId": "Maksuyksikön tunnus",
+    "serviceAccountJson": "Palvelutilin avain (JSON-tiedosto)",
+    "sessionHours": "Lukituksen avaus kestää (tuntia)",
+    "ssoIdentifier": "SSO-tunniste"
   },
   "kindHints": {
     "onepassword-connect": "Viite:",
     "infisical": "Käyttää koneidentiteettiä Universal Authin kanssa. Viite:",
     "bitwarden-sm": "Jätä URL-osoite ennallaan bitwarden.comia varten tai käytä omaa palvelimesi osoitetta. Viite:",
     "hashicorp-vault": "Lukee KV-version 1 tai 2. Viite:",
-    "bitwarden-cli": "Suorita bw serve -palvelu paikassa, johon Termix voi yhdistää, ja pidä vault avattuna. Kenttä on käyttäjätunnus, salasana, totp, muistiinpanot, uri tai mukautettu kentän nimi. Viite:"
+    "bitwarden-cli": "Suorita bw serve -palvelu paikassa, johon Termix voi yhdistää, ja pidä vault avattuna. Kenttä on käyttäjätunnus, salasana, totp, muistiinpanot, uri tai mukautettu kentän nimi. Viite:",
+    "keepass": "Termix lataa tiedoston tästä osoitteesta, kuten WebDAV- tai Nextcloud-linkistä, ja avaa sen pääsalasanalla. Kenttä on Salasana, ellei lisätä #UserName, #URL, #Notes tai mukautettua kenttää. Viite:",
+    "aws-secrets-manager": "Käytä IAM-käyttäjän tai -roolin pääsyavainta, jolla on oikeudet secretsmanager:GetSecretValue ja ListSecrets. Lisää #key lukeaksesi yhden avaimen JSON-salaisuudesta. Viite:",
+    "azure-key-vault": "Käytä sovellusrekisteröintiä, jossa on asiakassalaisuus, jolla voi hakea ja listata salaisuuksia tässä salvasssa. Lisää /version kiinnittääksesi version. Viite:",
+    "gcp-secret-manager": "Käytä palvelutilin avainta, jossa on Secret Manager Secret Accessor -rooli. Lisää /version kiinnittääksesi version, muuten uusinta. Viite:",
+    "bitwarden-vault": "Jokainen käyttäjä avaa oman salvasensa lukituksen SSO:lla, sähköpostilla tai henkilökohtaisella API-avaimella sekä pääsalasanallaan ja näkee vain sen, mitä hänen tilinsä sallii. Istunnon pituus on tunneissa (8, jos tyhjä). SSO-tunniste on organisaatiosi tunnus, jos palvelimesi pyytää sitä. Kenttä on käyttäjätunnus, salasana, totp, muistiinpanot, uri, yksityisavain tai mukautettu kentän nimi. Viite:"
+  },
+  "picker": {
+    "open": "Valitse salvassta",
+    "search": "Hae kohteita",
+    "close": "Sulje",
+    "loading": "Ladataan kohteita",
+    "empty": "Kohteita ei löytynyt",
+    "failed": "Kohteiden listaus epäonnistui. Tarkista, että salvas on avattu lukitus.",
+    "noSources": "Lisää Bitwarden- tai Vaultwarden (bw serve) -lähde, josta voit valita kohteita."
+  },
+  "kdbxUrlLabel": "Tiedoston osoite",
+  "awsEndpointLabel": "Päätepiste",
+  "vaultUrlLabel": "Salvan URL",
+  "filePick": "Valitse tiedosto",
+  "fileLoaded": "Tiedosto ladattu",
+  "fileNone": "Ei tiedostoa",
+  "unlock": {
+    "title": "Avaa salvan lukitus",
+    "toggle": "Avaa salvasi lukitus",
+    "intro": "Kirjaudu omaan tilillesi. Salvas pysyy avattuna vain sinulle, kunnes istunto päättyy.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Sähköposti",
+      "apikey": "API-avain"
+    },
+    "ssoOpen": "Avaa kirjautuminen",
+    "ssoHint": "Kirjaudu sisään uudessa ikkunassa.",
+    "ssoPaste": "Kun ikkuna näyttää sivun, jota ei voi ladata, kopioi sen osoite ja liitä se alle.",
+    "ssoAddress": "Osoite, jossa ikkuna pysähtyi",
+    "email": "Sähköposti",
+    "clientId": "API-avaimen client_id",
+    "clientSecret": "API-avaimen client_secret",
+    "masterPassword": "Pääsalasana",
+    "code": "Kaksivaiheisen kirjautumisen koodi",
+    "codeNeeded": "Syötä kaksivaiheisen kirjautumisen koodisi.",
+    "submit": "Avaa lukitus",
+    "done": "Salvan lukitus avattu",
+    "lock": "Lukitse",
+    "unlockedAs": "Avattu lukitus käyttäjänä {{email}} asti {{until}}",
+    "retry": "Lukitus avattu. Yhdistä isäntään uudelleen.",
+    "none": "Ei salvasa, jonka lukitus avattaisiin",
+    "noneHint": "Pyydä ylläpitäjää lisäämään Bitwarden- tai Vaultwarden-lähde, jossa jokainen käyttäjä kirjautuu sisään."
   }
 }

@@ -20,7 +20,8 @@
     "no_source": "Bu tür referanslar için gizli değer kaynağı yapılandırılmamış.",
     "not_found": "{{source}} bu referansta gizli değer içermiyor.",
     "denied": "{{source}} bu gizli değere erişimi reddetti. Token'ı ve izinlerini kontrol edin.",
-    "connection": "{{source}}'a ulaşılamadı."
+    "connection": "{{source}}'a ulaşılamadı.",
+    "locked": "Kasası {{source}} içinde kilitli. Önce kilidini açın."
   },
   "required": "Ad, sunucu URL'si ve giriş bilgileri gereklidir",
   "saved": "Sır kaynağı kaydedildi",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Sır Kaynakları",
-    "description": "Ana bilgisayar parolalarını ve anahtarlarını Termix'te saklamak yerine, bağlanırken 1Password, Bitwarden, Infisical veya HashiCorp Vault'tan çekin."
+    "description": "Termix içinde saklamak yerine, bağlanırken ana bilgisayar şifrelerini ve anahtarlarını 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure veya Google Cloud'tan çekin."
   },
   "deleteConfirm": "{{name}} sır kaynağı silinsin mi?",
   "kindLabel": "Tür",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden veya Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden veya Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx dosyası)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden veya Vaultwarden (her kullanıcı giriş yapar)"
   },
   "fields": {
     "clientId": "İstemci Kimliği",
@@ -56,13 +62,72 @@
     "vaultToken": "Jeton (veya aşağıda AppRole kullanın)",
     "roleId": "AppRole rol kimliği",
     "secretId": "AppRole sır kimliği",
-    "namespace": "Ad alanı (isteğe bağlı)"
+    "namespace": "Ad alanı (isteğe bağlı)",
+    "masterPassword": "Ana şifre",
+    "keyFile": "Anahtar dosyası (isteğe bağlı)",
+    "httpUsername": "Web giriş kullanıcısı (isteğe bağlı)",
+    "httpPassword": "Web giriş şifresi (isteğe bağlı)",
+    "accessKeyId": "Erişim anahtarı kimliği",
+    "secretAccessKey": "Gizli erişim anahtarı",
+    "sessionToken": "Oturum belirteci (isteğe bağlı)",
+    "region": "Bölge (isteğe bağlı, uç noktadan okunur)",
+    "tenantId": "Kiracı Kimliği",
+    "serviceAccountJson": "Hesap anahtarı (JSON dosyası)",
+    "sessionHours": "Kilit açma süresi (saat)",
+    "ssoIdentifier": "SSO tanımlayıcısı"
   },
   "kindHints": {
     "onepassword-connect": "Referans:",
     "infisical": "Evrensel Kimlik Doğrulama ile makine kimliği kullanır. Referans:",
     "bitwarden-sm": "bitwarden.com için URL'yi olduğu gibi bırakın veya kendi sunucunuzun adresini kullanın. Referans:",
     "hashicorp-vault": "KV sürüm 1 veya 2'yi okur. Referans:",
-    "bitwarden-cli": "Termix'in erişebileceği bir yerde bw serve çalıştırın ve vault'u açık tutun. Alan, kullanıcı adı, parola, totp, notlar, uri veya özel bir alan adıdır. Referans:"
+    "bitwarden-cli": "Termix'in erişebileceği bir yerde bw serve çalıştırın ve vault'u açık tutun. Alan, kullanıcı adı, parola, totp, notlar, uri veya özel bir alan adıdır. Referans:",
+    "keepass": "Termix, dosyayı WebDAV veya Nextcloud bağlantısı gibi bu adresten indirir ve ana şifreyle açar. Alan, #UserName, #URL, #Notes veya özel bir alan eklemedikçe Şifre'dir. Referans:",
+    "aws-secrets-manager": "secretsmanager:GetSecretValue ve ListSecrets iznine sahip bir IAM kullanıcısı veya rolünün erişim anahtarını kullanın. Bir JSON sırrının tek bir anahtarını okumak için #key ekleyin. Referans:",
+    "azure-key-vault": "Bu kasada sırları alabilen ve listeleyebilen bir müşteri sırrına sahip uygulama kaydı kullanın. Bir sürümü sabitlemek için /version ekleyin. Referans:",
+    "gcp-secret-manager": "Secret Manager Secret Accessor rolüne sahip bir hizmet hesabı anahtarı kullanın. Bir sürümü sabitlemek için /version ekleyin, aksi takdirde en son sürüm kullanılır. Referans:",
+    "bitwarden-vault": "Her kullanıcı, SSO, e-posta veya kişisel bir API anahtarı ve ana şifresiyle kendi kasasını açar ve yalnızca hesabının görebileceği şeyleri görür. Oturum süresi saattir (boşsa 8). SSO tanımlayıcısı, sunucunuz bir tanımlayıcı istiyorsa kuruluş tanımlayıcınızdır. Alan, kullanıcı adı, şifre, totp, notlar, uri, privatekey veya özel bir alan adıdır. Referans:"
+  },
+  "picker": {
+    "open": "Kasadan seç",
+    "search": "Öğeleri ara",
+    "close": "Kapat",
+    "loading": "Öğeler yükleniyor",
+    "empty": "Öğe bulunamadı",
+    "failed": "Öğeler listelenemedi. Kasanın kilitli olmadığından emin olun.",
+    "noSources": "Öğeleri seçmek için bir Bitwarden veya Vaultwarden (bw serve) kaynağı ekleyin."
+  },
+  "kdbxUrlLabel": "Dosya adresi",
+  "awsEndpointLabel": "Uç nokta",
+  "vaultUrlLabel": "Kasa URL'si",
+  "filePick": "Dosya seç",
+  "fileLoaded": "Dosya yüklendi",
+  "fileNone": "Dosya yok",
+  "unlock": {
+    "title": "Kasa kilidini aç",
+    "toggle": "Kasanızın kilidini açın",
+    "intro": "Kendi hesabınıza giriş yapın. Kasanız, oturum sonlanana kadar yalnızca sizin için açık kalır.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-posta",
+      "apikey": "API anahtarı"
+    },
+    "ssoOpen": "Giriş sayfasını aç",
+    "ssoHint": "Yeni pencerede giriş yapın.",
+    "ssoPaste": "Pencere yüklenemeyen bir sayfa gösterdiğinde, adresini kopyalayın ve aşağıya yapıştırın.",
+    "ssoAddress": "Pencerenin bittiği adres",
+    "email": "E-posta",
+    "clientId": "API anahtarı client_id",
+    "clientSecret": "API anahtarı client_secret",
+    "masterPassword": "Ana şifre",
+    "code": "İki adımlı giriş kodu",
+    "codeNeeded": "İki adımlı giriş kodunuzu girin.",
+    "submit": "Kilidi aç",
+    "done": "Kasa kilidi açıldı",
+    "lock": "Kilitle",
+    "unlockedAs": "{{email}} olarak {{until}} tarihine kadar kilit açıldı",
+    "retry": "Kilit açıldı. Ana bilgisayara tekrar bağlanın.",
+    "none": "Kilit açılacak kasa yok",
+    "noneHint": "Her kullanıcının giriş yapabileceği bir Bitwarden veya Vaultwarden kaynağı eklemesi için bir yöneticiden isteyin."
   }
 }

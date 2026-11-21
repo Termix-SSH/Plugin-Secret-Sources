@@ -20,7 +20,8 @@
     "no_source": "Nu este configurată nicio sursă de secrete pentru acest tip de referință.",
     "not_found": "{{source}} nu conține niciun secret la această referință.",
     "denied": "{{source}} a refuzat accesul la acest secret. Verifică token-ul și permisiunile acestuia.",
-    "connection": "Nu s-a putut accesa {{source}}."
+    "connection": "Nu s-a putut accesa {{source}}.",
+    "locked": "Seifulul tău din {{source}} este blocat. Deblochează-l mai întâi."
   },
   "required": "Numele, URL-ul serverului și datele de autentificare sunt obligatorii",
   "saved": "Sursa de secrete a fost salvată",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Surse de secrete",
-    "description": "Preluarea parolelor și cheilor gazdelor din 1Password, Bitwarden, Infisical sau HashiCorp Vault la conectare, în loc să le stocați în Termix."
+    "description": "Extrage parolele și cheile gazdelor din 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure sau Google Cloud la conectare, în loc să le salvezi în Termix."
   },
   "deleteConfirm": "Ștergeți sursa de secrete {{name}}?",
   "kindLabel": "Tip",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden sau Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden sau Vaultwarden (bw serve)",
+    "keepass": "KeePass (fișier .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden sau Vaultwarden (fiecare utilizator se autentifică)"
   },
   "fields": {
     "clientId": "ID client",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (sau folosiți AppRole mai jos)",
     "roleId": "ID rol AppRole",
     "secretId": "ID secret AppRole",
-    "namespace": "Spațiu de nume (opțional)"
+    "namespace": "Spațiu de nume (opțional)",
+    "masterPassword": "Parolă principală",
+    "keyFile": "Fișier cheie (opțional)",
+    "httpUsername": "Utilizator autentificare web (opțional)",
+    "httpPassword": "Parolă autentificare web (opțional)",
+    "accessKeyId": "ID cheie de acces",
+    "secretAccessKey": "Cheie de acces secretă",
+    "sessionToken": "Token sesiune (opțional)",
+    "region": "Regiune (opțional, citită din endpoint)",
+    "tenantId": "ID Tenant",
+    "serviceAccountJson": "Cheie cont de serviciu (fișier JSON)",
+    "sessionHours": "Durata deblocării (ore)",
+    "ssoIdentifier": "Identificator SSO"
   },
   "kindHints": {
     "onepassword-connect": "Referință:",
     "infisical": "Folosește o identitate de mașină cu Universal Auth. Referință:",
     "bitwarden-sm": "Lăsați URL-ul așa cum este pentru bitwarden.com sau folosiți adresa propriului server. Referință:",
     "hashicorp-vault": "Citește KV versiunea 1 sau 2. Referință:",
-    "bitwarden-cli": "Executați bw serve unde Termix îl poate atinge și mențineți vault-ul deblocat. Câmpul este username, password, totp, notes, uri sau un nume de câmp personalizat. Referință:"
+    "bitwarden-cli": "Executați bw serve unde Termix îl poate atinge și mențineți vault-ul deblocat. Câmpul este username, password, totp, notes, uri sau un nume de câmp personalizat. Referință:",
+    "keepass": "Termix descarcă fișierul de la această adresă, cum ar fi un link WebDAV sau Nextcloud, și îl deschide cu parola principală. Câmpul este Parolă, cu excepția cazului în care adaugi #UserName, #URL, #Notes sau un câmp personalizat. Referință:",
+    "aws-secrets-manager": "Folosește o cheie de acces a unui utilizator sau rol IAM cu permisiunile secretsmanager:GetSecretValue și ListSecrets. Adaugă #key pentru a citi o singură cheie dintr-un secret JSON. Referință:",
+    "azure-key-vault": "Folosește o înregistrare de aplicație cu un secret de client care poate obține și lista secrete în acest seif. Adaugă /version pentru a fixa o versiune. Referință:",
+    "gcp-secret-manager": "Folosește o cheie de cont de serviciu cu rolul Secret Manager Secret Accessor. Adaugă /version pentru a fixa o versiune, altfel se folosește cea mai recentă. Referință:",
+    "bitwarden-vault": "Fiecare utilizator își deblochează propriul seif cu SSO, email sau o cheie API personală, plus parola principală, și vede doar ceea ce contul său permite. Lungimea sesiunii este în ore (8 dacă este gol). Identificatorul SSO este identificatorul organizației tale, dacă serverul cere unul. Câmpul este username, password, totp, notes, uri, privatekey sau un nume de câmp personalizat. Referință:"
+  },
+  "picker": {
+    "open": "Alege dintr-un seif",
+    "search": "Caută elemente",
+    "close": "Închide",
+    "loading": "Se încarcă elementele",
+    "empty": "Niciun element găsit",
+    "failed": "Nu s-au putut lista elementele. Verifică dacă seiful este deblocat.",
+    "noSources": "Adaugă o sursă Bitwarden sau Vaultwarden (bw serve) pentru a alege elemente din ea."
+  },
+  "kdbxUrlLabel": "Adresa fișierului",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "URL Seif",
+  "filePick": "Alege fișier",
+  "fileLoaded": "Fișier încărcat",
+  "fileNone": "Niciun fișier",
+  "unlock": {
+    "title": "Deblochează seiful",
+    "toggle": "Deblochează-ți seiful",
+    "intro": "Autentifică-te în propriul cont. Seiful rămâne deblocat doar pentru tine, până la sfârșitul sesiunii.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Cheie API"
+    },
+    "ssoOpen": "Deschide autentificarea",
+    "ssoHint": "Autentifică-te în fereastra nouă.",
+    "ssoPaste": "Când fereastra afișează o pagină care nu se poate încărca, copiază adresa ei și lipește-o mai jos.",
+    "ssoAddress": "Adresa la care s-a oprit fereastra",
+    "email": "Email",
+    "clientId": "client_id cheie API",
+    "clientSecret": "client_secret cheie API",
+    "masterPassword": "Parolă principală",
+    "code": "Cod autentificare în doi pași",
+    "codeNeeded": "Introdu codul de autentificare în doi pași.",
+    "submit": "Deblochează",
+    "done": "Seif deblocat",
+    "lock": "Blochează",
+    "unlockedAs": "Deblocat ca {{email}} până la {{until}}",
+    "retry": "Deblocat. Conectează-te din nou la gazdă.",
+    "none": "Niciun seif de deblocat",
+    "noneHint": "Cere unui administrator să adauge o sursă Bitwarden sau Vaultwarden unde fiecare utilizator se autentifică."
   }
 }

@@ -20,7 +20,8 @@
     "no_source": "Pre tento typ odkazu nie je nastavený žiadny zdroj tajomstiev.",
     "not_found": "{{source}} nemá na tomto odkaze žiadne tajomstvo.",
     "denied": "{{source}} zamietol prístup k tomuto tajomstvu. Skontrolujte token a jeho oprávnenia.",
-    "connection": "Nepodarilo sa pripojiť k {{source}}."
+    "connection": "Nepodarilo sa pripojiť k {{source}}.",
+    "locked": "Váš vault v {{source}} je zamknutý. Najprv ho odomknite."
   },
   "required": "Názov, URL servera a prihlasovacie údaje sú povinné",
   "saved": "Zdroj tajomstiev uložený",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Zdroje tajomstiev",
-    "description": "Pri pripájaní získavajte heslá a kľúče hostiteľov z 1Password, Bitwarden, Infisical alebo HashiCorp Vault namiesto ich ukladania v Termix."
+    "description": "Pri pripájaní získavajte heslá a kľúče hostiteľov z 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure alebo Google Cloud namiesto ich ukladania v Termix."
   },
   "deleteConfirm": "Odstrániť zdroj tajomstiev {{name}}?",
   "kindLabel": "Typ",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden alebo Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden alebo Vaultwarden (bw serve)",
+    "keepass": "KeePass (súbor .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden alebo Vaultwarden (každý používateľ sa prihlási)"
   },
   "fields": {
     "clientId": "ID klienta",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (alebo použite AppRole nižšie)",
     "roleId": "ID role AppRole",
     "secretId": "Tajomné ID AppRole",
-    "namespace": "Menový priestor (voliteľné)"
+    "namespace": "Menový priestor (voliteľné)",
+    "masterPassword": "Hlavné heslo",
+    "keyFile": "Súbor s kľúčom (voliteľné)",
+    "httpUsername": "Používateľ pre webové prihlásenie (voliteľné)",
+    "httpPassword": "Heslo pre webové prihlásenie (voliteľné)",
+    "accessKeyId": "ID prístupového kľúča",
+    "secretAccessKey": "Tajný prístupový kľúč",
+    "sessionToken": "Token relácie (voliteľné)",
+    "region": "Región (voliteľné, číta sa z koncového bodu)",
+    "tenantId": "ID prenajímateľa",
+    "serviceAccountJson": "Kľúč služobného účtu (súbor JSON)",
+    "sessionHours": "Trvanie odomknutia (hodiny)",
+    "ssoIdentifier": "SSO identifikátor"
   },
   "kindHints": {
     "onepassword-connect": "Odkaz:",
     "infisical": "Používa strojovú identitu s univerzálnym overovaním. Odkaz:",
     "bitwarden-sm": "Nechajte URL tak, ako je, pre bitwarden.com, alebo použite adresu vlastného servera. Odkaz:",
     "hashicorp-vault": "Číta KV verziu 1 alebo 2. Odkaz:",
-    "bitwarden-cli": "Spustite bw serve na mieste, kde ho Termix môže dosiahnuť, a nechajte vault odomknutý. Pole je používateľské meno, heslo, totp, poznámky, uri alebo názov vlastného poľa. Odkaz:"
+    "bitwarden-cli": "Spustite bw serve na mieste, kde ho Termix môže dosiahnuť, a nechajte vault odomknutý. Pole je používateľské meno, heslo, totp, poznámky, uri alebo názov vlastného poľa. Odkaz:",
+    "keepass": "Termix stiahne súbor z tejto adresy, napríklad odkaz na WebDAV alebo Nextcloud, a otvorí ho pomocou hlavného hesla. Pole je Heslo, pokiaľ nepridáte #UserName, #URL, #Notes alebo vlastné pole. Referencia:",
+    "aws-secrets-manager": "Použite prístupový kľúč používateľa alebo role IAM s povolením secretsmanager:GetSecretValue a ListSecrets. Pridajte #key na čítanie jedného kľúča z tajného JSON. Referencia:",
+    "azure-key-vault": "Použite registráciu aplikácie s tajným kľúčom klienta, ktorý môže získať a zoznamovať tajné údaje v tomto vaulte. Pridajte /version na fixovanie verzie. Referencia:",
+    "gcp-secret-manager": "Použite kľúč služobného účtu s rolou Secret Manager Secret Accessor. Pridajte /version na fixovanie verzie, inak sa použije najnovšia. Referencia:",
+    "bitwarden-vault": "Každý používateľ odomkne svoj vlastný vault pomocou SSO, e-mailu alebo osobného API kľúča spolu s hlavným heslom a uvidí len to, čo jeho účet umožňuje. Dĺžka relácie je v hodinách (8, ak je prázdne). SSO identifikátor je identifikátor vašej organizácie, ak o neho server žiada. Pole je meno používateľa, heslo, totp, poznámky, uri, privatekey alebo názov vlastného poľa. Referencia:"
+  },
+  "picker": {
+    "open": "Vybrať z vaultu",
+    "search": "Hľadať položky",
+    "close": "Zatvoriť",
+    "loading": "Načítavajú sa položky",
+    "empty": "Nenašli sa žiadne položky",
+    "failed": "Nepodarilo sa zoznamovať položky. Skontrolujte, či je vault odomknutý.",
+    "noSources": "Pridajte zdroj Bitwarden alebo Vaultwarden (bw serve), aby ste z neho mohli vyberať položky."
+  },
+  "kdbxUrlLabel": "Adresa súboru",
+  "awsEndpointLabel": "Koncový bod",
+  "vaultUrlLabel": "URL vaultu",
+  "filePick": "Vybrať súbor",
+  "fileLoaded": "Súbor načítaný",
+  "fileNone": "Žiadny súbor",
+  "unlock": {
+    "title": "Odomknúť vault",
+    "toggle": "Odomknite svoj vault",
+    "intro": "Prihláste sa do svojho vlastného účtu. Váš vault zostane odomknutý len pre vás, kým relácia neskončí.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mail",
+      "apikey": "API kľúč"
+    },
+    "ssoOpen": "Otvoriť prihlásenie",
+    "ssoHint": "Prihláste sa v novom okne.",
+    "ssoPaste": "Keď sa v okne zobrazí stránka, ktorú sa nepodarilo načítať, skopírujte jej adresu a vložte ju nižšie.",
+    "ssoAddress": "Adresa, na ktorej sa okno zastavilo",
+    "email": "E-mail",
+    "clientId": "client_id API kľúča",
+    "clientSecret": "client_secret API kľúča",
+    "masterPassword": "Hlavné heslo",
+    "code": "Kód dvojstupňového prihlásenia",
+    "codeNeeded": "Zadajte kód dvojstupňového prihlásenia.",
+    "submit": "Odomknúť",
+    "done": "Vault odomknutý",
+    "lock": "Zamknúť",
+    "unlockedAs": "Odomknuté ako {{email}} do {{until}}",
+    "retry": "Odomknuté. Opäť sa pripojte k hostiteľovi.",
+    "none": "Žiadny vault na odomknutie",
+    "noneHint": "Požiadajte administrátora, aby pridal zdroj Bitwarden alebo Vaultwarden, kde sa každý používateľ prihlási."
   }
 }

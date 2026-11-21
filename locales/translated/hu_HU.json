@@ -20,7 +20,8 @@
     "no_source": "Nincs titokforrás beállítva ehhez a hivatkozási típushoz.",
     "not_found": "A(z) {{source}} nem tartalmaz titkot ezen a hivatkozáson.",
     "denied": "A(z) {{source}} megtagadta a hozzáférést ehhez a titokhoz. Ellenőrizze a tokent és annak jogosultságait.",
-    "connection": "Nem sikerült elérni a(z) {{source}} forrást."
+    "connection": "Nem sikerült elérni a(z) {{source}} forrást.",
+    "locked": "A {{source}} tárhelye zárolva van. Oldja fel először."
   },
   "required": "A név, a szerver URL-je és a bejelentkezési adatok megadása kötelező",
   "saved": "Titokforrás mentve",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Titokforrások",
-    "description": "Hosztjelszavak és kulcsok lekérése a 1Password, Bitwarden, Infisical vagy HashiCorp Vault szolgáltatásból a csatlakozáskor, ahelyett, hogy a Termixben tárolnád őket."
+    "description": "Hozza be a hosztok jelszavait és kulcsait a 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure vagy Google Cloud szolgáltatásokból a csatlakozáskor, ahelyett, hogy a Termixben tárolná őket."
   },
   "deleteConfirm": "Törli a(z) {{name}} titokforrást?",
   "kindLabel": "Típus",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden vagy Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden vagy Vaultwarden (bw serve)",
+    "keepass": "KeePass (.kdbx fájl)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden vagy Vaultwarden (minden felhasználó bejelentkezik)"
   },
   "fields": {
     "clientId": "Kliensazonosító",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (vagy használd az alábbi AppRole-t)",
     "roleId": "AppRole szerepazonosító",
     "secretId": "AppRole titokazonosító",
-    "namespace": "Névtér (opcionális)"
+    "namespace": "Névtér (opcionális)",
+    "masterPassword": "Főjelszó",
+    "keyFile": "Kulcsfájl (opcionális)",
+    "httpUsername": "Webes bejelentkezési felhasználó (opcionális)",
+    "httpPassword": "Webes bejelentkezési jelszó (opcionális)",
+    "accessKeyId": "Hozzáférési kulcs azonosítója",
+    "secretAccessKey": "Titkos hozzáférési kulcs",
+    "sessionToken": "Munkamenet-jeton (opcionális)",
+    "region": "Régió (opcionális, az végpontból olvassa)",
+    "tenantId": "Bérlő azonosítója",
+    "serviceAccountJson": "Szolgáltatási fiók kulcsa (JSON fájl)",
+    "sessionHours": "Feloldás érvényessége (órákban)",
+    "ssoIdentifier": "SSO azonosító"
   },
   "kindHints": {
     "onepassword-connect": "Referencia:",
     "infisical": "Gépi identitást használ az Universal Auth segítségével. Referencia:",
     "bitwarden-sm": "Hagyd az URL-t változatlanul a bitwarden.com esetén, vagy használd a saját szervered címét. Referencia:",
     "hashicorp-vault": "KV verzió 1 vagy 2 olvasása. Referencia:",
-    "bitwarden-cli": "Futtasd a bw serve parancsot ott, ahol a Termix elérheti, és tartsd nyitva a vaultot. A mező lehet felhasználónév, jelszó, totp, jegyzetek, uri vagy egyéni mezőnév. Referencia:"
+    "bitwarden-cli": "Futtasd a bw serve parancsot ott, ahol a Termix elérheti, és tartsd nyitva a vaultot. A mező lehet felhasználónév, jelszó, totp, jegyzetek, uri vagy egyéni mezőnév. Referencia:",
+    "keepass": "A Termix letölti a fájlt erről a címről, például egy WebDAV vagy Nextcloud linkről, és a főjelszóval nyitja meg. A mező Jelszó, hacsak nem ad hozzá #UserName, #URL, #Notes vagy egyéni mezőt. Referencia:",
+    "aws-secrets-manager": "Használjon egy olyan IAM-felhasználó vagy szerep hozzáférési kulcsát, amelynek engedélye van a secretsmanager:GetSecretValue és ListSecrets műveletekre. Adjon hozzá #key-t egy JSON titok egy kulcsának olvasásához. Referencia:",
+    "azure-key-vault": "Használjon egy olyan alkalmazásregisztrációt, amelynek van ügyféltitka, és amely lekérheti és listázhatja a titkokat ebben a tárhelyben. Adjon hozzá /version-t egy verzió rögzítéséhez. Referencia:",
+    "gcp-secret-manager": "Használjon egy szolgáltatási fiók kulcsát a Secret Manager Secret Accessor szereppel. Adjon hozzá /version-t egy verzió rögzítéséhez, különben a legújabb verziót használja. Referencia:",
+    "bitwarden-vault": "Minden felhasználó feloldja a saját tárhelyét SSO-val, e-maillel vagy személyes API-kulccsal, valamint a saját főjelszavával, és csak azt látja, amit a fiókja engedélyez. A munkamenet hossza órákban van megadva (8, ha üres). Az SSO azonosító a szervezete azonosítója, ha a szervere kéri. A mező lehet username, password, totp, notes, uri, privatekey vagy egyéni mezőnév. Referencia:"
+  },
+  "picker": {
+    "open": "Válasszon egy tárhelyből",
+    "search": "Elemek keresése",
+    "close": "Bezárás",
+    "loading": "Elemek betöltése",
+    "empty": "Nem található elem",
+    "failed": "Az elemek listázása sikertelen. Ellenőrizze, hogy a tárhely fel van-e oldva.",
+    "noSources": "Adjon hozzá egy Bitwarden vagy Vaultwarden (bw serve) forrást, hogy onnan válasszon elemeket."
+  },
+  "kdbxUrlLabel": "Fájl címe",
+  "awsEndpointLabel": "Végpont",
+  "vaultUrlLabel": "Tárhely URL-je",
+  "filePick": "Fájl kiválasztása",
+  "fileLoaded": "Fájl betöltve",
+  "fileNone": "Nincs fájl",
+  "unlock": {
+    "title": "Tárhely feloldása",
+    "toggle": "Tárhelye feloldása",
+    "intro": "Jelentkezzen be a saját fiókjába. A tárhelye csak Önnek marad feloldva, amíg a munkamenet le nem jár.",
+    "methods": {
+      "sso": "SSO",
+      "password": "E-mail",
+      "apikey": "API-kulcs"
+    },
+    "ssoOpen": "Bejelentkezés megnyitása",
+    "ssoHint": "Jelentkezzen be az új ablakban.",
+    "ssoPaste": "Amikor az ablak egy nem betölthető oldalt mutat, másolja ki a címét, és illessze be lent.",
+    "ssoAddress": "Az ablakban végződő cím",
+    "email": "E-mail",
+    "clientId": "API-kulcs client_id",
+    "clientSecret": "API-kulcs client_secret",
+    "masterPassword": "Főjelszó",
+    "code": "Kétlépéses bejelentkezési kód",
+    "codeNeeded": "Adja meg a kétlépéses bejelentkezési kódját.",
+    "submit": "Feloldás",
+    "done": "Tárhely feloldva",
+    "lock": "Zárolás",
+    "unlockedAs": "Feloldva {{email}} néven {{until}}-ig",
+    "retry": "Feloldva. Csatlakozzon újra a hoszthoz.",
+    "none": "Nincs feloldandó tárhely",
+    "noneHint": "Kérjen meg egy rendszergazdát, hogy adjon hozzá egy Bitwarden vagy Vaultwarden forrást, ahol minden felhasználó bejelentkezik."
   }
 }

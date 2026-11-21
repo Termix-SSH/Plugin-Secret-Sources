@@ -20,7 +20,8 @@
     "no_source": "Nenhuma fonte de segredo está configurada para este tipo de referência.",
     "not_found": "{{source}} não tem nenhum segredo nesta referência.",
     "denied": "{{source}} recusou o acesso a este segredo. Verifique o token e as suas permissões.",
-    "connection": "Não foi possível aceder a {{source}}."
+    "connection": "Não foi possível aceder a {{source}}.",
+    "locked": "O seu cofre em {{source}} está bloqueado. Desbloqueie-o primeiro."
   },
   "required": "O nome, a URL do servidor e os detalhes de início de sessão são obrigatórios",
   "saved": "Fonte de segredos guardada",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Fontes de Segredos",
-    "description": "Obter palavras-passe e chaves de hosts do 1Password, Bitwarden, Infisical ou HashiCorp Vault ao ligar, em vez de as armazenar no Termix."
+    "description": "Obtenha senhas e chaves de hosts do 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure ou Google Cloud ao conectar, em vez de as armazenar no Termix."
   },
   "deleteConfirm": "Eliminar a fonte de segredos {{name}}?",
   "kindLabel": "Tipo",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden ou Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden ou Vaultwarden (bw serve)",
+    "keepass": "KeePass (ficheiro .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden ou Vaultwarden (cada utilizador inicia sessão)"
   },
   "fields": {
     "clientId": "ID do cliente",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (ou use AppRole abaixo)",
     "roleId": "ID de função do AppRole",
     "secretId": "ID secreto do AppRole",
-    "namespace": "Namespace (opcional)"
+    "namespace": "Namespace (opcional)",
+    "masterPassword": "Senha mestra",
+    "keyFile": "Ficheiro de chave (opcional)",
+    "httpUsername": "Utilizador de login web (opcional)",
+    "httpPassword": "Senha de login web (opcional)",
+    "accessKeyId": "ID da chave de acesso",
+    "secretAccessKey": "Chave de acesso secreta",
+    "sessionToken": "Token de sessão (opcional)",
+    "region": "Região (opcional, lida a partir do endpoint)",
+    "tenantId": "ID do inquilino",
+    "serviceAccountJson": "Chave de conta de serviço (ficheiro JSON)",
+    "sessionHours": "Duração do desbloqueio (horas)",
+    "ssoIdentifier": "Identificador SSO"
   },
   "kindHints": {
     "onepassword-connect": "Referência:",
     "infisical": "Utiliza uma identidade de máquina com Universal Auth. Referência:",
     "bitwarden-sm": "Deixe a URL como está para bitwarden.com, ou utilize o endereço do seu próprio servidor. Referência:",
     "hashicorp-vault": "Lê KV versão 1 ou 2. Referência:",
-    "bitwarden-cli": "Execute bw serve onde o Termix o possa alcançar e mantenha o vault desbloqueado. O campo é username, password, totp, notes, uri ou um nome de campo personalizado. Referência:"
+    "bitwarden-cli": "Execute bw serve onde o Termix o possa alcançar e mantenha o vault desbloqueado. O campo é username, password, totp, notes, uri ou um nome de campo personalizado. Referência:",
+    "keepass": "O Termix transfere o ficheiro deste endereço, como um link WebDAV ou Nextcloud, e abre-o com a senha mestra. O campo é Senha, a menos que adicione #UserName, #URL, #Notes ou um campo personalizado. Referência:",
+    "aws-secrets-manager": "Utilize uma chave de acesso de um utilizador ou função IAM com permissão para secretsmanager:GetSecretValue e ListSecrets. Adicione #key para ler uma chave específica de um segredo JSON. Referência:",
+    "azure-key-vault": "Utilize uma registo de aplicação com um segredo de cliente que possa obter e listar segredos neste cofre. Adicione /version para fixar uma versão. Referência:",
+    "gcp-secret-manager": "Utilize uma chave de conta de serviço com a função Secret Manager Secret Accessor. Adicione /version para fixar uma versão; caso contrário, usa a mais recente. Referência:",
+    "bitwarden-vault": "Cada utilizador desbloqueia o seu próprio cofre com SSO, email ou uma chave API pessoal, além da sua senha mestra, e vê apenas o que a sua conta permite. A duração da sessão é em horas (8 se vazio). O identificador SSO é o identificador da sua organização, se o servidor o solicitar. O campo é username, password, totp, notes, uri, privatekey ou um nome de campo personalizado. Referência:"
+  },
+  "picker": {
+    "open": "Selecionar de um cofre",
+    "search": "Pesquisar itens",
+    "close": "Fechar",
+    "loading": "A carregar itens",
+    "empty": "Nenhum item encontrado",
+    "failed": "Não foi possível listar os itens. Verifique se o cofre está desbloqueado.",
+    "noSources": "Adicione uma fonte Bitwarden ou Vaultwarden (bw serve) para selecionar itens a partir dela."
+  },
+  "kdbxUrlLabel": "Endereço do ficheiro",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "URL do cofre",
+  "filePick": "Selecionar ficheiro",
+  "fileLoaded": "Ficheiro carregado",
+  "fileNone": "Sem ficheiro",
+  "unlock": {
+    "title": "Desbloquear cofre",
+    "toggle": "Desbloqueie o seu cofre",
+    "intro": "Inicie sessão na sua própria conta. O seu cofre permanece desbloqueado apenas para si, até que a sessão termine.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Chave API"
+    },
+    "ssoOpen": "Abrir início de sessão",
+    "ssoHint": "Inicie sessão na nova janela.",
+    "ssoPaste": "Quando a janela mostrar uma página que não carrega, copie o seu endereço e cole-o abaixo.",
+    "ssoAddress": "Endereço onde a janela terminou",
+    "email": "Email",
+    "clientId": "client_id da chave API",
+    "clientSecret": "client_secret da chave API",
+    "masterPassword": "Senha mestra",
+    "code": "Código de login em duas etapas",
+    "codeNeeded": "Introduza o seu código de login em duas etapas.",
+    "submit": "Desbloquear",
+    "done": "Cofre desbloqueado",
+    "lock": "Bloquear",
+    "unlockedAs": "Desbloqueado como {{email}} até {{until}}",
+    "retry": "Desbloqueado. Conecte-se novamente ao host.",
+    "none": "Nenhum cofre para desbloquear",
+    "noneHint": "Peça a um administrador para adicionar uma fonte Bitwarden ou Vaultwarden onde cada utilizador inicia sessão."
   }
 }

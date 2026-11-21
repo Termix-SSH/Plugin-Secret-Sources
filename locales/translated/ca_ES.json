@@ -20,7 +20,8 @@
     "no_source": "No s'ha configurat cap origen de secrets per a aquest tipus de referència.",
     "not_found": "{{source}} no té cap secret en aquesta referència.",
     "denied": "{{source}} ha rebutjat l'accés a aquest secret. Comprova el testimoni i els seus permisos.",
-    "connection": "No s'ha pogut connectar a {{source}}."
+    "connection": "No s'ha pogut connectar a {{source}}.",
+    "locked": "El teu magatzem a {{source}} està bloquejat. Desbloqueja'l primer."
   },
   "required": "El nom, l'URL del servidor i les credencials d'inici de sessió són obligatoris",
   "saved": "Font de secrets desada",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Fonts de secrets",
-    "description": "Obteniu contrasenyes i claus d'amfitrió de 1Password, Bitwarden, Infisical o HashiCorp Vault en connectar en lloc d'emmagatzemar-les a Termix."
+    "description": "Obté contrasenyes i claus dels amfitrions des de 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure o Google Cloud quan et connectis, en lloc d'emmagatzemar-les a Termix."
   },
   "deleteConfirm": "Voleu eliminar la font de secrets {{name}}?",
   "kindLabel": "Tipus",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden o Vaultwarden (bw serve)",
+    "keepass": "KeePass (fitxer .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden o Vaultwarden (cada usuari s'hi autentica)"
   },
   "fields": {
     "clientId": "ID del client",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (o utilitzeu AppRole a continuació)",
     "roleId": "ID de rol d'AppRole",
     "secretId": "ID secret d'AppRole",
-    "namespace": "Espai de noms (opcional)"
+    "namespace": "Espai de noms (opcional)",
+    "masterPassword": "Contrasenya mestra",
+    "keyFile": "Fitxer de clau (opcional)",
+    "httpUsername": "Usuari d'inici de sessió web (opcional)",
+    "httpPassword": "Contrasenya d'inici de sessió web (opcional)",
+    "accessKeyId": "ID de clau d'accés",
+    "secretAccessKey": "Clau d'accés secreta",
+    "sessionToken": "Testimoni de sessió (opcional)",
+    "region": "Regió (opcional, llegida des del punt d'accés)",
+    "tenantId": "ID de llogater",
+    "serviceAccountJson": "Clau de compte de servei (fitxer JSON)",
+    "sessionHours": "Durada del desbloqueig (hores)",
+    "ssoIdentifier": "Identificador SSO"
   },
   "kindHints": {
     "onepassword-connect": "Referència:",
     "infisical": "Utilitza una identitat de màquina amb Universal Auth. Referència:",
     "bitwarden-sm": "Deixeu l'URL tal com està per a bitwarden.com, o utilitzeu l'adreça del vostre propi servidor. Referència:",
     "hashicorp-vault": "Llegeix KV versió 1 o 2. Referència:",
-    "bitwarden-cli": "Executeu bw serve on Termix pugui arribar-hi i mantingueu el vault desbloquejat. El camp és usuari, contrasenya, totp, notes, uri o un nom de camp personalitzat. Referència:"
+    "bitwarden-cli": "Executeu bw serve on Termix pugui arribar-hi i mantingueu el vault desbloquejat. El camp és usuari, contrasenya, totp, notes, uri o un nom de camp personalitzat. Referència:",
+    "keepass": "Termix descarrega el fitxer d'aquesta adreça, com un enllaç WebDAV o Nextcloud, i l'obre amb la contrasenya mestra. El camp és Contrasenya a menys que afegeixis #UserName, #URL, #Notes o un camp personalitzat. Referència:",
+    "aws-secrets-manager": "Utilitza una clau d'accés d'un usuari o rol IAM amb permís per secretsmanager:GetSecretValue i ListSecrets. Afegeix #key per llegir una clau concreta d'un secret JSON. Referència:",
+    "azure-key-vault": "Utilitza un registre d'aplicació amb un secret de client que pugui obtenir i llistar secrets d'aquest magatzem. Afegeix /version per fixar una versió. Referència:",
+    "gcp-secret-manager": "Utilitza una clau de compte de servei amb el rol Secret Manager Secret Accessor. Afegeix /version per fixar una versió, altrament s'utilitza l'última. Referència:",
+    "bitwarden-vault": "Cada usuari desbloqueja el seu propi magatzem amb SSO, correu electrònic o una clau API personal, juntament amb la seva contrasenya mestra, i només veu el que el seu compte li permet. La durada de la sessió és en hores (8 si està buit). L'identificador SSO és el de la vostra organització, si el servidor en demana un. El camp pot ser username, password, totp, notes, uri, privatekey o un nom de camp personalitzat. Referència:"
+  },
+  "picker": {
+    "open": "Tria d'un magatzem",
+    "search": "Cerca elements",
+    "close": "Tanca",
+    "loading": "Carregant elements",
+    "empty": "No s'han trobat elements",
+    "failed": "No s'han pogut llistar els elements. Comprova que el magatzem està desbloquejat.",
+    "noSources": "Afegeix una font de Bitwarden o Vaultwarden (bw serve) per triar-hi elements."
+  },
+  "kdbxUrlLabel": "Adreça del fitxer",
+  "awsEndpointLabel": "Punt d'accés",
+  "vaultUrlLabel": "URL del magatzem",
+  "filePick": "Tria fitxer",
+  "fileLoaded": "Fitxer carregat",
+  "fileNone": "Sense fitxer",
+  "unlock": {
+    "title": "Desbloqueja el magatzem",
+    "toggle": "Desbloqueja el teu magatzem",
+    "intro": "Inicia sessió al teu propi compte. El teu magatzem romandrà desbloquejat només per a tu, fins que acabi la sessió.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Correu electrònic",
+      "apikey": "Clau API"
+    },
+    "ssoOpen": "Obre l'inici de sessió",
+    "ssoHint": "Inicia sessió a la nova finestra.",
+    "ssoPaste": "Quan la finestra mostri una pàgina que no es pot carregar, copia la seva adreça i enganxa-la a continuació.",
+    "ssoAddress": "Adreça on ha acabat la finestra",
+    "email": "Correu electrònic",
+    "clientId": "client_id de la clau API",
+    "clientSecret": "client_secret de la clau API",
+    "masterPassword": "Contrasenya mestra",
+    "code": "Codi d'inici de sessió en dos passos",
+    "codeNeeded": "Introdueix el teu codi d'inici de sessió en dos passos.",
+    "submit": "Desbloqueja",
+    "done": "Magatzem desbloquejat",
+    "lock": "Bloqueja",
+    "unlockedAs": "Desbloquejat com a {{email}} fins a {{until}}",
+    "retry": "Desbloquejat. Connecta't de nou a l'amfitrió.",
+    "none": "No hi ha cap magatzem per desbloquejar",
+    "noneHint": "Demana a un administrador que afegeixi una font de Bitwarden o Vaultwarden on cada usuari s'hi autentiqui."
   }
 }

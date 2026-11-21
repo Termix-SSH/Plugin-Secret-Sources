@@ -20,7 +20,8 @@
     "no_source": "Tidak ada sumber rahasia yang diatur untuk jenis referensi ini.",
     "not_found": "{{source}} tidak memiliki rahasia pada referensi ini.",
     "denied": "{{source}} menolak akses ke rahasia ini. Periksa token dan izinnya.",
-    "connection": "Tidak dapat menghubungi {{source}}."
+    "connection": "Tidak dapat menghubungi {{source}}.",
+    "locked": "Vault Anda di {{source}} terkunci. Buka kunci terlebih dahulu."
   },
   "required": "Nama, URL server, dan detail login wajib diisi",
   "saved": "Sumber rahasia disimpan",
@@ -35,7 +36,7 @@
   },
   "plugin": {
     "name": "Sumber Rahasia",
-    "description": "Ambil kata sandi dan kunci host dari 1Password, Bitwarden, Infisical, atau HashiCorp Vault saat Anda terhubung alih-alih menyimpannya di Termix."
+    "description": "Ambil kata sandi dan kunci host dari 1Password, Bitwarden, Infisical, HashiCorp Vault, KeePass, AWS, Azure, atau Google Cloud saat Anda terhubung, alih-alih menyimpannya di Termix."
   },
   "deleteConfirm": "Hapus sumber rahasia {{name}}?",
   "kindLabel": "Jenis",
@@ -47,7 +48,12 @@
     "infisical": "Infisical",
     "bitwarden-sm": "Bitwarden Secrets Manager",
     "hashicorp-vault": "HashiCorp Vault",
-    "bitwarden-cli": "Bitwarden atau Vaultwarden (bw serve)"
+    "bitwarden-cli": "Bitwarden atau Vaultwarden (bw serve)",
+    "keepass": "KeePass (file .kdbx)",
+    "aws-secrets-manager": "AWS Secrets Manager",
+    "azure-key-vault": "Azure Key Vault",
+    "gcp-secret-manager": "Google Cloud Secret Manager",
+    "bitwarden-vault": "Bitwarden atau Vaultwarden (setiap pengguna masuk)"
   },
   "fields": {
     "clientId": "ID Klien",
@@ -56,13 +62,72 @@
     "vaultToken": "Token (atau gunakan AppRole di bawah)",
     "roleId": "ID peran AppRole",
     "secretId": "ID rahasia AppRole",
-    "namespace": "Ruang nama (opsional)"
+    "namespace": "Ruang nama (opsional)",
+    "masterPassword": "Kata sandi utama",
+    "keyFile": "File kunci (opsional)",
+    "httpUsername": "Pengguna login web (opsional)",
+    "httpPassword": "Kata sandi login web (opsional)",
+    "accessKeyId": "ID kunci akses",
+    "secretAccessKey": "Kunci akses rahasia",
+    "sessionToken": "Token sesi (opsional)",
+    "region": "Wilayah (opsional, dibaca dari endpoint)",
+    "tenantId": "ID Tenant",
+    "serviceAccountJson": "Kunci akun layanan (file JSON)",
+    "sessionHours": "Durasi buka kunci (jam)",
+    "ssoIdentifier": "Pengenal SSO"
   },
   "kindHints": {
     "onepassword-connect": "Referensi:",
     "infisical": "Menggunakan identitas mesin dengan Universal Auth. Referensi:",
     "bitwarden-sm": "Biarkan URL tetap seperti itu untuk bitwarden.com, atau gunakan alamat server Anda sendiri. Referensi:",
     "hashicorp-vault": "Membaca KV versi 1 atau 2. Referensi:",
-    "bitwarden-cli": "Jalankan bw serve di tempat yang dapat dijangkau Termix dan pastikan vault tetap terbuka. Bidang adalah username, password, totp, notes, uri, atau nama bidang kustom. Referensi:"
+    "bitwarden-cli": "Jalankan bw serve di tempat yang dapat dijangkau Termix dan pastikan vault tetap terbuka. Bidang adalah username, password, totp, notes, uri, atau nama bidang kustom. Referensi:",
+    "keepass": "Termix mengunduh file dari alamat ini, seperti tautan WebDAV atau Nextcloud, dan membukanya dengan kata sandi utama. Bidang adalah Password kecuali Anda menambahkan #UserName, #URL, #Notes, atau bidang kustom. Referensi:",
+    "aws-secrets-manager": "Gunakan kunci akses pengguna atau peran IAM yang diizinkan secretsmanager:GetSecretValue dan ListSecrets. Tambahkan #key untuk membaca satu kunci dari rahasia JSON. Referensi:",
+    "azure-key-vault": "Gunakan pendaftaran aplikasi dengan rahasia klien yang dapat mengambil dan mendaftarkan rahasia di vault ini. Tambahkan /version untuk menetapkan versi. Referensi:",
+    "gcp-secret-manager": "Gunakan kunci akun layanan dengan peran Secret Manager Secret Accessor. Tambahkan /version untuk menetapkan versi, terbaru jika tidak. Referensi:",
+    "bitwarden-vault": "Setiap pengguna membuka kunci vault mereka sendiri dengan SSO, email, atau kunci API pribadi, ditambah kata sandi utama mereka, dan hanya melihat apa yang dapat diakses akun mereka. Durasi sesi dalam jam (8 jika kosong). Pengenal SSO adalah pengenal organisasi Anda, jika server Anda memintanya. Bidang adalah username, password, totp, notes, uri, privatekey, atau nama bidang kustom. Referensi:"
+  },
+  "picker": {
+    "open": "Pilih dari vault",
+    "search": "Cari item",
+    "close": "Tutup",
+    "loading": "Memuat item",
+    "empty": "Tidak ada item ditemukan",
+    "failed": "Tidak dapat mendaftar item. Periksa bahwa vault telah dibuka kuncinya.",
+    "noSources": "Tambahkan sumber Bitwarden atau Vaultwarden (bw serve) untuk memilih item darinya."
+  },
+  "kdbxUrlLabel": "Alamat file",
+  "awsEndpointLabel": "Endpoint",
+  "vaultUrlLabel": "URL Vault",
+  "filePick": "Pilih file",
+  "fileLoaded": "File dimuat",
+  "fileNone": "Tidak ada file",
+  "unlock": {
+    "title": "Buka kunci vault",
+    "toggle": "Buka kunci vault Anda",
+    "intro": "Masuk ke akun Anda sendiri. Vault Anda tetap terbuka untuk Anda saja, hingga sesi berakhir.",
+    "methods": {
+      "sso": "SSO",
+      "password": "Email",
+      "apikey": "Kunci API"
+    },
+    "ssoOpen": "Buka masuk",
+    "ssoHint": "Masuk di jendela baru.",
+    "ssoPaste": "Saat jendela menampilkan halaman yang tidak dapat dimuat, salin alamatnya dan tempel di bawah.",
+    "ssoAddress": "Alamat tempat jendela berakhir",
+    "email": "Email",
+    "clientId": "client_id kunci API",
+    "clientSecret": "client_secret kunci API",
+    "masterPassword": "Kata sandi utama",
+    "code": "Kode login dua langkah",
+    "codeNeeded": "Masukkan kode login dua langkah Anda.",
+    "submit": "Buka kunci",
+    "done": "Vault dibuka kunci",
+    "lock": "Kunci",
+    "unlockedAs": "Dibuka kunci sebagai {{email}} hingga {{until}}",
+    "retry": "Dibuka kunci. Hubungkan ke host lagi.",
+    "none": "Tidak ada vault untuk dibuka kunci",
+    "noneHint": "Minta admin untuk menambahkan sumber Bitwarden atau Vaultwarden di mana setiap pengguna masuk."
   }
 }
